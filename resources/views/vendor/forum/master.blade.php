@@ -181,6 +181,34 @@
             padding: 0.75rem 1rem;
             margin-top: 1rem;
         }
+
+        .liked {
+            background: seagreen;
+            stroke: white;
+            color: white;
+        }
+
+        .liked:hover {
+            background: lightgreen;
+            stroke: green;
+            color: green;
+        }
+
+        .not-liked:hover {
+            background: lightgreen;
+            stroke: green;
+            color: green;
+        }
+
+
+
+
+        .btn svg.like {
+            width: 16px;
+            height: 16px;
+            stroke-width: 3px;
+            vertical-align: -2px;
+        }
     </style>
 </head>
 
@@ -291,6 +319,8 @@
     </div>
     @endif
     <div class="mask"></div>
+
+    <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.1" style="position: absolute; bottom: 0; right: 0; color: black;"><strong>v0.1</strong></a>
 
     <script>
         new Vue({

@@ -52,3 +52,7 @@ Route::delete('/room/student/{id}', [App\Http\Controllers\RoomController::class,
 Route::get('/room/students/download', [App\Http\Controllers\RoomController::class, 'downloadStudentsList'])->name('download.students.list');
 
 Route::get('/project', [App\Http\Controllers\ProjectController::class, 'index'])->name('project');
+
+Route::get('/forum/t/{id}/like', [App\Http\Controllers\ForumThreadLikeController::class, 'index']);
+Route::post('/forum/t/{id}/like', [App\Http\Controllers\ForumThreadLikeController::class, 'likeForumThread']);
+Route::delete('/forum/t/{id}/like', [App\Http\Controllers\ForumThreadLikeController::class, 'deleteLikeForumThread']);

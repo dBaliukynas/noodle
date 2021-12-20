@@ -48,6 +48,11 @@ class User extends Authenticatable
         return $this->hasMany(Rating::class);
     }
 
+    public function forum_thread_likes()
+    {
+        return $this->hasMany(ForumThreadLike::class);
+    }
+
 
     /**
      * The attributes that should be hidden for serialization.

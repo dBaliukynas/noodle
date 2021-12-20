@@ -53,11 +53,13 @@ class GroupsController extends Controller
 
     private function findGroupUsersCount($groups)
     {
-        foreach ($groups as &$group) {
-            $group_users_count = User::where('group_id', $group->id)->get()->count();
-            $all_group_users_count[] = $group_users_count;
+        if (count($groups) != 0) {
+            foreach ($groups as &$group) {
+                $group_users_count = User::where('group_id', $group->id)->get()->count();
+                $all_group_users_count[] = $group_users_count;
+            }
+            return $all_group_users_count;
         }
-        return $all_group_users_count;
     }
     public function index()
     {

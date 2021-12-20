@@ -18,8 +18,6 @@ class CreateForumTableCategories extends Migration
             $table->string('title');
             $table->string('subtitle');
             $table->bigInteger('weight');
-
-            $table->foreign('id')->references('category_id')->on('forum_threads')->onDelete('cascade');
         });
     }
 
