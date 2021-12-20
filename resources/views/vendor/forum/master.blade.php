@@ -320,7 +320,7 @@
     @endif
     <div class="mask"></div>
 
-    <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.1" style="position: absolute; bottom: 0; right: 0; color: black;"><strong>v0.1</strong></a>
+    <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.2.2" style="position: absolute; bottom: 0; right: 0; color: black;"><strong>v0.2.2</strong></a>
 
     <script>
         new Vue({
