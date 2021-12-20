@@ -34,31 +34,32 @@ class FileUploadController extends Controller
     public function fileUploadPost(Request $request)
     {
         $auth_user = Auth::user();
-        if ($auth_user->role_id == 1 || $auth_user->role_id == 2) {
-            $request->validate([
-                'file' => 'required|file|mimes:csv,xls,ods,json|max:2000',
-            ]);
 
-            $content = $request->file->get();
-            $students = json_decode($content);
-
-            foreach ($students as &$student) {
-                $student->password = AuthHelper::random_password(10);
-            }
-
-            try {
-                User::insert(array_map(fn ($student) => $this->convertStudentToRecord($student), $students));
-            } catch (QueryException $e) {
-                return response()->json(['message' => 'You can rate same student only once'], 409);
-            }
-            foreach ($students as &$student) {
-                $student->name = $student->firstname;
-                Mail::to($student->email)->send(new WelcomeMail($student));
-            }
-            return response(200);
-        } else {
+        if ($auth_user->role_id == 3) {
             return response(403);
         }
+        
+        $request->validate([
+            'file' => 'required|file|mimes:csv,xls,ods,json|max:2000',
+        ]);
+
+        $content = $request->file->get();
+        $students = json_decode($content);
+
+        foreach ($students as &$student) {
+            $student->password = AuthHelper::random_password(10);
+        }
+
+        try {
+            User::insert(array_map(fn ($student) => $this->convertStudentToRecord($student), $students));
+        } catch (QueryException $e) {
+            return response()->json(['message' => 'You can rate same student only once'], 409);
+        }
+        foreach ($students as &$student) {
+            $student->name = $student->firstname;
+            Mail::to($student->email)->send(new WelcomeMail($student));
+        }
+        return response(200);
     }
 
 

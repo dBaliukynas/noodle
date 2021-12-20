@@ -377,7 +377,7 @@
             selectedPosts: [],
             selectedThreadAction: null,
             likes: @json($thread->likes),
-            isLiked: ((@json(Auth::user()-> forum_thread_likes)).find((like) => like.forum_thread_id == @json($thread->id))) != undefined,
+            isLiked: ((@json(Auth::user()->forum_thread_likes)).find((like) => like.forum_thread_id == @json($thread->id))) != undefined,
             hover: false,
         },
         created() {
@@ -398,20 +398,22 @@
                 }
             },
             likeThread(forumThreadId, userLikes) {
-                console.log((@json(Auth::user()->forum_thread_likes)).find((like) => like.forum_thread_id == @json($thread->id)));
-                console.log(this.isLiked);
                 if (!this.isLiked) {
                     axios
                         .post(`/forum/t/${forumThreadId}/like`).then(() => {
                             this.likes++;
-                            this.isLiked = true
-                        });
+                            this.isLiked = true;
+                        }).catch((error) => {
+          showNotification(error.response.data.message, "alert-danger");
+        });
 
                 } else if (this.isLiked) {
                     axios.delete(`/forum/t/${forumThreadId}/like`).then(() => {
                         this.likes--;
                         this.isLiked = false
-                    });
+                    }).catch((error) => {
+          showNotification(error.response.data.message, "alert-danger");
+        });
                 }
             },
         }

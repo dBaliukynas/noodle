@@ -32,23 +32,30 @@ class ForumThreadLikeController extends Controller
         $forum_thread = ForumThread::where('id', $id)->first();
         $likes = ForumThreadLike::where('user_id', Auth::user()->id)->where('forum_thread_id', $id)->first();
 
-        if ($likes == null) {
-            $likes = ForumThreadLike::create([
-                'user_id' => Auth::user()->id,
-                'forum_thread_id' => $id
-            ]);
-
-            $forum_thread->likes += 1;
-            $forum_thread->save();
-
-            return response()->json($likes, 200);
+        if ($likes != null) {
+            return response()->json(['message' => 'Cannot like same forum thread multiple times'], 409);
         }
+        
+        $likes = ForumThreadLike::create([
+            'user_id' => Auth::user()->id,
+            'forum_thread_id' => $id
+        ]);
+
+        $forum_thread->likes += 1;
+        $forum_thread->save();
+
+        return response()->json($likes, 200);
     }
 
     public function deleteLikeForumThread($id)
     {
         $forum_thread = ForumThread::where('id', $id)->first();
         $likes = ForumThreadLike::where('user_id', Auth::user()->id)->where('forum_thread_id', $id)->first();
+
+        if ($likes == null) {
+            return response()->json(['message' => 'This forum thread is not liked'], 404);
+        }
+
         $likes->delete();
         $forum_thread->likes -= 1;
         $forum_thread->save();

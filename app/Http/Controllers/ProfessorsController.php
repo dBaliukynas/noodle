@@ -30,23 +30,22 @@ class ProfessorsController extends Controller
 
     public function uploadProfessors(Request $request)
     {
-        $password = AuthHelper::random_password(10);
-        if (Auth::user()->role_id == 1) {
-            $data = $request->json()->all();
-            $professor = User::create([
-                'name' => $data['name'],
-                'surname' => $data['surname'],
-                'email' => $data['email'],
-                'password' => Hash::make($password),
-                'role_id' => 2,
-            ]);
-
-            $professor->password = $password;
-            Mail::to($data['email'])->send(new WelcomeMail($professor));
-        } else {
+        if (Auth::user()->role_id != 1) {
             return response()->json(['message' => 'You do not have permissions'], 403);
         }
 
+        $password = AuthHelper::random_password(10);
+        $data = $request->json()->all();
+        $professor = User::create([
+            'name' => $data['name'],
+            'surname' => $data['surname'],
+            'email' => $data['email'],
+            'password' => Hash::make($password),
+            'role_id' => 2,
+        ]);
+
+        $professor->password = $password;
+        Mail::to($data['email'])->send(new WelcomeMail($professor));
 
         return response(200);
     }
@@ -57,26 +56,29 @@ class ProfessorsController extends Controller
         $professors = User::where('role_id', 2)->get();
         $download = json_encode($professors);
         $filename = 'professorslist.json';
-        if ($auth_user->role_id == 1 || $auth_user->role_id == 2) {
-            return response()->streamDownload(function () use ($download) {
-                echo $download;
-            }, $filename);
-        } else {
+
+        if ($auth_user->role_id == 3) {
             return response(403);
         }
+        
+        return response()->streamDownload(function () use ($download) {
+            echo $download;
+        }, $filename);
     }
 
     public function delete($id)
     {
         $auth_user = Auth::user();
-        if ($auth_user->role_id == 1 || $auth_user->role_id == 2) {
-            $professor = User::find($id);
-            $professor->delete();
-            return response(200);
-        } else {
+
+        if ($auth_user->role_id == 3) {
             return response()->json(['message' => 'You do not have permissions'], 403);
         }
+
+        $professor = User::find($id);
+        $professor->delete();
+        return response(200);
     }
+
 
     public function index()
     {

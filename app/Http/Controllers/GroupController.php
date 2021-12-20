@@ -29,16 +29,18 @@ class GroupController extends Controller
     {
         $users = User::where('group_id', $id)->get();
         $auth_user = Auth::user();
-        if ($auth_user->role_id == 1 || $auth_user->role_id == 2) {
-            foreach ($users as &$user) {
-                $user->group_id = null;
-                $user->save();
-            }
-            $group = Group::find($id);
-            $group->delete();
-        } else {
+
+        if ($auth_user->role_id == 3) {
             return response(403);
         }
+
+        foreach ($users as &$user) {
+            $user->group_id = null;
+            $user->save();
+        }
+
+        $group = Group::find($id);
+        $group->delete();
     }
 
     public function manageStudents($id, Request $request)
@@ -46,20 +48,21 @@ class GroupController extends Controller
         $auth_user = Auth::user();
 
         $data = $request->json()->all();
-        if ($auth_user->role_id == 1 || $auth_user->role_id == 2) {
-            foreach ($data as &$student) {
-                if ($student['action'] == 'add') {
-                    $user = User::find($student['studentId']);
-                    $user->group_id = $id;
-                    $user->save();
-                } else if ($student['action'] == 'delete') {
-                    $user = User::find($student['studentId']);
-                    $user->group_id = null;
-                    $user->save();
-                }
-            }
-        } else {
+
+        if ($auth_user->role_id == 3) {
             return response(403);
+        }
+
+        foreach ($data as &$student) {
+            if ($student['action'] == 'add') {
+                $user = User::find($student['studentId']);
+                $user->group_id = $id;
+                $user->save();
+            } else if ($student['action'] == 'delete') {
+                $user = User::find($student['studentId']);
+                $user->group_id = null;
+                $user->save();
+            }
         }
     }
 
@@ -69,13 +72,14 @@ class GroupController extends Controller
         $user = User::where('group_id', $id)->with('group')->with('team')->with('project')->get();
         $download = json_encode($user);
         $filename = 'groupuserslist.json';
-        if ($auth_user->role_id == 1 || $auth_user->role_id == 2) {
-            return response()->streamDownload(function () use ($download) {
-                echo $download;
-            }, $filename);
-        } else {
+        
+        if ($auth_user->role_id == 3) {
             return response(403);
         }
+
+        return response()->streamDownload(function () use ($download) {
+            echo $download;
+        }, $filename);
     }
 
     public function index($id)

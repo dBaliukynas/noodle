@@ -86,22 +86,23 @@ class TeamController extends Controller
     {
         $team = Team::with('user')->find($id);
         $auth_user = Auth::user();
-        if ($auth_user->role_id == 1 || $auth_user->role_id == 2 || $auth_user->id == $team->user_id) {
-            $data = $request->json()->all();
 
-            foreach ($data as &$student) {
-                if ($student['action'] == 'add') {
-                    $user = User::find($student['studentId']);
-                    $user->team_id = $id;
-                    $user->save();
-                } else if ($student['action'] == 'delete') {
-                    $user = User::find($student['studentId']);
-                    $user->team_id = null;
-                    $user->save();
-                }
-            }
-        } else {
+        if ($auth_user->role_id == 3 && $auth_user->role_id != $team->user_id) {
             return response(403);
+        }
+
+        $data = $request->json()->all();
+
+        foreach ($data as &$student) {
+            if ($student['action'] == 'add') {
+                $user = User::find($student['studentId']);
+                $user->team_id = $id;
+                $user->save();
+            } else if ($student['action'] == 'delete') {
+                $user = User::find($student['studentId']);
+                $user->team_id = null;
+                $user->save();
+            }
         }
     }
 
@@ -112,13 +113,12 @@ class TeamController extends Controller
         $user = User::where('team_id', $id)->with('group')->with('team')->with('project')->with('ratings')->get();
         $download = json_encode($user);
         $filename = 'teamuserslist.json';
-        if ($auth_user->role_id == 1 || $auth_user->role_id == 2 || $auth_user->id == $team->user_id) {
-            return response()->streamDownload(function () use ($download) {
-                echo $download;
-            }, $filename);
-        } else {
+        if ($auth_user->role_id == 3 && $auth_user->role_id != $team->user_id) {
             return response(403);
         }
+        return response()->streamDownload(function () use ($download) {
+            echo $download;
+        }, $filename);
     }
 
     public function index($id)
