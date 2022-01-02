@@ -35,6 +35,7 @@
 
     <!-- Bootstrap (https://github.com/twbs/bootstrap) -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
     <!-- Feather icons (https://github.com/feathericons/feather) -->
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
@@ -236,20 +237,20 @@
                 <ul class="navbar-nav me-auto">
                     @if (Auth::check())
                     <li class="nav-item">
-                        <a class="nav-link" href="/room" style="color: #1E90FF;">Room</a>
+                        <a class="nav-link" href="/room" style="color: #0d6efd;">Room</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/professors" style="color: #1E90FF;">Professors</a>
+                        <a class="nav-link" href="/professors" style="color: #0d6efd;">Professors</a>
                     </li>
                     @endif
                     <li class="nav-item">
                         <ul class="navbar-nav">
                             @if (Auth::check())
                             <li class="nav-item">
-                                <a class="nav-link" href="/project" style="color: #1E90FF;">Project</a>
+                                <a class="nav-link" href="/project" style="color: #0d6efd;">Project</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="forumDropDownMenuLink" @click="isForumDropdownCollapsed = ! isForumDropdownCollapsed" style="color: #1E90FF;">
+                                <a class="nav-link dropdown-toggle" href="#" id="forumDropDownMenuLink" @click="isForumDropdownCollapsed = ! isForumDropdownCollapsed" style="color: #0d6efd;">
                                     Forum
                                 </a>
                                 <div class="dropdown-menu" :class="{ show: ! isForumDropdownCollapsed }" aria-labelledby="forumDropDownMenuLink">
@@ -270,9 +271,22 @@
                 <ul class="navbar-nav">
                     @if (Auth::check())
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" @click="isUserDropdownCollapsed = ! isUserDropdownCollapsed">
-                            {{ Auth::user()->name }}
-                        </a>
+                        <button type="button" class="btn btn-primary position-relative" style="    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+">
+
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" @click="isUserDropdownCollapsed = ! isUserDropdownCollapsed" style="color: white">
+                                {{ Auth::user()->name }}
+                                <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                    <span class="visually-hidden">New alerts</span>
+                                </span>
+                            </a>
+                           
+                        </button>
+
                         <div class="dropdown-menu" :class="{ show: ! isUserDropdownCollapsed }" aria-labelledby="navbarDropdownMenuLink">
                             <a class="dropdown-item" href="{{ route('profile') }}">
 
@@ -320,7 +334,7 @@
     @endif
     <div class="mask"></div>
 
-    <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.2.2" style="position: absolute; bottom: 0; right: 0; color: black;"><strong>v0.2.2</strong></a>
+    <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.2.2" style="position: absolute; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.2.3</strong></a>
 
     <script>
         new Vue({
@@ -385,7 +399,7 @@
             });
         });
 
-        document.querySelectorAll('[data-dismiss]').forEach(item => {
+        document.querySelectorAll('[data-bs-dismiss]').forEach(item => {
             item.addEventListener('click', event => event.target.parentElement.style.display = 'none');
         });
 

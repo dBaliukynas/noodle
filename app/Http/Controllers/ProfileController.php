@@ -33,11 +33,15 @@ class ProfileController extends Controller
         $likes = ForumThreadLike::where('user_id', Auth::user()->id)->with('forum_thread')->get();
         $forum_categories = ForumCategory::all();
         $index = 0;
-        foreach ($forum_categories as &$forum_category) {
-            if ($forum_category->id == $likes[$index]->forum_thread->category_id) {
-                $forum_categories_liked = $forum_category;
+        if (count($likes) != 0) {
+            foreach ($forum_categories as &$forum_category) {
+                if ($forum_category->id == $likes[$index]->forum_thread->category_id) {
+                    $forum_categories_liked = $forum_category;
+                }
+                $index++;
             }
-            $index++;
+        } else {
+            $forum_categories_liked = '[]';
         }
 
         $grade_total = 0;

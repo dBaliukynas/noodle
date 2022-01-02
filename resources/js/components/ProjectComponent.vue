@@ -27,8 +27,8 @@
           v-else
           type="button"
           class="btn btn-primary mt-4"
-          data-toggle="modal"
-          data-target="#ModalXl"
+          data-bs-toggle="modal"
+          data-bs-target="#ModalXl"
         >
           View Project Members
         </button>
@@ -51,11 +51,11 @@
                 <div>
                   <button
                     type="button"
-                    class="close"
-                    data-dismiss="modal"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
                     aria-label="Close"
                   >
-                    <span aria-hidden="true">×</span>
+                    
                   </button>
                 </div>
               </div>

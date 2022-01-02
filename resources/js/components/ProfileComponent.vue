@@ -79,7 +79,7 @@
     <h5 v-if="likes.length == 0">
       <strong>You have not liked any Forum threads yet</strong>
     </h5>
-    <h5 v-for="like in likes" :key="like.id">
+    <h5 v-else v-for="like in likes" :key="like.id">
       Title:
       <strong
         ><a

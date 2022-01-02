@@ -68,8 +68,8 @@
             type="submit"
             name="submit"
             class="btn btn-danger mt-4"
-            data-toggle="modal"
-            data-target="#ModalDeleteTeam"
+            data-bs-toggle="modal"
+            data-bs-target="#ModalDeleteTeam"
             style="min-width: 100px"
           >
             Delete Team
@@ -91,11 +91,11 @@
                   </h5>
                   <button
                     type="button"
-                    class="close"
-                    data-dismiss="modal"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
                     aria-label="Close"
                   >
-                    <span aria-hidden="true">&times;</span>
+                   
                   </button>
                 </div>
                 <div class="modal-body">
@@ -107,7 +107,7 @@
                   <button
                     type="button"
                     class="btn btn-secondary"
-                    data-dismiss="modal"
+                    data-bs-dismiss="modal"
                   >
                     Close
                   </button>
@@ -169,8 +169,8 @@
         <button
           type="button"
           class="btn btn-primary mt-4"
-          data-toggle="modal"
-          data-target="#ModalXl"
+          data-bs-toggle="modal"
+          data-bs-target="#ModalXl"
         >
           Add Students
         </button>
@@ -207,11 +207,11 @@
                   </button>
                   <button
                     type="button"
-                    class="close"
-                    data-dismiss="modal"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
                     aria-label="Close"
                   >
-                    <span aria-hidden="true">×</span>
+                    
                   </button>
                 </div>
               </div>
@@ -241,8 +241,8 @@
           type="submit"
           name="submit"
           class="btn btn-danger mt-4"
-          data-toggle="modal"
-          data-target="#Modal"
+          data-bs-toggle="modal"
+          data-bs-target="#Modal"
         >
           Delete Selected Students
         </button>
@@ -260,8 +260,8 @@
           type="submit"
           name="submit"
           class="btn btn-primary mt-4"
-          data-toggle="modal"
-          data-target="#ModalAssign"
+          data-bs-toggle="modal"
+          data-bs-target="#ModalAssign"
         >
           Assign Project
         </button>
@@ -279,8 +279,8 @@
           type="submit"
           name="submit"
           class="btn btn-danger mt-4"
-          data-toggle="modal"
-          data-target="#ModalRemoveAssign"
+          data-bs-toggle="modal"
+          data-bs-target="#ModalRemoveAssign"
         >
           Remove Assigned Project
         </button>
@@ -300,11 +300,11 @@
                 </h5>
                 <button
                   type="button"
-                  class="close"
-                  data-dismiss="modal"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
                   aria-label="Close"
                 >
-                  <span aria-hidden="true">&times;</span>
+                 
                 </button>
               </div>
               <div class="modal-body">
@@ -315,7 +315,7 @@
                 <button
                   type="button"
                   class="btn btn-secondary"
-                  data-dismiss="modal"
+                  data-bs-dismiss="modal"
                 >
                   Close
                 </button>
@@ -346,11 +346,11 @@
                 </h5>
                 <button
                   type="button"
-                  class="close"
-                  data-dismiss="modal"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
                   aria-label="Close"
                 >
-                  <span aria-hidden="true">&times;</span>
+                 
                 </button>
               </div>
               <div class="modal-body">
@@ -370,7 +370,7 @@
                 <button
                   type="button"
                   class="btn btn-secondary"
-                  data-dismiss="modal"
+                  data-bs-dismiss="modal"
                 >
                   Close
                 </button>
@@ -402,11 +402,11 @@
                 </h5>
                 <button
                   type="button"
-                  class="close"
-                  data-dismiss="modal"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
                   aria-label="Close"
                 >
-                  <span aria-hidden="true">&times;</span>
+                 
                 </button>
               </div>
               <div class="modal-body">
@@ -418,7 +418,7 @@
                 <button
                   type="button"
                   class="btn btn-secondary"
-                  data-dismiss="modal"
+                  data-bs-dismiss="modal"
                 >
                   Close
                 </button>
@@ -481,8 +481,8 @@
           name="submit"
           class="btn btn-danger mt-4"
           style="min-width: 200px"
-          data-toggle="modal"
-          data-target="#Modal"
+          data-bs-toggle="modal"
+          data-bs-target="#Modal"
         >
           Delete Selected Students
         </button>
@@ -503,11 +503,11 @@
                 </h5>
                 <button
                   type="button"
-                  class="close"
-                  data-dismiss="modal"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
                   aria-label="Close"
                 >
-                  <span aria-hidden="true">&times;</span>
+                 
                 </button>
               </div>
               <div class="modal-body">
@@ -519,7 +519,7 @@
                 <button
                   type="button"
                   class="btn btn-secondary"
-                  data-dismiss="modal"
+                  data-bs-dismiss="modal"
                 >
                   Close
                 </button>
@@ -545,7 +545,7 @@
         Total Admins: <strong>{{ team_admins.length }}</strong>
       </p>
     </div>
-    <div class="table-responsive">
+    <div class="table-responsive-xl">
       <vuetable
         ref="vuetable"
         :api-mode="false"
@@ -576,8 +576,8 @@
             <button
               @click="onRateStudent(props.rowData)"
               class="ui small button"
-              data-toggle="modal"
-              data-target="#ModalRate"
+              data-bs-toggle="modal"
+              data-bs-target="#ModalRate"
               data-whatever="@mdo"
               style="background-color: gold"
             >
@@ -589,8 +589,8 @@
               <button
                 @click="onRateStudent(props.rowData)"
                 class="ui small button"
-                data-toggle="modal"
-                data-target="#ModalRated"
+                data-bs-toggle="modal"
+                data-bs-target="#ModalRated"
                 data-whatever="@mdo"
                 style="padding: 5px; background-color: mediumaquamarine"
               >
@@ -603,8 +603,8 @@
             <button
               @click="onRateStudent(props.rowData)"
               class="ui small button"
-              data-toggle="modal"
-              data-target="#ModalRate"
+              data-bs-toggle="modal"
+              data-bs-target="#ModalRate"
               data-whatever="@mdo"
               style="background-color: gold"
             >
@@ -652,11 +652,11 @@
             </h5>
             <button
               type="button"
-              class="close"
-              data-dismiss="modal"
+              class="btn-close"
+              data-bs-dismiss="modal"
               aria-label="Close"
             >
-              <span aria-hidden="true">&times;</span>
+             
             </button>
           </div>
           <div class="modal-body">
@@ -678,7 +678,7 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Close
             </button>
@@ -724,11 +724,11 @@
             </h5>
             <button
               type="button"
-              class="close"
-              data-dismiss="modal"
+              class="btn-close"
+              data-bs-dismiss="modal"
               aria-label="Close"
             >
-              <span aria-hidden="true">&times;</span>
+             
             </button>
           </div>
           <div class="modal-body">
@@ -755,7 +755,7 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Close
             </button>
