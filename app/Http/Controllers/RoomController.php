@@ -29,28 +29,28 @@ class RoomController extends Controller
     public function deleteAssignedProject($id, $project_id)
     {
         $auth_user = Auth::user();
-        if ($auth_user->role_id == 1 || $auth_user->role_id == 2) {
 
-            $student = User::find($id);
-            $student->project_id = null;
-            $student->save();
-            return response()->json($student, 200);
-        } else {
+        if ($auth_user->role_id == 3) {
             return response(403);
         }
+
+        $student = User::find($id);
+        $student->project_id = null;
+        $student->save();
+        return response()->json($student, 200);
     }
 
     public function assignProject($id, $project_id)
     {
         $auth_user = Auth::user();
-        if ($auth_user->role_id == 1 || $auth_user->role_id == 2) {
-            $student = User::find($id);
-            $student->project_id = $project_id;
-            $student->save();
-            return response()->json($student, 200);
-        } else {
+
+        if ($auth_user->role_id == 3) {
             return response(403);
         }
+        $student = User::find($id);
+        $student->project_id = $project_id;
+        $student->save();
+        return response()->json($student, 200);
     }
     public function index()
     {
@@ -65,13 +65,14 @@ class RoomController extends Controller
     public function delete($id)
     {
         $auth_user = Auth::user();
-        if ($auth_user->role_id == 1 || $auth_user->role_id == 2) {
-            $student = User::find($id);
-            $student->delete();
-            return response(200);
-        } else {
+
+        if ($auth_user->role_id == 3) {
             return response(403);
         }
+
+        $student = User::find($id);
+        $student->delete();
+        return response(200);
     }
 
     public function downloadStudentsList()
@@ -80,12 +81,11 @@ class RoomController extends Controller
         $students = User::where('role_id', 3)->get();
         $download = json_encode($students);
         $filename = 'studentslist.json';
-        if ($auth_user->role_id == 1 || $auth_user->role_id == 2) {
-            return response()->streamDownload(function () use ($download) {
-                echo $download;
-            }, $filename);
-        } else {
+        if ($auth_user->role_id == 3) {
             return response(403);
         }
+        return response()->streamDownload(function () use ($download) {
+            echo $download;
+        }, $filename);
     }
 }

@@ -19,9 +19,11 @@ class CreateForumTableThreads extends Migration
             $table->string('title');
             $table->boolean('pinned');
             $table->boolean('locked');
+            $table->bigInteger('likes')->default(0);
 
             $table->timestamps();
             $table->softDeletes();
+            
 
         });
     }

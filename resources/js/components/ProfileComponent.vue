@@ -74,12 +74,41 @@
         Comment: <strong>{{ rating.comment }}</strong>
       </h5>
     </h5>
+    <hr class="my-4" />
+    <h3>Liked Forum Threads:</h3>
+    <h5 v-if="likes.length == 0">
+      <strong>You have not liked any Forum threads yet</strong>
+    </h5>
+    <h5 v-else v-for="like in likes" :key="like.id">
+      Title:
+      <strong
+        ><a
+          :href="`/forum/t/${like.forum_thread.id}-${like.forum_thread.title}`"
+          >{{ like.forum_thread.title }}</a
+        ></strong
+      >
+      | Likes:
+      <strong> {{ like.forum_thread.likes }} </strong>
+      | Category:
+      <strong
+        ><a
+          :href="`/forum/c/${forum_categories_liked.id}-${forum_categories_liked.title}`"
+          >{{ forum_categories_liked.title }}</a
+        ></strong
+      >
+    </h5>
   </div>
 </template>
 
 <script>
 export default {
-  props: ["auth_user", "ratings", "average_grade"],
+  props: [
+    "auth_user",
+    "ratings",
+    "average_grade",
+    "likes",
+    "forum_categories_liked",
+  ],
 };
 </script>
 

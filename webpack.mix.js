@@ -1,5 +1,5 @@
-const mix = require("laravel-mix");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const mix = require('laravel-mix');
+
 /*
  |--------------------------------------------------------------------------
  | Mix Asset Management
@@ -11,21 +11,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
  |
  */
 
-// mix.webpackConfig({
-//   plugins: [new MiniCssExtractPlugin({ filename: "resources/css/app.css" })],
-//   module: {
-//     rules: [
-//       {
-//         test: /\.css(\?|$)/,
-//         use: [MiniCssExtractPlugin.loader, "css-loader"],
-//         include: [/node_modules/],
-//       },
-//     ],
-//   },
-// });
-
-mix
-  .js("resources/js/app.js", "public/js")
-  .vue()
-  .sass("resources/sass/app.scss", "public/css")
- 
+mix.js('resources/js/app.js', 'public/js')
+    .vue()
+    .sass('resources/sass/app.scss', 'public/css');

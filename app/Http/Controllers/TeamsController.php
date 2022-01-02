@@ -54,11 +54,13 @@ class TeamsController extends Controller
 
     private function findTeamUsersCount($teams)
     {
-        foreach ($teams as &$team) {
-            $team_users_count = User::where('team_id', $team->id)->get()->count();
-            $all_team_users_count[] = $team_users_count;
+        if (count($teams) != 0) {
+            foreach ($teams as &$team) {
+                $team_users_count = User::where('team_id', $team->id)->get()->count();
+                $all_team_users_count[] = $team_users_count;
+            }
+            return $all_team_users_count;
         }
-        return $all_team_users_count;
     }
 
     public function index()
@@ -66,7 +68,7 @@ class TeamsController extends Controller
         $teams = Team::all();
 
         return view('teams')
-        ->with('teams', $teams)
-        ->with('all_team_users_count', $this->findTeamUsersCount($teams));
+            ->with('teams', $teams)
+            ->with('all_team_users_count', $this->findTeamUsersCount($teams));
     }
 }

@@ -28,8 +28,8 @@
         type="submit"
         name="submit"
         class="btn btn-success mt-4"
-        data-toggle="modal"
-        data-target="#Modal"
+        data-bs-toggle="modal"
+        data-bs-target="#Modal"
         href="#"
       >
         Create Group
@@ -115,11 +115,11 @@
             <h5 class="modal-title" id="ModalLabel">Create Group</h5>
             <button
               type="button"
-              class="close"
-              data-dismiss="modal"
+              class="btn-close"
+              data-bs-dismiss="modal"
               aria-label="Close"
             >
-              <span aria-hidden="true">&times;</span>
+             
             </button>
           </div>
           <div class="modal-body">
@@ -134,7 +134,7 @@
             <button
               type="button"
               class="btn btn-secondary"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Close
             </button>

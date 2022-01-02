@@ -23,26 +23,27 @@ class GroupsController extends Controller
     public function groupsPost(Request $request)
     {
         $auth_user = Auth::user();
-        if ($auth_user->role_id == 1 || $auth_user->role_id == 2) {
-            $data = $request->json()->all();
-            if (StringHelper::is_null_or_empty_string($data['name'])) {
-                return response()->json(['message' => 'Group name cannot be null or empty string or have more than 25 characters'], 400);
-            }
-            $group = Group::create([
-                'name' => $data['name'],
-                'user_id' => Auth::user()->id,
-            ]);
-            if (Auth::user()->role_id == 3) {
-                $user = User::find($group->user_id);
-                $user->group_id = $group['id'];
-                $user->save();
-            }
-
-
-            return response()->json($group, 200);
-        } else {
+        if ($auth_user->role_id == 3) {
             return response(403);
         }
+
+        $data = $request->json()->all();
+        if (StringHelper::is_null_or_empty_string($data['name'])) {
+            return response()->json(['message' => 'Group name cannot be null or empty string or have more than 25 characters'], 400);
+        }
+
+        $group = Group::create([
+            'name' => $data['name'],
+            'user_id' => Auth::user()->id,
+        ]);
+
+        if (Auth::user()->role_id == 3) {
+            $user = User::find($group->user_id);
+            $user->group_id = $group['id'];
+            $user->save();
+        }
+
+        return response()->json($group, 200);
     }
 
     /**
@@ -53,11 +54,13 @@ class GroupsController extends Controller
 
     private function findGroupUsersCount($groups)
     {
-        foreach ($groups as &$group) {
-            $group_users_count = User::where('group_id', $group->id)->get()->count();
-            $all_group_users_count[] = $group_users_count;
+        if (count($groups) != 0) {
+            foreach ($groups as &$group) {
+                $group_users_count = User::where('group_id', $group->id)->get()->count();
+                $all_group_users_count[] = $group_users_count;
+            }
+            return $all_group_users_count;
         }
-        return $all_group_users_count;
     }
     public function index()
     {

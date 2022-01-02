@@ -2,48 +2,71 @@
     <div class="row align-items-center text-center">
         <div class="col-sm text-md-start">
             <span class="lead">
-                <a href="{{ Forum::route('thread.show', $thread) }}" @if (isset($category))style="color: {{ $category->color }};"@endif>{{ $thread->title }}</a>
+                <a href="{{ Forum::route('thread.show', $thread) }}" @if (isset($category))style="color: {{ $category->color }};" @endif>{{ $thread->title }}</a>
             </span>
             <br>
             {{ $thread->authorName }} <span class="text-muted">@include ('forum::partials.timestamp', ['carbon' => $thread->created_at])</span>
 
             @if (! isset($category))
-                <br>
-                <a href="{{ Forum::route('category.show', $thread->category) }}" style="color: {{ $thread->category->color }};">{{ $thread->category->title }}</a>
+            <br>
+            <a href="{{ Forum::route('category.show', $thread->category) }}" style="color: {{ $thread->category->color }};">{{ $thread->category->title }}</a>
             @endif
         </div>
         <div class="col-sm text-md-end">
             @if ($thread->pinned)
-                <span class="badge rounded-pill bg-info">{{ trans('forum::threads.pinned') }}</span>
+            <span class="badge rounded-pill bg-info">{{ trans('forum::threads.pinned') }}</span>
             @endif
             @if ($thread->locked)
-                <span class="badge rounded-pill bg-warning">{{ trans('forum::threads.locked') }}</span>
+            <span class="badge rounded-pill bg-warning">{{ trans('forum::threads.locked') }}</span>
             @endif
             @if ($thread->userReadStatus !== null && ! $thread->trashed())
-                <span class="badge rounded-pill bg-success">{{ trans($thread->userReadStatus) }}</span>
+            <span class="badge rounded-pill bg-success">{{ trans($thread->userReadStatus) }}</span>
             @endif
             @if ($thread->trashed())
-                <span class="badge rounded-pill bg-danger">{{ trans('forum::general.deleted') }}</span>
+            <span class="badge rounded-pill bg-danger">{{ trans('forum::general.deleted') }}</span>
             @endif
-            <span class="badge rounded-pill bg-primary" @if (isset($category))style="background: {{ $category->color }};"@endif>
-                {{ trans('forum::general.replies') }}: 
+            <span class="badge rounded-pill bg-primary" @if (isset($category))style="background: {{ $category->color }};" @endif>
+                {{ trans('forum::general.replies') }}:
                 {{ $thread->reply_count }}
             </span>
+            <button type="button" class="badge rounded-pill bg-like" style="background: #28a745; border: none; cursor: pointer; outline: inherit;" data-bs-toggle="modal" data-bs-target="#likesModal"> Likes: {{ $thread->likes }} </button>
+            <div class="modal fade" id="likesModal" tabindex="-1" aria-labelledby="likesModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="likesModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+      <ul class="list-group" style="text-align: left">
+  <li class="list-group-item">An item</li>
+  <li class="list-group-item">A second item</li>
+  <li class="list-group-item">A third item</li>
+  <li class="list-group-item">A fourth item</li>
+  <li class="list-group-item">And a fifth one</li>
+</ul>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
         </div>
 
         @if ($thread->lastPost)
-            <div class="col-sm text-md-end text-muted">
-                <a href="{{ Forum::route('thread.show', $thread->lastPost) }}">{{ trans('forum::posts.view') }} &raquo;</a>
-                <br>
-                {{ $thread->lastPost->authorName }}
-                <span class="text-muted">@include ('forum::partials.timestamp', ['carbon' => $thread->lastPost->created_at])</span>
-            </div>
+        <div class="col-sm text-md-end text-muted">
+            <a href="{{ Forum::route('thread.show', $thread->lastPost) }}">{{ trans('forum::posts.view') }} &raquo;</a>
+            <br>
+            {{ $thread->lastPost->authorName }}
+            <span class="text-muted">@include ('forum::partials.timestamp', ['carbon' => $thread->lastPost->created_at])</span>
+        </div>
         @endif
 
         @if (isset($category) && isset($selectableThreadIds) && in_array($thread->id, $selectableThreadIds))
-            <div class="col-sm" style="flex: 0;">
-                <input type="checkbox" name="threads[]" :value="{{ $thread->id }}" v-model="selectedThreads">
-            </div>
+        <div class="col-sm" style="flex: 0;">
+            <input type="checkbox" name="threads[]" :value="{{ $thread->id }}" v-model="selectedThreads">
+        </div>
         @endif
     </div>
 </div>

@@ -1,36 +1,33 @@
 <template>
   <div class="panel panel-primary" v-if="auth_user.role_id != 3">
     <div class="panel-heading">
-      <h2>Upload Students' list</h2>
+      <h2 style="margin-bottom: 20px">Upload Students' list</h2>
     </div>
-    <div class="panel-body">
-      <div class="custom-file">
-        <input
-          type="file"
-          name="file"
-          ref="file"
-          class="custom-file-input"
-          id="chooseFile"
-          @change="onFileChange()"
-        />
-        <label class="custom-file-label">{{ file.name }}</label>
-      </div>
-      <button
-        disabled
-        v-if="file.name == ' Select File '"
-        class="btn btn-primary btn-block mt-4 disabled"
-      >
-        Upload File
-      </button>
-      <button
-        v-else
-        type="button"
-        class="btn btn-primary btn-block mt-4"
-        @click="onFileUpload()"
-      >
-        Upload File
-      </button>
+    <div class="mb-3">
+      <input
+        class="form-control"
+        type="file"
+        name="file"
+        ref="file"
+        id="chooseFile"
+        @change="onFileChange()"
+      />
     </div>
+    <button
+      disabled
+      v-if="file.name == ' No file chosen '"
+      class="btn btn-primary btn-block mt-4 disabled w-100"
+    >
+      Upload File
+    </button>
+    <button
+      v-else
+      type="button"
+      class="btn btn-primary btn-block mt-4 w-100"
+      @click="onFileUpload()"
+    >
+      Upload File
+    </button>
   </div>
 </template>
 
@@ -41,7 +38,7 @@ export default {
   props: ["auth_user"],
   data() {
     return {
-      file: { name: " Select File " },
+      file: { name: " No file chosen " },
     };
   },
   methods: {
