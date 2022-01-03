@@ -1,5 +1,5 @@
-<div class="modal fade" tabindex="-1" role="dialog" data-modal="{{ $key }}" data-close-modal>
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade" tabindex="-1"  data-modal="{{ $key }}" data-close-modal>
+    <div class="modal-dialog modal-dialog-centered" >
         <div class="modal-content shadow-sm">
             <div class="modal-header">
                 <h5 class="modal-title">{!! $title !!}</h5>

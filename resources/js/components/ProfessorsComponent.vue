@@ -100,11 +100,10 @@
             class="modal fade"
             id="Modal"
             tabindex="-1"
-            role="dialog"
             aria-labelledby="ModalLabel"
             aria-hidden="true"
           >
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="ModalLabel">
@@ -115,9 +114,7 @@
                     class="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                  >
-                   
-                  </button>
+                  ></button>
                 </div>
                 <div class="modal-body">
                   Are you sure you want to Delete Selected Professors?
@@ -278,6 +275,9 @@ td.large {
 th.large {
   width: 300px;
   vertical-align: middle;
+}
+.vuetable-th-gutter {
+  width: 0;
 }
 .color-blanchedalmond {
   background-color: blanchedalmond;

@@ -37,8 +37,8 @@ class ProfileController extends Controller
             foreach ($forum_categories as &$forum_category) {
                 if ($forum_category->id == $likes[$index]->forum_thread->category_id) {
                     $forum_categories_liked = $forum_category;
+                    $index++;
                 }
-                $index++;
             }
         } else {
             $forum_categories_liked = '[]';

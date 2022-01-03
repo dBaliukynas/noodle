@@ -78,11 +78,11 @@
             class="modal fade"
             id="ModalDeleteTeam"
             tabindex="-1"
-            role="dialog"
+            
             aria-labelledby="ModalDeleteTeamLabel"
             aria-hidden="true"
           >
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog" >
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="ModalDeleteTeamLabel">
@@ -288,11 +288,11 @@
           class="modal fade"
           id="ModalRemoveAssign"
           tabindex="-1"
-          role="dialog"
+          
           aria-labelledby="ModalRemoveAssignLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog" >
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="ModalRemoveAssignLabel">
@@ -334,11 +334,11 @@
           class="modal fade"
           id="ModalAssign"
           tabindex="-1"
-          role="dialog"
+          
           aria-labelledby="ModalAssignLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog" >
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="ModalAssignLabel">
@@ -389,11 +389,11 @@
           class="modal fade"
           id="Modal"
           tabindex="-1"
-          role="dialog"
+          
           aria-labelledby="ModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog" >
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="ModalLabel">
@@ -490,11 +490,11 @@
           class="modal fade"
           id="Modal"
           tabindex="-1"
-          role="dialog"
+          
           aria-labelledby="ModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog" >
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="ModalLabel">
@@ -998,6 +998,9 @@ td.large {
 th.large {
   width: 300px;
   vertical-align: middle;
+}
+.vuetable-th-gutter {
+  width: 0;
 }
 .modal-xl {
   width: 100%;
