@@ -92,8 +92,8 @@
       | Category:
       <strong
         ><a
-          :href="`/forum/c/${forum_categories_liked.id}-${forum_categories_liked.title}`"
-          >{{ forum_categories_liked.title }}</a
+          :href="`/forum/c/${like.forum_thread.category_id}-${like.forum_thread.category_id}`"
+          >{{ like.forum_thread.category.title}}</a
         ></strong
       >
     </h5>
@@ -107,7 +107,6 @@ export default {
     "ratings",
     "average_grade",
     "likes",
-    "forum_categories_liked",
   ],
 };
 </script>

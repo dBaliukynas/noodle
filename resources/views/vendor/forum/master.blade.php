@@ -228,7 +228,7 @@
             </a>
             @else
             <a href="/">
-                <img src="/img/noodle.png" alt="Noodle Logo" style="height: 35px; width: 35px; margin-right: 3px;" />
+                <img src="/img/noodle.png" alt="Noodle Logo" style="height: 35px; width: 35px; margin-right: 3px; margin-left: 25px" />
             </a>
             @endif
             @if (Auth::check())
@@ -307,6 +307,7 @@
     font: inherit;
     cursor: pointer;
     outline: inherit;
+    margin-right: 25px
 ">
                             <a class="nav-link" style="color: white" href="{{ url('/login') }}">Log in</a>
                         </button>
