@@ -128,11 +128,10 @@
           class="modal fade"
           id="ModalRemoveAssign"
           tabindex="-1"
-          role="dialog"
           aria-labelledby="ModalRemoveAssignLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="ModalRemoveAssignLabel">
@@ -143,9 +142,7 @@
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                >
-                 
-                </button>
+                ></button>
               </div>
               <div class="modal-body">
                 Are you sure you want to Remove Selected Students from an
@@ -174,11 +171,10 @@
           class="modal fade"
           id="ModalAssign"
           tabindex="-1"
-          role="dialog"
           aria-labelledby="ModalAssignLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="ModalAssignLabel">
@@ -189,9 +185,7 @@
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                >
-                 
-                </button>
+                ></button>
               </div>
               <div class="modal-body">
                 Are you sure you want to Assign Selected Students to a Project?
@@ -229,11 +223,10 @@
           class="modal fade"
           id="Modal"
           tabindex="-1"
-          role="dialog"
           aria-labelledby="ModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="ModalLabel">
@@ -244,9 +237,7 @@
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                >
-                 
-                </button>
+                ></button>
               </div>
               <div class="modal-body">
                 Are you sure you want to Delete Selected Students?
@@ -497,5 +488,8 @@ th.large {
 }
 .color-palevioletred {
   background-color: palevioletred;
+}
+.vuetable-th-gutter {
+  width: 0;
 }
 </style>

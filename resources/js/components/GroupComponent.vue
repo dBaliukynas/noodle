@@ -58,11 +58,11 @@
             class="modal fade"
             id="ModalDeleteGroup"
             tabindex="-1"
-            role="dialog"
+            
             aria-labelledby="ModalDeleteGroupLabel"
             aria-hidden="true"
           >
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog" >
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="ModalDeleteGroupLabel">
@@ -74,9 +74,7 @@
                     class="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                  >
-                   
-                  </button>
+                  ></button>
                 </div>
                 <div class="modal-body">
                   Are you sure you want to Delete Group:
@@ -164,59 +162,6 @@
           Add Students
         </button>
 
-        <div
-          class="modal fade"
-          id="ModalXl"
-          tabindex="-1"
-          aria-labelledby="ModalXlLabel"
-          style="display: none"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title h4" id="ModalXlLabel">
-                  Add Selected Students to Group:
-                  <strong>{{ group.name }}</strong>
-                </h5>
-                <div>
-                  <button
-                    v-if="selectedStudentsGroupContext == 0"
-                    type="button"
-                    class="btn btn-primary disabled"
-                  >
-                    Add Selected Students
-                  </button>
-                  <button
-                    v-else
-                    type="button"
-                    class="btn btn-primary"
-                    @click="addStudents()"
-                  >
-                    Add Selected Students
-                  </button>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    
-                  </button>
-                </div>
-              </div>
-              <div class="modal-body">
-                <table-component
-                  :students="all_students"
-                  ref="studentsTableRef"
-                  context="group"
-                  :auth_user="auth_user"
-                ></table-component>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <button
           disabled
           v-if="selectedStudents.length == 0"
@@ -278,11 +223,11 @@
           class="modal fade"
           id="ModalRemoveAssign"
           tabindex="-1"
-          role="dialog"
+          
           aria-labelledby="ModalRemoveAssignLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" role="document">
+          <div class="modal-dialog" >
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="ModalRemoveAssignLabel">
@@ -293,9 +238,7 @@
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                >
-                 
-                </button>
+                ></button>
               </div>
               <div class="modal-body">
                 Are you sure you want to Remove Selected Students from an
@@ -313,109 +256,6 @@
                   type="button"
                   class="btn btn-danger"
                   @click="removeAssignedProject()"
-                >
-                  Delete
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="modal fade"
-          id="ModalAssign"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="ModalAssignLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="ModalAssignLabel">
-                  Assign Selected Students to a Project
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                >
-                 
-                </button>
-              </div>
-              <div class="modal-body">
-                Are you sure you want to Assign Selected Students to a Project?
-
-                <select class="form-control" ref="rate">
-                  <option
-                    v-for="forum_thread in forum_threads"
-                    :key="forum_thread.id"
-                    :value="forum_thread.id"
-                  >
-                    {{ forum_thread.title }}
-                  </option>
-                </select>
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-primary"
-                  @click="assignProject()"
-                >
-                  Assign
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          class="modal fade"
-          id="Modal"
-          tabindex="-1"
-          role="dialog"
-          aria-labelledby="ModalLabel"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="ModalLabel">
-                  Delete Selected Students from Group:
-                  <strong>{{ group.name }}</strong>
-                </h5>
-                <button
-                  type="button"
-                  class="btn-close"
-                  data-bs-dismiss="modal"
-                  aria-label="Close"
-                >
-                 
-                </button>
-              </div>
-              <div class="modal-body">
-                Are you sure you want to Delete Selected Students from Group:
-                <strong>{{ group.name }}</strong
-                >?
-              </div>
-              <div class="modal-footer">
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  data-bs-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-danger"
-                  @click="onDeleteSelected()"
                 >
                   Delete
                 </button>
@@ -459,6 +299,156 @@
           <div v-else></div>
         </div>
       </vuetable>
+    </div>
+    <div
+      class="modal fade"
+      id="ModalXl"
+      tabindex="-1"
+      aria-labelledby="ModalXlLabel"
+      style="display: none"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title h4" id="ModalXlLabel">
+              Add Selected Students to Group:
+              <strong>{{ group.name }}</strong>
+            </h5>
+            <div>
+              <button
+                v-if="selectedStudentsGroupContext == 0"
+                type="button"
+                class="btn btn-primary disabled"
+              >
+                Add Selected Students
+              </button>
+              <button
+                v-else
+                type="button"
+                class="btn btn-primary"
+                @click="addStudents()"
+              >
+                Add Selected Students
+              </button>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+          </div>
+          <div class="modal-body">
+            <table-component
+              :students="all_students"
+              ref="studentsTableRef"
+              context="group"
+              :auth_user="auth_user"
+            ></table-component>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="modal fade"
+      id="Modal"
+      tabindex="-1"
+      
+      aria-labelledby="ModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ModalLabel">
+              Delete Selected Students from Group:
+              <strong>{{ group.name }}</strong>
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to Delete Selected Students from Group:
+            <strong>{{ group.name }}</strong
+            >?
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-danger"
+              @click="onDeleteSelected()"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="modal fade"
+      id="ModalAssign"
+      tabindex="-1"
+      
+      aria-labelledby="ModalAssignLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" >
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="ModalAssignLabel">
+              Assign Selected Students to a Project
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to Assign Selected Students to a Project?
+
+            <select class="form-control" ref="rate">
+              <option
+                v-for="forum_thread in forum_threads"
+                :key="forum_thread.id"
+                :value="forum_thread.id"
+              >
+                {{ forum_thread.title }}
+              </option>
+            </select>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              @click="assignProject()"
+            >
+              Assign
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -642,6 +632,9 @@ td.large {
 th.large {
   width: 300px;
   vertical-align: middle;
+}
+.vuetable-th-gutter {
+  width: 0;
 }
 
 .modal-xl {

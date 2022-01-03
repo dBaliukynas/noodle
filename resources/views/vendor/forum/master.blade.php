@@ -215,8 +215,14 @@
 
 <body style="body">
     <nav class="v-navbar navbar navbar-expand-md navbar-light bg-white shadow-sm">
-        <div class="container">
-            @if (Auth::check())
+    @if (Auth::check())
+    <button class="btn btn-primary" type="button" style="margin-left: 10px;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg></button>
+        <div class="container" style="display: flex; padding: 0">
+
             <a href="/home">
                 <img src="/img/noodle.png" alt="Noodle Logo" style="height: 35px; width: 35px; margin-right: 3px;" />
             </a>
@@ -268,26 +274,13 @@
                         </ul>
                     </li>
                 </ul>
-                <ul class="navbar-nav">
+            </div>
+        </div>
+        <ul class="navbar-nav">
                     @if (Auth::check())
-                    <li class="nav-item dropdown">
-                        <button type="button" class="btn btn-primary position-relative" style="    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
-">
+                    <li class="nav-item dropdown" style="margin-right: 32px">
 
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" @click="isUserDropdownCollapsed = ! isUserDropdownCollapsed" style="color: white">
-                                {{ Auth::user()->name }}
-                                <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                                    <span class="visually-hidden">New alerts</span>
-                                </span>
-                            </a>
-                           
-                        </button>
-
-                        <div class="dropdown-menu" :class="{ show: ! isUserDropdownCollapsed }" aria-labelledby="navbarDropdownMenuLink">
+                        <div class="dropdown-menu" :class="{ show: ! isUserDropdownCollapsed }" aria-labelledby="navbarDropdownMenuLink" style='margin-top: 25px'>
                             <a class="dropdown-item" href="{{ route('profile') }}">
 
                                 {{ __('Profile') }}
@@ -309,16 +302,49 @@
                     </li>
                     @else
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ url('/login') }}">Log in</a>
+                        <button type="button" class="btn btn-primary position-relative" style="    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+">
+                            <a class="nav-link" style="color: white" href="{{ url('/login') }}">Log in</a>
+                        </button>
                     </li>
                     @endif
                 </ul>
-            </div>
-        </div>
+                @if (Auth::check())
+        <button type="button" class="btn btn-primary position-relative" style="    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    display: flex;
+    margin-right: 10px
+">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" @click="isUserDropdownCollapsed = ! isUserDropdownCollapsed" style="color: white">
+                                {{ Auth::user()->name }}
+                                <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                                    <span class="visually-hidden">New alerts</span>
+                                </span>
+                            </a>
+
+                        </button>
+                        @endif
     </nav>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Menu</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <p>.....</p>
+        </div>
+    </div>
 
     @hasSection('content')
     <div id="forum" class="container">
+        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.2.4" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.2.4</strong></a>
         @include('forum::partials.breadcrumbs')
         @include('forum::partials.alerts')
 
@@ -330,11 +356,12 @@
     <div id="main" class="container">
         <notification-component></notification-component>
         @yield('main')
+        @sectionMissing('hide_version')
+        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.2.4" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.2.4</strong></a>
+        @endif
     </div>
     @endif
     <div class="mask"></div>
-
-    <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.2.2" style="position: absolute; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.2.3</strong></a>
 
     <script>
         new Vue({
@@ -399,9 +426,6 @@
             });
         });
 
-        document.querySelectorAll('[data-bs-dismiss]').forEach(item => {
-            item.addEventListener('click', event => event.target.parentElement.style.display = 'none');
-        });
 
         document.addEventListener('DOMContentLoaded', event => {
             const hash = window.location.hash.substr(1);
