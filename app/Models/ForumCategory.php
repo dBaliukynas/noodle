@@ -18,4 +18,8 @@ class ForumCategory extends Model
     protected $fillable = [
         'title',
     ];
+    public function forum_threads()
+    {
+        return $this->hasMany(ForumThread::class);
+    }
 }

@@ -30,19 +30,8 @@ class ProfileController extends Controller
     {
         $auth_user = User::with('group')->with('team')->with('project')->with('ratings')->find(Auth::id());
         $ratings = Rating::with('user')->where('user_id', $auth_user->id)->get();
-        $likes = ForumThreadLike::where('user_id', Auth::user()->id)->with('forum_thread')->get();
-        $forum_categories = ForumCategory::all();
-        $index = 0;
-        if (count($likes) != 0) {
-            foreach ($forum_categories as &$forum_category) {
-                if ($forum_category->id == $likes[$index]->forum_thread->category_id) {
-                    $forum_categories_liked = $forum_category;
-                    $index++;
-                }
-            }
-        } else {
-            $forum_categories_liked = '[]';
-        }
+        $likes = ForumThreadLike::where('user_id', Auth::user()->id)->with('forum_thread.category')->get();
+       
 
         $grade_total = 0;
         $average_grade = 0;
@@ -61,7 +50,6 @@ class ProfileController extends Controller
             ->with('auth_user', $auth_user)
             ->with('ratings', $ratings)
             ->with('average_grade', $average_grade)
-            ->with('likes', $likes)
-            ->with('forum_categories_liked', $forum_categories_liked);
+            ->with('likes', $likes);
     }
 }

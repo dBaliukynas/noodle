@@ -210,37 +210,38 @@
             stroke-width: 3px;
             vertical-align: -2px;
         }
+
+        .list-custom:active {
+            background-color: #0d6efd;
+            color: white;
+        }
     </style>
 </head>
 
 <body style="body">
-    <nav class="v-navbar navbar navbar-expand-md navbar-light bg-white shadow-sm">
-    @if (Auth::check())
-    <button class="btn btn-primary" type="button" style="margin-left: 10px;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <line x1="3" y1="12" x2="21" y2="12"></line>
-                    <line x1="3" y1="6" x2="21" y2="6"></line>
-                    <line x1="3" y1="18" x2="21" y2="18"></line>
-                </svg></button>
-        <div class="container" style="display: flex; padding: 0">
-
-            <a href="/home">
-                <img src="/img/noodle.png" alt="Noodle Logo" style="height: 35px; width: 35px; margin-right: 3px;" />
-            </a>
-            @else
-            <a href="/">
-                <img src="/img/noodle.png" alt="Noodle Logo" style="height: 35px; width: 35px; margin-right: 3px;" />
-            </a>
-            @endif
-            @if (Auth::check())
-            <a class="navbar-brand" href="/home">Noodle</a>
-            @else
-            <a class="navbar-brand" href="/">Noodle</a>
-            @endif
-            <button class="navbar-toggler" type="button" :class="{ collapsed: isCollapsed }" @click="isCollapsed = ! isCollapsed">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" :class="{ show: !isCollapsed }">
-                <ul class="navbar-nav me-auto">
+    <nav class="v-navbar navbar navbar-expand-md navbar-light bg-white shadow-sm" style="flex-wrap: unset;">
+        @if (Auth::check())
+        <button class="btn btn-primary" type="button" style="margin-left: 10px; display: flex;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="3" y1="12" x2="21" y2="12"></line>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg></button>
+        <div class="container" style="display: flex; padding: 0; justify-content: unset; margin: 0; flex-direction: column;">
+            <div class="navbar-collapse" :class="{ show: !isCollapsed }">
+                <a href="/home">
+                    <img src="/img/noodle.png" alt="Noodle Logo" style="height: 35px; width: 35px; margin-right: 3px;" />
+                </a>
+                @else
+                <a href="/">
+                    <img src="/img/noodle.png" alt="Noodle Logo" style="height: 35px; width: 35px; margin-right: 3px; margin-left: 25px" />
+                </a>
+                @endif
+                @if (Auth::check())
+                <a class="navbar-brand" href="/home">Noodle</a>
+                @else
+                <a class="navbar-brand" href="/">Noodle</a>
+                @endif
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0 collapse navbar-collapse" :class="{ show: !isCollapsed }">
                     @if (Auth::check())
                     <li class="nav-item">
                         <a class="nav-link" href="/room" style="color: #0d6efd;">Room</a>
@@ -266,7 +267,9 @@
                                     <a class="dropdown-item" href="{{ route('forum.unread') }}">{{ trans('forum::threads.unread_updated') }}</a>
                                     @endauth
                                     @can ('moveCategories')
+                                    @if (Auth::user()->role_id != 3)
                                     <a class="dropdown-item" href="{{ route('forum.category.manage') }}">{{ trans('forum::general.manage') }}</a>
+                                    @endif
                                     @endcan
                                 </div>
                             </li>
@@ -276,75 +279,87 @@
                 </ul>
             </div>
         </div>
-        <ul class="navbar-nav">
-                    @if (Auth::check())
-                    <li class="nav-item dropdown" style="margin-right: 32px">
-
-                        <div class="dropdown-menu" :class="{ show: ! isUserDropdownCollapsed }" aria-labelledby="navbarDropdownMenuLink" style='margin-top: 25px'>
-                            <a class="dropdown-item" href="{{ route('profile') }}">
-
-                                {{ __('Profile') }}
-                            </a>
-
-
-                            <a class="dropdown-item" href="{{ route('about') }}">
-
-                                {{ __('About') }}
-                            </a>
-
-                            <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                Log out
-                            </a>
-                            <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                    @else
-                    <li class="nav-item">
-                        <button type="button" class="btn btn-primary position-relative" style="    border: none;
-    padding: 0;
-    font: inherit;
-    cursor: pointer;
-    outline: inherit;
-">
-                            <a class="nav-link" style="color: white" href="{{ url('/login') }}">Log in</a>
-                        </button>
-                    </li>
-                    @endif
-                </ul>
-                @if (Auth::check())
-        <button type="button" class="btn btn-primary position-relative" style="    border: none;
+        <div style="margin-left: auto">
+            @if (Auth::check())
+            <button type="button" class="btn btn-primary position-relative" style="    border: none;
     padding: 0;
     font: inherit;
     cursor: pointer;
     outline: inherit;
     display: flex;
-    margin-right: 10px
+    margin-right: 10px;
 ">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" @click="isUserDropdownCollapsed = ! isUserDropdownCollapsed" style="color: white">
-                                {{ Auth::user()->name }}
-                                <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
-                                    <span class="visually-hidden">New alerts</span>
-                                </span>
-                            </a>
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" @click="isUserDropdownCollapsed = ! isUserDropdownCollapsed" style="color: white">
+                    {{ Auth::user()->name }}
+                    <span class="position-absolute top-0 start-100 translate-middle p-2 bg-danger border border-light rounded-circle">
+                        <span class="visually-hidden">New alerts</span>
+                    </span>
+                </a>
 
-                        </button>
-                        @endif
+            </button>
+            @endif
+            <ul class="navbar-nav ">
+                @if (Auth::check())
+
+                    <div class="dropdown-menu dropdown-menu-right" :class="{ show: ! isUserDropdownCollapsed }" aria-labelledby="navbarDropdownMenuLink" style='margin-top: 8px; right: 0; width: 200px; height: 200px; text-align: center; margin-right: 10px;'>
+                        <a class="dropdown-item" href="{{ route('profile') }}">
+
+                            {{ __('Profile') }}
+                        </a>
+
+
+                        <a class="dropdown-item" href="{{ route('about') }}">
+
+                            {{ __('About') }}
+                        </a>
+
+                        <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            Log out
+                        </a>
+                        <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+        </div>
+        @else
+            <button type="button" class="btn btn-primary position-relative" style="    border: none;
+    padding: 0;
+    font: inherit;
+    cursor: pointer;
+    outline: inherit;
+    margin-right: 25px;
+    display: flex;
+">
+                <a class="nav-link" style="color: white" href="{{ url('/login') }}">Log in</a>
+            </button>
+        @endif
+        </ul>
     </nav>
+    @if (Auth::check())
     <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasWithBackdrop" aria-labelledby="offcanvasWithBackdropLabel">
         <div class="offcanvas-header">
             <h5 class="offcanvas-title" id="offcanvasWithBackdropLabel">Menu</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <p>.....</p>
+            <div class="list-group">
+                <a href="/room" class="list-group-item list-custom list-group-item-action {{ (request()->is('room')) ? 'active' : '' }}">Room</a>
+                <a href="/professors" class="list-group-item list-custom list-group-item-action {{ (request()->is('professors')) ? 'active' : '' }}">Professors</a>
+                <a href="/project" class="list-group-item list-custom list-group-item-action {{ (request()->is('project')) ? 'active' : '' }}">Project</a>
+                <a href="/forum" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum', 'forum/c/*', 'forum/t/*')) ? 'active' : '' }}">Forum</a>
+                <a href="/forum/recent" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/recent')) ? 'active' : '' }}">Recent threads</a>
+                <a href="/forum/unread" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/unread')) ? 'active' : '' }}">Unread & updated threads</a>
+                @if (Auth::user()->role_id != 3)
+                <a href="/forum/manage" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/manage')) ? 'active' : '' }}">Manage</a>
+                @endif
+            </div>
         </div>
     </div>
+    @endif
 
     @hasSection('content')
     <div id="forum" class="container">
-        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.2.4" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.2.4</strong></a>
+        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.2.5" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.2.5</strong></a>
         @include('forum::partials.breadcrumbs')
         @include('forum::partials.alerts')
 
@@ -357,7 +372,7 @@
         <notification-component></notification-component>
         @yield('main')
         @sectionMissing('hide_version')
-        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.2.4" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.2.4</strong></a>
+        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.2.5" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.2.5</strong></a>
         @endif
     </div>
     @endif
