@@ -43,6 +43,7 @@
         justify-content: space-around;
         width: 55%;
         margin-bottom: 10px;
+        flex-wrap: wrap;
       "
     >
       <a

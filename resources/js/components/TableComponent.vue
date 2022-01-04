@@ -492,4 +492,7 @@ th.large {
 .vuetable-th-gutter {
   width: 0;
 }
+.table-responsive-xl {
+  overflow-y: hidden;
+}
 </style>

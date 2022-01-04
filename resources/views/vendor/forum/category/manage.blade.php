@@ -1,6 +1,6 @@
 @extends ('forum::master', ['category' => null, 'thread' => null, 'breadcrumbs_append' => [trans('forum::general.manage')]])
-
 @section ('content')
+@if(Auth::user()->role_id !=3)
     <div class="d-flex flex-row justify-content-between mb-2">
         <h2 class="flex-grow-1">{{ trans('forum::general.manage') }}</h2>
 
@@ -12,7 +12,6 @@
             @include ('forum::category.modals.create')
         @endcan
     </div>
-
     <div class="v-manage-categories">
         <draggable-category-list :categories="categories"></draggable-category-list>
 
@@ -28,7 +27,6 @@
             </button>
         </div>
     </div>
-
     <script type="text/x-template" id="draggable-category-list-template">
         <draggable tag="ul" class="list-group" :list="categories" group="categories" :invertSwap="true" :emptyInsertThreshold="14">
             <li class="list-group-item" v-for="category in categories" :data-id="category.id" :key="category.id">
@@ -88,4 +86,7 @@
         }
     });
     </script>
+    @else
+    You do not have permissions to access this page.
+    @endif
 @stop
