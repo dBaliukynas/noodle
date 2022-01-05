@@ -52,6 +52,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(ForumThreadLike::class);
     }
+    public function courses()
+    {
+        return $this->belongstoMany(Course::class);
+    }
 
 
     /**
