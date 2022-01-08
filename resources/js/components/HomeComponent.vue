@@ -58,7 +58,7 @@
       <hr class="my-4" />
       <h4>Available courses</h4>
       <div class="card" style="width: 18rem">
-        <img src="/img/course.jpeg" class="card-img-top" alt="course" />
+        <img src="/img/course3.jpeg" class="card-img-top" alt="course" />
         <div class="card-body">
           <h5 class="card-title">Card title</h5>
           <p class="card-text">
@@ -89,10 +89,17 @@
           </div>
           <div class="modal-body">
             <div class="mb-3">
-              <label for="formFile" class="form-label"
+              <label for="image" class="form-label"
                 >Select an image to upload</label
               >
-              <input class="form-control" type="file" id="formFile" />
+              <input
+                class="form-control"
+                type="file"
+                id="image"
+                ref="image"
+                name="image"
+                @change="onFileChange()"
+              />
             </div>
             <div class="mb-3">
               <label for="courseTitle" class="form-label">Course Title</label>
@@ -121,7 +128,10 @@
             <button
               type="button"
               class="btn btn-primary"
-              @click="createCourse()"
+              @click="
+                uploadImage();
+                createCourse();
+              "
             >
               Create
             </button>
@@ -135,6 +145,31 @@
 export default {
   props: ["auth_user"],
   methods: {
+    onFileChange() {
+      this.file = this.$refs.image.files[0];
+    },
+    uploadImage() {
+      let formData = new FormData();
+      formData.append("image", this.file);
+      console.log(formData);
+      axios
+        .post("/home/image-upload", formData, {
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+        .then(() => location.reload())
+        .catch((error) => {
+          if (error.response.status == 422) {
+            showNotification(
+              "Supported formats: jpeg, bmp, png, gif, svg, pdf",
+              "alert-danger"
+            );
+          } else if (error.response.status == 413) {
+            showNotification("The file is too large", "alert-danger");
+          } else if (error.response.status == 500) {
+            showNotification("Unexpected error", "alert-danger");
+          }
+        });
+    },
     createCourse() {},
   },
 };

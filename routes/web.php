@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home/image-upload', [App\Http\Controllers\HomeController::class, 'imageUpload']);
+Route::post('/home/image-upload', [App\Http\Controllers\HomeController::class, 'imageUploadPost']);
 Route::get('/', [App\Http\Controllers\WelcomeController::class, 'index'])->name('');
 Route::get('/room', [App\Http\Controllers\RoomController::class, 'index'])->name('room');
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
