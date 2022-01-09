@@ -19,11 +19,6 @@ class FileUploadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function fileUpload()
-    {
-
-        return view('room');
-    }
 
     /**
      * Display a listing of the resource.

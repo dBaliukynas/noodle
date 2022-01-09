@@ -12,9 +12,10 @@ class Course extends Model
         'name',
         'description',
         'user_id',
+        'image_name',
     ];
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->hasMany(User::class, 'course_user');
     }
 }

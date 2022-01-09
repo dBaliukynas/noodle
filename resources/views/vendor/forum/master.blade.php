@@ -355,7 +355,10 @@
                 @endif
             </div>
             <div class="list-group">
-                <a href="#" style="background-color: lightslategray; color: white;" class="list-group-item disabled list-group-item-action">Available courses</a>
+            <a href="#" style="background-color: lightslategray; color: white;" class="list-group-item disabled list-group-item-action">Available courses</a>
+                @foreach ($courses as $course)
+                <a href="/room" class="list-group-item list-custom list-group-item-action ">{{$course->name}}</a>
+                @endforeach
             </div>
         </div>
     </div>
