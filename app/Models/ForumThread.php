@@ -23,4 +23,8 @@ class ForumThread extends Model
     {
         return $this->belongsTo(ForumCategory::class, 'category_id');
     }
+    public function forum_thread_likes()
+    {
+        return $this->hasMany(ForumThreadLike::class);
+    }
 }

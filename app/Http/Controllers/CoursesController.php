@@ -29,7 +29,7 @@ class CoursesController extends Controller
     {
         $auth_user = Auth::user();
 
-        if ($auth_user->role_id == 3) {
+        if ($auth_user->role_id != 1) {
             return response(403);
         }
 

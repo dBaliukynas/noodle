@@ -19,4 +19,8 @@ class ForumThreadLike extends Model
     {
         return $this->belongsTo(ForumThread::class, 'forum_thread_id');
     }
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }
