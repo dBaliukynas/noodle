@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Course;
+use App\Helpers\StringHelper;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -23,9 +25,11 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
+
     public function index()
     {
         $auth_user = Auth::user();
-        return view('home')->with('auth_user', $auth_user);
+        $courses = Course::all();
+        return view('home')->with('auth_user', $auth_user)->with('courses', $courses);
     }
 }

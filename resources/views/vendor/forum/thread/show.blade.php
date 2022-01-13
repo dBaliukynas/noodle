@@ -6,15 +6,38 @@
         <h2 class="flex-grow-1">{{ $thread->title }}</h2>
 
         <div>
-            <button @mouseover="hover = true" @mouseleave="hover = false" v-if="!isLiked" @click="likeThread({{ $thread->id }}, {{ Auth::user()->forum_thread_likes }})" class="btn btn-outline-success mr-3 mb-2 not-liked"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#417505" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg like button">
+        <button class="btn btn-outline-success mr-3 mb-2 not-liked" data-bs-toggle="modal" data-bs-target="#likesModal" onClick="fetchLikedUsers('{{ url()->current() }}')"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#417505" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg like button">
                     <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
-                </svg> <span> Like: <strong>@{{ likes }}</strong></span>
+                </svg><span><strong>@{{ likes }}</strong></span>
             </button>
-            <button @mouseover="hover = true" @mouseleave="hover = false" v-else @click="likeThread({{ $thread->id }}, {{ Auth::user()->forum_thread_likes }})" class="btn btn-outline-success mr-3 mb-2 liked"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg like button">
+            <button style="width: 85px" @mouseover="hover = true" @mouseleave="hover = false" v-if="!isLiked" @click="likeThread({{ $thread->id }}, {{ Auth::user()->forum_thread_likes }})" class="btn btn-outline-success mr-3 mb-2 not-liked"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#417505" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg like button">
+                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                </svg> <span> Like</span>
+            </button>
+            <button style="width: 85px" @mouseover="hover = true" @mouseleave="hover = false" v-else @click="likeThread({{ $thread->id }}, {{ Auth::user()->forum_thread_likes }})" class="btn btn-outline-success mr-3 mb-2 liked"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="svg like button">
                     <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
                 </svg> <span v-if="hover">Unlike</strong></span>
-                <span v-else>Like: <strong>@{{ likes }}</strong></span>
+                <span v-else>Like</strong></span>
             </button>
+            <div class="modal fade" id="likesModal" tabindex="-1" aria-labelledby="likesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="likesModalLabel">People that liked this thread</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <ul class="list-group" style="text-align: left" id="likesList">
+                <li class="list-group-item" id="likesModalContent"></li>
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+            
 
             @if (Gate::allows('deleteThreads', $thread->category) && Gate::allows('delete', $thread))
             @if ($thread->trashed())
@@ -418,5 +441,22 @@
             },
         }
     });
+  
+    
+        
+        function fetchLikedUsers(url) {
+            const forumThreadId = url.split('/')[5].split('-')[0];
+    const forumThreadLikeUsers = @json($forum_thread_like_users);
+
+    const users = forumThreadLikeUsers.filter(forumThreadLikeUsers => forumThreadLikeUsers.forum_thread_id.toString() === forumThreadId);
+
+    // document.getElementById("likesModalContent").textContent = users.map(user => `${user.user.name} ${user.user.surname}`);
+    const ul = document.getElementById("likesList");
+
+    ul.replaceChildren();
+    for (i = 0; i < users.length; i++) {
+      ul.insertAdjacentHTML('beforeend', `<a href="#" class="list-group-item list-custom list-group-item-action" id="likesModalContent">${users[i].user.name} ${users[i].user.surname}</a>`);
+    }
+}
 </script>
 @stop

@@ -226,7 +226,7 @@
                 <line x1="3" y1="6" x2="21" y2="6"></line>
                 <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg></button>
-        <div class="container" style="display: flex; padding: 0; justify-content: unset; margin: 0; flex-direction: column;">
+        <div class="container" style="display: flex; padding: 0; justify-content: unset; margin: 0; flex-direction: column; margin-left: auto">
             <div class="navbar-collapse" :class="{ show: !isCollapsed }">
                 <a href="/home">
                     <img src="/img/noodle.png" alt="Noodle Logo" style="height: 35px; width: 35px; margin-right: 3px;" />
@@ -301,7 +301,7 @@
             <ul class="navbar-nav ">
                 @if (Auth::check())
 
-                    <div class="dropdown-menu dropdown-menu-right" :class="{ show: ! isUserDropdownCollapsed }" aria-labelledby="navbarDropdownMenuLink" style='margin-top: 8px; right: 0; width: 200px; height: 200px; text-align: center; margin-right: 10px;'>
+                    <div class="dropdown-menu dropdown-menu-right" :class="{ show: ! isUserDropdownCollapsed }" aria-labelledby="navbarDropdownMenuLink" style='margin-top: 8px; right: 0; width: 100px; height: 100px; text-align: center; margin-right: 10px;'>
                         <a class="dropdown-item" href="{{ route('profile') }}">
 
                             {{ __('Profile') }}
@@ -342,7 +342,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="list-group">
+            <div class="list-group" style="margin-bottom: 50px;">
+            <a href="/home" class="list-group-item list-custom list-group-item-action {{ (request()->is('home')) ? 'active' : '' }}">Home</a>
                 <a href="/room" class="list-group-item list-custom list-group-item-action {{ (request()->is('room')) ? 'active' : '' }}">Room</a>
                 <a href="/professors" class="list-group-item list-custom list-group-item-action {{ (request()->is('professors')) ? 'active' : '' }}">Professors</a>
                 <a href="/project" class="list-group-item list-custom list-group-item-action {{ (request()->is('project')) ? 'active' : '' }}">Project</a>
@@ -352,6 +353,12 @@
                 @if (Auth::user()->role_id != 3)
                 <a href="/forum/manage" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/manage')) ? 'active' : '' }}">Manage</a>
                 @endif
+            </div>
+            <div class="list-group">
+            <a href="#" style="background-color: lightslategray; color: white;" class="list-group-item disabled list-group-item-action">Available courses</a>
+                @foreach ($courses as $course)
+                <a href="/room" class="list-group-item list-custom list-group-item-action ">{{$course->name}}</a>
+                @endforeach
             </div>
         </div>
     </div>

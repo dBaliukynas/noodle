@@ -73,6 +73,10 @@ Vue.component(
     "about-component",
     require("./components/AboutComponent.vue").default
 );
+Vue.component(
+    "courses-component",
+    require("./components/AboutComponent.vue").default
+);
 Vue.component("star-rating", require("vue-star-rating").default);
 
 window.showNotification = function(message, type = "alert-primary") {

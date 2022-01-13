@@ -24,7 +24,7 @@ class TeamsController extends Controller
     {
 
         $data = $request->json()->all();
-        if (StringHelper::is_null_or_empty_string($data['name'])) {
+        if (StringHelper::is_null_or_empty_string($data['name'], 25)) {
             return response()->json(['message' => 'Team name cannot be null or empty string or have more than 25 characters'], 400);
         }
 
