@@ -29,9 +29,9 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         View::share('courses', Course::all());
-        view()->composer('forum::thread.partials.list', function ($view)
+        view()->composer(['forum::thread.partials.list', 'forum::thread.show'], function ($view)
         {
-            $forum_thread_like_users = ForumThreadLike::distinct()->with('user')->get();
+            $forum_thread_like_users = ForumThreadLike::orderBy('id', 'asc')->with('user')->get(['forum_thread_id', 'user_id']);
 
             $view->with('forum_thread_like_users', $forum_thread_like_users);
         });

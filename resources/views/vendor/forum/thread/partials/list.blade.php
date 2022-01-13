@@ -29,7 +29,7 @@
         {{ trans('forum::general.replies') }}:
         {{ $thread->reply_count }}
       </span>
-      <button type="button" class="badge rounded-pill bg-like" style="background: #28a745; border: none; cursor: pointer; outline: inherit;" data-bs-toggle="modal" data-bs-target="#likesModal" id="{{ $key }}" onClick="test(this.id)" value="{{ $thread }}"> Likes: {{ $thread->likes }}
+      <button type="button" class="badge rounded-pill bg-like" style="background: #28a745; border: none; cursor: pointer; outline: inherit;" data-bs-toggle="modal" data-bs-target="#likesModal" id="{{ $key }}" onClick="fetchLikedUsers(this.id)" value="{{ $thread->id }}"> Likes: {{ $thread->likes }}
       </button>
       <div class="modal fade" id="likesModal" tabindex="-1" aria-labelledby="likesModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -39,8 +39,8 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <ul class="list-group" style="text-align: left">
-                <li class="list-group-item" id="test">{{ $thread->likes }}</li>
+              <ul class="list-group" style="text-align: left" id="likesList">
+                <li class="list-group-item" id="likesModalContent"></li>
               </ul>
             </div>
             <div class="modal-footer">
@@ -68,10 +68,25 @@
   </div>
 </div>
 <script type="application/javascript">
+  function fetchLikedUsers(clickedButtonId) {
+    const forumThreadLikeUsers = @json($forum_thread_like_users);
+    const forumThreadId = document.getElementById(clickedButtonId).value;
 
-  function test(clicked_button_id) {
+    const users = forumThreadLikeUsers.filter(forumThreadLikeUsers => forumThreadLikeUsers.forum_thread_id.toString() === forumThreadId);
 
-    forum_thread = document.getElementById(clicked_button_id).value;
-    console.log(document.getElementById("test").textContent = forum_thread);
+    // document.getElementById("likesModalContent").textContent = users.map(user => `${user.user.name} ${user.user.surname}`);
+    const ul = document.getElementById("likesList");
+
+    ul.replaceChildren();
+    for (i = 0; i < users.length; i++) {
+      ul.insertAdjacentHTML('beforeend', `<a href="#" class="list-group-item list-custom list-group-item-action" id="likesModalContent">${users[i].user.name} ${users[i].user.surname}</a>`);
+    }
+
+
+
+    // ul.insertAdjacentHTML('beforeend', `<li class="list-group-item" id="likesModalContent">dfgdfg</li>`);
+    // ul.insertAdjacentHTML('beforeend', `<li class="list-group-item" id="likesModalContent">dfgdfg</li>`);
+    // document.getElementById("likesModalContent").remove();
+
   }
 </script>
