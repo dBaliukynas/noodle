@@ -24,10 +24,10 @@
     <div>
       <hr class="my-4" />
       <h4>Available courses</h4>
-      <div style="display: flex; flex-wrap: wrap;">
+      <div style="display: flex; flex-wrap: wrap">
         <div
           class="card"
-          style="width: 275px; margin-right: 40px; margin-bottom: 20px;"
+          style="width: 275px; margin-right: 20px; margin-bottom: 20px"
           v-for="course in courses"
           :key="course.id"
         >
@@ -37,7 +37,9 @@
             <p class="card-text">
               {{ course.description }}
             </p>
-            <a href="#" class="btn btn-primary">Go to course</a>
+            <a :href="`course/${course.id}`" class="btn btn-primary"
+              >Go to course</a
+            >
           </div>
         </div>
       </div>
@@ -60,5 +62,19 @@ export default {
 .course-button:hover {
   stroke: #0056b3;
   transition: 0.15s ease-in;
+}
+@media only screen and (max-width: 800px) {
+  .jumbotron {
+    text-align: center;
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  .card {
+    margin-right: unset !important;
+  }
 }
 </style>

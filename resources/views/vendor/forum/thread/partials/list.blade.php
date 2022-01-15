@@ -25,11 +25,13 @@
       @if ($thread->trashed())
       <span class="badge rounded-pill bg-danger">{{ trans('forum::general.deleted') }}</span>
       @endif
-      <span class="badge rounded-pill bg-primary" @if (isset($category))style="background: {{ $category->color }};" @endif>
+      <button type="button" style="    border: none;
+    cursor: pointer;
+    outline: inherit;" onClick="fetchRepliesUsers(this.id)" class="badge rounded-pill bg-primary" id="{{ $key }}" @if (isset($category))style="background: {{ $category->color }};" data-bs-toggle="modal" data-bs-target="#repliesModal" id="{{ $key }}" value="{{ $thread->id }}" @endif>
         {{ trans('forum::general.replies') }}:
         {{ $thread->reply_count }}
-      </span>
-      <button type="button" class="badge rounded-pill bg-like" style="background: #28a745; border: none; cursor: pointer; outline: inherit;" data-bs-toggle="modal" data-bs-target="#likesModal" id="{{ $key }}" onClick="fetchLikedUsers(this.id)" value="{{ $thread->id }}"> Likes: {{ $thread->likes }}
+      </button>
+      <button type="button" class="badge rounded-pill bg-like" style="background: #28a745; border: none; cursor: pointer; outline: inherit;" data-bs-toggle="modal" data-bs-target="#likesModal" id="{{ $key }}" onClick="fetchLikesUsers(this.id)" value="{{ $thread->id }}"> Likes: {{ $thread->likes }}
       </button>
       <div class="modal fade" id="likesModal" tabindex="-1" aria-labelledby="likesModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -39,8 +41,26 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <ul class="list-group" style="text-align: left" id="likesList">
+              <ul class="list-group" style="text-align: left" id="likesUsersList">
                 <li class="list-group-item" id="likesModalContent"></li>
+              </ul>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal fade" id="repliesModal" tabindex="-1" aria-labelledby="repliesModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="repliesModalLabel">People that replied in this thread</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <ul class="list-group" style="text-align: left" id="repliesUsersList">
+                <li class="list-group-item" id="repliesModalContent"></li>
               </ul>
             </div>
             <div class="modal-footer">
@@ -68,25 +88,29 @@
   </div>
 </div>
 <script type="application/javascript">
-  function fetchLikedUsers(clickedButtonId) {
+  function fetchLikesUsers(clickedButtonId) {
     const forumThreadLikeUsers = @json($forum_thread_like_users);
     const forumThreadId = document.getElementById(clickedButtonId).value;
 
     const users = forumThreadLikeUsers.filter(forumThreadLikeUsers => forumThreadLikeUsers.forum_thread_id.toString() === forumThreadId);
 
-    // document.getElementById("likesModalContent").textContent = users.map(user => `${user.user.name} ${user.user.surname}`);
-    const ul = document.getElementById("likesList");
+    const ul = document.getElementById("likesUsersList");
 
     ul.replaceChildren();
     for (i = 0; i < users.length; i++) {
       ul.insertAdjacentHTML('beforeend', `<a href="#" class="list-group-item list-custom list-group-item-action" id="likesModalContent">${users[i].user.name} ${users[i].user.surname}</a>`);
     }
+  }
+    function fetchRepliesUsers(clickedButtonId) {
+    const forumThreadReplyUsers = @json($forum_thread_reply_users);
+    const forumThreadId = document.getElementById(clickedButtonId).value;
+      console.log('s');
+    const users = forumThreadReplyUsers.filter(forumThreadReplyUsers => forumThreadReplyUsers.thread_id.toString() === forumThreadId);
+    const ul = document.getElementById("repliesUsersList");
 
-
-
-    // ul.insertAdjacentHTML('beforeend', `<li class="list-group-item" id="likesModalContent">dfgdfg</li>`);
-    // ul.insertAdjacentHTML('beforeend', `<li class="list-group-item" id="likesModalContent">dfgdfg</li>`);
-    // document.getElementById("likesModalContent").remove();
-
+    ul.replaceChildren();
+    for (i = 0; i < users.length; i++) {
+      ul.insertAdjacentHTML('beforeend', `<a href="#" class="list-group-item list-custom list-group-item-action" id="repliesModalContent">${users[i].user.name} ${users[i].user.surname}</a>`);
+    }
   }
 </script>

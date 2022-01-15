@@ -45,7 +45,7 @@ class ProfessorsController extends Controller
         ]);
 
         $professor->password = $password;
-        Mail::to($data['email'])->send(new WelcomeMail($professor));
+        Mail::to($data['email'])->queue(new WelcomeMail($professor));
 
         return response(200);
     }

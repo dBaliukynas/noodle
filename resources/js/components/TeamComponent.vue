@@ -3,7 +3,11 @@
     <div class="col-md-8 section offset-md-2">
       <div class="panel-heading">
         <h2>
-          Team: <strong>{{ team.name }}</strong>
+          <strong
+            ><span class="team-name text-truncate">{{
+              team.name
+            }}</span></strong
+          >
         </h2>
         <p v-if="team.user != null">
           Team's Author:
@@ -78,11 +82,10 @@
             class="modal fade"
             id="ModalDeleteTeam"
             tabindex="-1"
-            
             aria-labelledby="ModalDeleteTeamLabel"
             aria-hidden="true"
           >
-            <div class="modal-dialog" >
+            <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="ModalDeleteTeamLabel">
@@ -94,9 +97,7 @@
                     class="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                  >
-                   
-                  </button>
+                  ></button>
                 </div>
                 <div class="modal-body">
                   Are you sure you want to Delete Team:
@@ -210,9 +211,7 @@
                     class="btn-close"
                     data-bs-dismiss="modal"
                     aria-label="Close"
-                  >
-                    
-                  </button>
+                  ></button>
                 </div>
               </div>
               <div class="modal-body">
@@ -288,11 +287,10 @@
           class="modal fade"
           id="ModalRemoveAssign"
           tabindex="-1"
-          
           aria-labelledby="ModalRemoveAssignLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" >
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="ModalRemoveAssignLabel">
@@ -303,9 +301,7 @@
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                >
-                 
-                </button>
+                ></button>
               </div>
               <div class="modal-body">
                 Are you sure you want to Remove Selected Students from an
@@ -334,11 +330,10 @@
           class="modal fade"
           id="ModalAssign"
           tabindex="-1"
-          
           aria-labelledby="ModalAssignLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" >
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="ModalAssignLabel">
@@ -349,9 +344,7 @@
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                >
-                 
-                </button>
+                ></button>
               </div>
               <div class="modal-body">
                 Are you sure you want to Assign Selected Students to a Project?
@@ -389,11 +382,10 @@
           class="modal fade"
           id="Modal"
           tabindex="-1"
-          
           aria-labelledby="ModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" >
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="ModalLabel">
@@ -405,9 +397,7 @@
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                >
-                 
-                </button>
+                ></button>
               </div>
               <div class="modal-body">
                 Are you sure you want to Delete Selected Students from Team:
@@ -490,11 +480,10 @@
           class="modal fade"
           id="Modal"
           tabindex="-1"
-          
           aria-labelledby="ModalLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" >
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="ModalLabel">
@@ -506,9 +495,7 @@
                   class="btn-close"
                   data-bs-dismiss="modal"
                   aria-label="Close"
-                >
-                 
-                </button>
+                ></button>
               </div>
               <div class="modal-body">
                 Are you sure you want to Delete Selected Students from Team:
@@ -655,9 +642,7 @@
               class="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
-            >
-             
-            </button>
+            ></button>
           </div>
           <div class="modal-body">
             <div class="form-group">
@@ -727,9 +712,7 @@
               class="btn-close"
               data-bs-dismiss="modal"
               aria-label="Close"
-            >
-             
-            </button>
+            ></button>
           </div>
           <div class="modal-body">
             <star-rating
@@ -1020,5 +1003,8 @@ th.large {
 }
 .color-palegreen {
   background-color: palegreen;
+}
+.team-name {
+  display: block;
 }
 </style>

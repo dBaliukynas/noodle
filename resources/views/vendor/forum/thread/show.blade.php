@@ -27,7 +27,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <ul class="list-group" style="text-align: left" id="likesList">
+              <ul class="list-group" style="text-align: left" id="likeUsersList">
                 <li class="list-group-item" id="likesModalContent"></li>
               </ul>
             </div>
@@ -450,8 +450,7 @@
 
     const users = forumThreadLikeUsers.filter(forumThreadLikeUsers => forumThreadLikeUsers.forum_thread_id.toString() === forumThreadId);
 
-    // document.getElementById("likesModalContent").textContent = users.map(user => `${user.user.name} ${user.user.surname}`);
-    const ul = document.getElementById("likesList");
+    const ul = document.getElementById("likeUsersList");
 
     ul.replaceChildren();
     for (i = 0; i < users.length; i++) {
