@@ -52,7 +52,7 @@ class FileUploadController extends Controller
         }
         foreach ($students as &$student) {
             $student->name = $student->firstname;
-            Mail::to($student->email)->send(new WelcomeMail($student));
+            Mail::to($student->email)->queue(new WelcomeMail($student));
         }
         return response(200);
     }

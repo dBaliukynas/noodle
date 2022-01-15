@@ -75,7 +75,11 @@ Vue.component(
 );
 Vue.component(
     "courses-component",
-    require("./components/AboutComponent.vue").default
+    require("./components/CoursesComponent.vue").default
+);
+Vue.component(
+    "course-component",
+    require("./components/CourseComponent.vue").default
 );
 Vue.component("star-rating", require("vue-star-rating").default);
 

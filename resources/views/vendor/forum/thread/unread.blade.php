@@ -6,7 +6,7 @@
 
         @if (! $threads->isEmpty())
             <div class="threads list-group my-3 shadow-sm">
-                @foreach ($threads as $thread)
+                @foreach ($threads as $key=>$thread)
                     @include ('forum::thread.partials.list')
                 @endforeach
             </div>

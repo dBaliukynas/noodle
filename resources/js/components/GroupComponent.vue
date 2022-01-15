@@ -3,7 +3,11 @@
     <div class="col-md-8 section offset-md-2">
       <div class="panel-heading">
         <h2>
-          Group: <strong>{{ group.name }}</strong>
+          <strong
+            ><span class="group-name text-truncate">{{
+              group.name
+            }}</span></strong
+          >
         </h2>
         <p v-if="group.user != null">
           Group's Author:
@@ -58,11 +62,10 @@
             class="modal fade"
             id="ModalDeleteGroup"
             tabindex="-1"
-            
             aria-labelledby="ModalDeleteGroupLabel"
             aria-hidden="true"
           >
-            <div class="modal-dialog" >
+            <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="ModalDeleteGroupLabel">
@@ -223,11 +226,10 @@
           class="modal fade"
           id="ModalRemoveAssign"
           tabindex="-1"
-          
           aria-labelledby="ModalRemoveAssignLabel"
           aria-hidden="true"
         >
-          <div class="modal-dialog" >
+          <div class="modal-dialog">
             <div class="modal-content">
               <div class="modal-header">
                 <h5 class="modal-title" id="ModalRemoveAssignLabel">
@@ -355,11 +357,10 @@
       class="modal fade"
       id="Modal"
       tabindex="-1"
-      
       aria-labelledby="ModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog" >
+      <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="ModalLabel">
@@ -401,11 +402,10 @@
       class="modal fade"
       id="ModalAssign"
       tabindex="-1"
-      
       aria-labelledby="ModalAssignLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog" >
+      <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="ModalAssignLabel">
@@ -653,5 +653,8 @@ th.large {
 }
 .color-palevioletred {
   background-color: palevioletred;
+}
+.group-name {
+  display: block;
 }
 </style>
