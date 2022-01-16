@@ -10,7 +10,7 @@
           alt="..."
           style="height: 500px; width: 100%; object-fit: cover"
         />
-        <h1 class="course_image_text">Testing</h1>
+        <h1 class="course_image_text">IT</h1>
         <div class="course_image"></div>
       </div>
     </div>
@@ -18,33 +18,96 @@
       class="card card-body"
       style="width: 96vw; position: relative; margin-left: -48vw; left: 50%"
     >
-      <a
-        class="btn btn-primary"
-        data-bs-toggle="collapse"
-        href="#collapseExample"
-        role="button"
-        aria-expanded="false"
-        aria-controls="collapseExample"
-        style="margin-bottom: 20px; width: 100px"
-      >
-        Students
-      </a>
-      <div class="collapse" id="collapseExample">
-        <div class="card card-body">
-          <table-component
-            :students="students"
-            context="room"
-            :auth_user="auth_user"
-          ></table-component>
+      <h5 style="margin-bottom: 10px">
+        Click to see members of <strong>IT </strong>course:
+      </h5>
+      <div class="collapseGroup" id="collapseGroup">
+        <a
+          class="btn btn-primary"
+          data-bs-toggle="collapse"
+          role="button"
+          href="#collapseStudents"
+          aria-expanded="false"
+          aria-controls="collapseStudents"
+          id="collapseStudentsButton"
+          style="margin-bottom: 20px; width: 100px"
+          @click="scrollToElement('studentsComponentWrapper')"
+        >
+          Students
+        </a>
+        <a
+          class="btn btn-primary"
+          data-bs-toggle="collapse"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseProfessors"
+          id="collapseProfessorsButton"
+          href="#collapseProfessors"
+          style="margin-bottom: 20px; width: 100px"
+          @click="scrollToElement('professorsComponentWrapper')"
+        >
+          Professors
+        </a>
+        <div
+          class="collapse"
+          id="collapseStudents"
+          data-bs-parent="#collapseGroup"
+        >
+          <div class="card card-body" id="studentsComponentWrapper">
+            <table-component
+              id="table-component"
+              :students="students"
+              context="room"
+              :auth_user="auth_user"
+            ></table-component>
+          </div>
         </div>
+        <div
+          class="collapse"
+          id="collapseProfessors"
+          data-bs-parent="#collapseGroup"
+        >
+          <div class="card card-body" id="professorsComponentWrapper">
+            <professors-component
+              :professors="professors"
+              :auth_user="auth_user"
+            >
+            </professors-component>
+          </div>
+        </div>
+        <hr class="my-4" />
+        <project-component
+          :auth_user="auth_user"
+          :forum_threads="forum_threads"
+          :project_members="project_members"
+          :project_member_count="project_member_count"
+          :scrollToElementParent="scrollToElement"
+        ></project-component>
       </div>
     </div>
   </div>
 </template>
 
+
 <script>
 export default {
-  props: ["students", "auth_user"],
+  props: [
+    "students",
+    "auth_user",
+    "professors",
+    "forum_threads",
+    "project_members",
+    "project_member_count",
+  ],
+  methods: {
+    scrollToElement(idName) {
+      setTimeout(() => {
+        document.getElementById(idName).scrollIntoView({
+          behavior: "smooth",
+        });
+      }, 500);
+    },
+  },
 };
 </script>
 
@@ -72,6 +135,9 @@ export default {
   }
   .course_image_background {
     height: 250px !important;
+  }
+  .course_image_text {
+    font-size: 30px;
   }
 }
 </style>

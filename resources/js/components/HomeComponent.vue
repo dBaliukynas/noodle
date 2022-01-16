@@ -5,7 +5,7 @@
     </h1>
     <p class="lead">We wish you a productive and exciting day!</p>
     <hr class="my-4" />
-    <div v-if="auth_user.role_id == 1">
+    <div v-if="auth_user.role_id == 1" style="margin-bottom: 15px">
       <p>Start managing professors in <strong>Professors' page</strong>.</p>
       <a class="btn btn-primary btn-lg" href="/professors" role="button"
         >Professors</a
@@ -20,11 +20,28 @@
       <p>Start discussing your ideas in <strong>Forum</strong></p>
       <a class="btn btn-primary btn-lg" href="/forum" role="button">Forum</a>
     </div>
-    <courses-component :auth_user="auth_user"></courses-component>
+    <hr v-if="auth_user.role_id != 3" class="my-4" />
+    <div
+      style="
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: center;
+      "
+      class="homepage-button-wrapper"
+    >
+      <courses-component :auth_user="auth_user"></courses-component>
+      <professors-create-component
+        :auth_user="auth_user"
+      ></professors-create-component>
+      <students-create-component
+        :auth_user="auth_user"
+      ></students-create-component>
+    </div>
     <div>
       <hr class="my-4" />
       <h4>Available courses</h4>
-      <div style="display: flex; flex-wrap: wrap">
+      <div style="display: flex; flex-wrap: wrap" class="card-wrapper">
         <div
           class="card"
           style="width: 275px; margin-right: 20px; margin-bottom: 20px"
@@ -48,8 +65,9 @@
 </template>
 <script>
 import CoursesComponent from "./CoursesComponent.vue";
+import ProfessorsCreateComponent from "./ProfessorsCreateComponent.vue";
 export default {
-  components: { CoursesComponent },
+  components: { CoursesComponent, ProfessorsCreateComponent },
   props: ["auth_user", "courses"],
   methods: {},
 };
@@ -67,14 +85,23 @@ export default {
   .jumbotron {
     text-align: center;
   }
+  .card-wrapper {
+    justify-content: center;
+  }
   .container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     text-align: center;
   }
+
   .card {
     margin-right: unset !important;
+  }
+}
+@media only screen and (max-width: 400px) {
+  .homepage-button-wrapper {
+    flex-direction: column !important;
   }
 }
 </style>

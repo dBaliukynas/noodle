@@ -1,73 +1,51 @@
 <template>
   <div>
     <div class="jumbotron">
-      <h1 class="display-4">{{ auth_user.name }} {{ auth_user.surname }}</h1>
+      <h3>Project</h3>
       <div v-if="auth_user.project != undefined">
         <p class="lead">
           You have a project
           <strong>{{ auth_user.project.title }}</strong> assigned
         </p>
         <p v-if="project_member_count == 0">
-          There are no other users that have this project assigned.
+          There are no other members that have this project assigned.
         </p>
         <p v-else>
           There are
-          <strong>{{ project_member_count }}</strong> other users that have this
-          project assigned.
+          <strong>{{ project_member_count }}</strong> other members that have
+          this project assigned.
         </p>
-        <button
-          disabled
+        <a
           v-if="project_member_count == 0"
-          type="button"
-          class="btn btn-primary mt-4 disabled"
+          disabled
+          class="btn btn-primary"
+          style="margin-bottom: 20px; width: 130px"
+          role="button"
         >
-          View Project Members
-        </button>
-        <button
+          Project members
+        </a>
+        <a
           v-else
-          type="button"
-          class="btn btn-primary mt-4"
-          data-bs-toggle="modal"
-          data-bs-target="#ModalXl"
+          class="btn btn-primary"
+          data-bs-toggle="collapse"
+          role="button"
+          aria-expanded="false"
+          aria-controls="collapseProjectMembers"
+          id="collapseProjectMembersButton"
+          href="#collapseProjectMembers"
+          style="margin-bottom: 20px; width: 130px"
+          @click="scrollToElementParent('projectMembersWrapper')"
         >
-          View Project Members
-        </button>
-        <div
-          class="modal fade"
-          id="ModalXl"
-          tabindex="-1"
-          aria-labelledby="ModalXlLabel"
-          style="display: none"
-          aria-hidden="true"
-        >
-          <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title h4" id="ModalXlLabel">
-                  Students that have project
-                  <strong>{{ auth_user.project.title }}</strong> assigned to
-                  them.
-                </h5>
-                <div>
-                  <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                  >
-                    
-                  </button>
-                </div>
-              </div>
-              <div class="modal-body">
-                <table-component
-                  :students="project_members"
-                  ref="projectMembersTableRef"
-                  context="project"
-                  :auth_user="auth_user"
-                ></table-component>
-              </div>
-            </div>
+          Project members
+        </a>
+        <div class="collapse" id="collapseProjectMembers">
+          <div class="card card-body" id="projectMembersWrapper">
+            <table-component
+              :students="project_members"
+              ref="projectMembersTableRef"
+              context="project"
+              :auth_user="auth_user"
+            ></table-component>
           </div>
         </div>
 
@@ -96,6 +74,7 @@ export default {
     "forum_threads",
     "project_members",
     "project_member_count",
+    "scrollToElementParent"
   ],
 };
 </script>

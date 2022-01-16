@@ -1,8 +1,7 @@
 <template>
   <div>
     <div v-if="auth_user.role_id != 3">
-      <hr class="my-4" />
-      <h4 style="margin-bottom: 15px">Create a course</h4>
+      <h4 >Create a course</h4>
       <button
         type="button"
         data-bs-toggle="modal"
