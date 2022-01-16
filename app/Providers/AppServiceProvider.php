@@ -31,8 +31,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('*', function ($view) {
-            $auth_user = Auth::user();
-            $view;
             if ($view->getName() != 'welcome' && $view->getName() != 'auth.login' && $view->getName() != 'vendor.forum.master') {
                 $view->with('courses', Course::all());
             }

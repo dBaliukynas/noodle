@@ -48,8 +48,6 @@
             ></table-component>
           </div>
         </div>
-
-        <hr class="my-4" />
         <p>Go to your assigned project's page</p>
         <p class="lead">
           <a
@@ -74,7 +72,7 @@ export default {
     "forum_threads",
     "project_members",
     "project_member_count",
-    "scrollToElementParent"
+    "scrollToElementParent",
   ],
 };
 </script>

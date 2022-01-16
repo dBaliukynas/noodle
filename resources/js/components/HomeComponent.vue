@@ -21,22 +21,22 @@
       <a class="btn btn-primary btn-lg" href="/forum" role="button">Forum</a>
     </div>
     <hr v-if="auth_user.role_id != 3" class="my-4" />
-    <div
-      style="
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        text-align: center;
-      "
-      class="homepage-button-wrapper"
-    >
-      <courses-component :auth_user="auth_user"></courses-component>
-      <professors-create-component
-        :auth_user="auth_user"
-      ></professors-create-component>
-      <students-create-component
-        :auth_user="auth_user"
-      ></students-create-component>
+    <div class="homepage-button-wrapper">
+      <div v-if="auth_user.role_id == 1" class="admin-homepage-button-wrapper">
+        <courses-component :auth_user="auth_user"></courses-component>
+        <professors-create-component
+          :auth_user="auth_user"
+        ></professors-create-component>
+        <students-create-component
+          :auth_user="auth_user"
+        ></students-create-component>
+      </div>
+      <div v-else class="professor-homepage-button-wrapper">
+        <courses-component :auth_user="auth_user"></courses-component>
+        <students-create-component
+          :auth_user="auth_user"
+        ></students-create-component>
+      </div>
     </div>
     <div>
       <hr class="my-4" />
@@ -81,6 +81,18 @@ export default {
   stroke: #0056b3;
   transition: 0.15s ease-in;
 }
+.admin-homepage-button-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  text-align: center;
+}
+.professor-homepage-button-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  text-align: center;
+}
 @media only screen and (max-width: 800px) {
   .jumbotron {
     text-align: center;
@@ -100,7 +112,10 @@ export default {
   }
 }
 @media only screen and (max-width: 400px) {
-  .homepage-button-wrapper {
+  .admin-homepage-button-wrapper {
+    flex-direction: column !important;
+  }
+  .professor-homepage-button-wrapper {
     flex-direction: column !important;
   }
 }
