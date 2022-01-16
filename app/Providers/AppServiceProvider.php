@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\ForumThreadLike;
 use App\Models\ForumPost;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 
 
@@ -30,6 +31,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('*', function ($view) {
+            $auth_user = Auth::user();
+            $view;
             if ($view->getName() != 'welcome' && $view->getName() != 'auth.login' && $view->getName() != 'vendor.forum.master') {
                 $view->with('courses', Course::all());
             }

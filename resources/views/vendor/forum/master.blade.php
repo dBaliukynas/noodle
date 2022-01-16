@@ -369,7 +369,7 @@
             <div class="list-group">
                 <a href="#" style="background-color: lightslategray; color: white;" class="list-group-item disabled list-group-item-action">Available courses</a>
                 @foreach ($courses as $course)
-                <a href="/room" class="list-group-item list-custom list-group-item-action ">{{$course->name}}</a>
+                <a href="/course/{{ $course->id }}" class="list-group-item list-custom list-group-item-action ">{{$course->name}}</a>
                 @endforeach
             </div>
         </div>
@@ -378,7 +378,7 @@
 
     @hasSection('content')
     <div id="forum" class="container">
-        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.2.6" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.2.6</strong></a>
+        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.3" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.3</strong></a>
         @include('forum::partials.breadcrumbs')
         @include('forum::partials.alerts')
 
@@ -391,7 +391,7 @@
         <notification-component></notification-component>
         @yield('main')
         @sectionMissing('hide_version')
-        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.2.6" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.2.6</strong></a>
+        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.3" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.3</strong></a>
         @endif
     </div>
     @endif

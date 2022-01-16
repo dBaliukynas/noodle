@@ -3,7 +3,7 @@
     <div class="col-md-8 section offset-md-2" v-if="auth_user.role_id == 1">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h2>Create a Professor</h2>
+          <h4 style="margin-bottom: 15px">Create a Professor</h4>
         </div>
         <div class="panel-body">
           <label>Name</label>

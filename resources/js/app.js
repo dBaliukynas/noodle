@@ -81,9 +81,17 @@ Vue.component(
     "course-component",
     require("./components/CourseComponent.vue").default
 );
+Vue.component(
+    "professors-create-component",
+    require("./components/ProfessorsCreateComponent.vue").default
+);
+Vue.component(
+    "students-create-component",
+    require("./components/StudentsCreateComponent.vue").default
+);
 Vue.component("star-rating", require("vue-star-rating").default);
 
-window.showNotification = function(message, type = "alert-primary") {
+window.showNotification = function (message, type = "alert-primary") {
     window.events.$emit("showNotification", message, type);
 };
 
@@ -95,5 +103,5 @@ window.showNotification = function(message, type = "alert-primary") {
 
 new Vue({
     el: "#main",
-    extractStyles: true
+    extractStyles: true,
 });
