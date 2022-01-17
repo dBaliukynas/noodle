@@ -18,36 +18,88 @@
       class="card card-body"
       style="width: 96vw; position: relative; margin-left: -48vw; left: 50%"
     >
-      <h5 style="margin-bottom: 10px">
-        Click to see members of <strong>IT </strong>course:
-      </h5>
+      <div
+        style="display: flex;
+    flex-direction: row;
+}"
+      >
+        <div style="margin-right: 50px">
+          <h5 style="margin-bottom: 10px">
+            Click to see members of <strong>IT </strong>course:
+          </h5>
+          <a
+            class="btn btn-primary"
+            data-bs-toggle="collapse"
+            role="button"
+            href="#collapseStudents"
+            aria-expanded="false"
+            aria-controls="collapseStudents"
+            id="collapseStudentsButton"
+            style="margin-bottom: 20px; width: 100px"
+            @click="scrollToElement('studentsComponentWrapper')"
+          >
+            Students
+          </a>
+          <a
+            class="btn btn-primary"
+            data-bs-toggle="collapse"
+            role="button"
+            aria-expanded="false"
+            aria-controls="collapseProfessors"
+            id="collapseProfessorsButton"
+            href="#collapseProfessors"
+            style="margin-bottom: 20px; width: 100px"
+            @click="scrollToElement('professorsComponentWrapper')"
+          >
+            Professors
+          </a>
+        </div>
+        <div>
+          <h5 style="margin-bottom: 10px">
+            Visit <strong>groups</strong> &#38; <strong>teams</strong>:
+          </h5>
+          <a
+            v-if="students.length == 0"
+            type="submit"
+            name="submit"
+            class="btn btn-dark mt-4 disabled"
+            style="margin: unset !important; width: 100px"
+          >
+            Groups
+          </a>
+          <a
+            v-else
+            type="submit"
+            name="submit"
+            class="btn btn-dark mt-4"
+            href="/groups"
+            style="margin: unset !important; width: 100px"
+          >
+            Groups
+          </a>
+
+          <a
+            v-if="students.length == 0"
+            type="submit"
+            name="submit"
+            class="btn btn-dark mt-4 disabled"
+            style="margin: unset !important; width: 100px"
+          >
+            Teams
+          </a>
+          <a
+            v-else
+            type="submit"
+            name="submit"
+            class="btn btn-dark mt-4"
+            href="/teams"
+            style="margin: unset !important; width: 100px"
+          >
+            Teams
+          </a>
+        </div>
+      </div>
       <div class="collapseGroup" id="collapseGroup">
-        <a
-          class="btn btn-primary"
-          data-bs-toggle="collapse"
-          role="button"
-          href="#collapseStudents"
-          aria-expanded="false"
-          aria-controls="collapseStudents"
-          id="collapseStudentsButton"
-          style="margin-bottom: 20px; width: 100px"
-          @click="scrollToElement('studentsComponentWrapper')"
-        >
-          Students
-        </a>
-        <a
-          class="btn btn-primary"
-          data-bs-toggle="collapse"
-          role="button"
-          aria-expanded="false"
-          aria-controls="collapseProfessors"
-          id="collapseProfessorsButton"
-          href="#collapseProfessors"
-          style="margin-bottom: 20px; width: 100px"
-          @click="scrollToElement('professorsComponentWrapper')"
-        >
-          Professors
-        </a>
         <div
           class="collapse"
           id="collapseStudents"
@@ -75,15 +127,15 @@
             </professors-component>
           </div>
         </div>
-        <hr class="my-4" />
-        <project-component
-          :auth_user="auth_user"
-          :forum_threads="forum_threads"
-          :project_members="project_members"
-          :project_member_count="project_member_count"
-          :scrollToElementParent="scrollToElement"
-        ></project-component>
       </div>
+      <hr class="my-4" />
+      <project-component
+        :auth_user="auth_user"
+        :forum_threads="forum_threads"
+        :project_members="project_members"
+        :project_member_count="project_member_count"
+        :scrollToElementParent="scrollToElement"
+      ></project-component>
     </div>
   </div>
 </template>

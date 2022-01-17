@@ -20,7 +20,7 @@
         "
       >
         <a type="submit" name="submit" class="btn btn-dark mt-4" href="/room">
-          ← Back to Room
+          ← Back to Course
         </a>
         <a type="submit" name="submit" class="btn btn-dark mt-4" href="/teams">
           Go to Teams
@@ -54,7 +54,7 @@
           href="/room"
           style="min-width: 200px"
         >
-          ← Back to Room
+          ← Back to Course
         </a>
         <a
           type="submit"

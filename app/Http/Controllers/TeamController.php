@@ -87,21 +87,27 @@ class TeamController extends Controller
         $team = Team::with('user')->find($id);
         $auth_user = Auth::user();
 
-        if ($auth_user->role_id == 3 && $auth_user->role_id != $team->user_id) {
-            return response(403);
-        }
 
         $data = $request->json()->all();
 
         foreach ($data as &$student) {
-            if ($student['action'] == 'add') {
+            if ($student['action'] == 'join') {
                 $user = User::find($student['studentId']);
                 $user->team_id = $id;
                 $user->save();
-            } else if ($student['action'] == 'delete') {
-                $user = User::find($student['studentId']);
-                $user->team_id = null;
-                $user->save();
+            }
+            if ($auth_user->role_id == 3 && $auth_user->role_id != $team->user_id) {
+                if ($student['action'] == 'add') {
+                    $user = User::find($student['studentId']);
+                    $user->team_id = $id;
+                    $user->save();
+                } else if ($student['action'] == 'delete') {
+                    $user = User::find($student['studentId']);
+                    $user->team_id = null;
+                    $user->save();
+                }
+            } else {
+                return response(403);
             }
         }
     }
