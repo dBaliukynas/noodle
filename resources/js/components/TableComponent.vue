@@ -32,41 +32,6 @@
         >
           Export List
         </a>
-        <a
-          v-if="students.length == 0"
-          type="submit"
-          name="submit"
-          class="btn btn-dark mt-4 disabled"
-        >
-          Go to Groups
-        </a>
-        <a
-          v-else
-          type="submit"
-          name="submit"
-          class="btn btn-dark mt-4"
-          href="/groups"
-        >
-          Go to Groups
-        </a>
-
-        <a
-          v-if="students.length == 0"
-          type="submit"
-          name="submit"
-          class="btn btn-dark mt-4 disabled"
-        >
-          Go to Teams
-        </a>
-        <a
-          v-else
-          type="submit"
-          name="submit"
-          class="btn btn-dark mt-4"
-          href="/teams"
-        >
-          Go to Teams
-        </a>
         <button
           disabled
           v-if="selectedStudents.length == 0"
@@ -397,7 +362,7 @@ export default {
       if (user.role_id == 1) {
         return "color-palevioletred";
       } else if (user.role_id == 2) {
-        return "color-blanchedalmond";
+        return "color-lightskyblue";
       }
     },
 

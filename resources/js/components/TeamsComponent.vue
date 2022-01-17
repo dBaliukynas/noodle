@@ -19,7 +19,7 @@
         "
       >
         <a type="submit" name="submit" class="btn btn-dark mt-4" href="/room">
-          ← Back to Room
+          ← Back to Course
         </a>
         <a type="submit" name="submit" class="btn btn-dark mt-4" href="/groups">
           ← Back to Groups

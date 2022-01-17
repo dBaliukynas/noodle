@@ -193,7 +193,7 @@ export default {
       if (user.id == this.auth_user.id) {
         return "color-aliceblue";
       } else {
-        return "color-blanchedalmond";
+        return "color-lightskyblue";
       }
     },
 
@@ -279,8 +279,8 @@ th.large {
 .vuetable-th-gutter {
   width: 0;
 }
-.color-blanchedalmond {
-  background-color: blanchedalmond;
+.color-lightskyblue {
+  background-color: lightskyblue;
 }
 .color-aliceblue {
   background-color: aliceblue;

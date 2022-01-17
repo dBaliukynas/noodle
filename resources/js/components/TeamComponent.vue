@@ -33,7 +33,7 @@
             href="/room"
             style="min-width: 100px"
           >
-            ← Back to Room
+            ← Back to Course
           </a>
           <a
             type="submit"
@@ -901,7 +901,7 @@ export default {
     joinTeam() {
       const data = [
         {
-          action: "add",
+          action: "join",
           studentId: this.auth_user.id,
         },
       ];

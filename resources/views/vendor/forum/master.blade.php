@@ -264,9 +264,6 @@
                     <li class="nav-item">
                         <ul class="navbar-nav">
                             @if (Auth::check())
-                            <li class="nav-item">
-                                <a class="nav-link" href="/project" style="color: #0d6efd;">Project</a>
-                            </li>
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="forumDropDownMenuLink" @click="isForumDropdownCollapsed = ! isForumDropdownCollapsed" style="color: #0d6efd;">
                                     Forum
@@ -358,7 +355,6 @@
                 <a href="/home" class="list-group-item list-custom list-group-item-action {{ (request()->is('home')) ? 'active' : '' }}">Home</a>
                 <a href="/room" class="list-group-item list-custom list-group-item-action {{ (request()->is('room')) ? 'active' : '' }}">Room</a>
                 <a href="/professors" class="list-group-item list-custom list-group-item-action {{ (request()->is('professors')) ? 'active' : '' }}">Professors</a>
-                <a href="/project" class="list-group-item list-custom list-group-item-action {{ (request()->is('project')) ? 'active' : '' }}">Project</a>
                 <a href="/forum" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum', 'forum/c/*', 'forum/t/*')) ? 'active' : '' }}">Forum</a>
                 <a href="/forum/recent" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/recent')) ? 'active' : '' }}">Recent threads</a>
                 <a href="/forum/unread" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/unread')) ? 'active' : '' }}">Unread & updated threads</a>
@@ -378,7 +374,7 @@
 
     @hasSection('content')
     <div id="forum" class="container">
-        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.3.1" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.3.1</strong></a>
+        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.3.2" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.3.2</strong></a>
         @include('forum::partials.breadcrumbs')
         @include('forum::partials.alerts')
 
@@ -391,7 +387,7 @@
         <notification-component></notification-component>
         @yield('main')
         @sectionMissing('hide_version')
-        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.3.1" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.3.1</strong></a>
+        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.3.2" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.3.2</strong></a>
         @endif
     </div>
     @endif
