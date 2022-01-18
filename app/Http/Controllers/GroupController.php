@@ -71,7 +71,7 @@ class GroupController extends Controller
         $auth_user = Auth::user();
         $user = User::where('group_id', $id)->with('group')->with('team')->with('project')->get();
         $download = json_encode($user);
-        $filename = 'groupuserslist.json';
+        $filename = 'group_members_list.json';
         
         if ($auth_user->role_id == 3) {
             return response(403);

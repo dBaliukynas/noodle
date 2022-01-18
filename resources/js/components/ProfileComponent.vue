@@ -46,66 +46,80 @@
       <div class="row align-items-center text-center">
         <div class="col-sm text-md-start">
           <h5 class="card-title">
-            <h5
-              class="profile-rating-dot-text-wrapper"
-              v-if="rating.user.role_id == 1"
-              style="display: flex; flex-direction: row; align-items: center"
-            >
-              <div
-                title="Admin"
-                class="profile-rating-dot"
-                style="background-color: palevioletred"
-              ></div>
+            <div v-if="rating.user != null">
+              <h5
+                class="profile-rating-dot-text-wrapper"
+                v-if="rating.user.role_id == 1"
+                style="display: flex; flex-direction: row; align-items: center"
+              >
+                <div
+                  title="Admin"
+                  class="profile-rating-dot"
+                  style="background-color: palevioletred"
+                ></div>
+                <div>
+                  Admin
+                  <strong
+                    >{{ rating.user.name }} {{ rating.user.surname }}</strong
+                  >
+                  has rated you:
+                </div>
+              </h5>
+              <h5
+                class="profile-rating-dot-text-wrapper"
+                v-else-if="rating.user.role_id == 2"
+                style="display: flex; flex-direction: row; align-items: center"
+              >
+                <div
+                  title="Professor"
+                  class="profile-rating-dot"
+                  style="background-color: lightskyblue"
+                ></div>
+                <div>
+                  Professor
+                  <strong
+                    >{{ rating.user.name }} {{ rating.user.surname }}</strong
+                  >
+                  has rated you:
+                </div>
+              </h5>
+              <h5
+                class="profile-rating-dot-text-wrapper"
+                v-else
+                style="display: flex; flex-direction: row; align-items: center"
+              >
+                <div
+                  title="Student"
+                  class="profile-rating-dot"
+                  style="background-color: darkgray"
+                ></div>
+                <div>
+                  Student
+                  <strong
+                    >{{ rating.user.name }} {{ rating.user.surname }}</strong
+                  >
+                  has rated you:
+                </div>
+              </h5>
+              <h5 style="margin-left: 20px" class="profile-rating-grade-text">
+                Grade: <strong>{{ rating.grade }}</strong>
+              </h5>
+              <h5 style="margin-left: 20px" class="profile-rating-comment">
+                Comment: <strong>{{ rating.comment }}</strong>
+              </h5>
+            </div>
+            <div v-else>
               <div>
-                Admin
-                <strong
-                  >{{ rating.user.name }} {{ rating.user.surname }}</strong
-                >
+                <strong>[deleted user]</strong>
                 has rated you:
               </div>
-            </h5>
-            <h5
-              class="profile-rating-dot-text-wrapper"
-              v-else-if="rating.user.role_id == 2"
-              style="display: flex; flex-direction: row; align-items: center"
-            >
-              <div
-                title="Professor"
-                class="profile-rating-dot"
-                style="background-color: lightskyblue"
-              ></div>
-              <div>
-                Professor
-                <strong
-                  >{{ rating.user.name }} {{ rating.user.surname }}</strong
-                >
-                has rated you:
-              </div>
-            </h5>
-            <h5
-              class="profile-rating-dot-text-wrapper"
-              v-else
-              style="display: flex; flex-direction: row; align-items: center"
-            >
-              <div
-                title="Student"
-                class="profile-rating-dot"
-                style="background-color: darkgray"
-              ></div>
-              <div>
-                Student
-                <strong
-                  >{{ rating.user.name }} {{ rating.user.surname }}</strong
-                >
-                has rated you:
-              </div>
-            </h5>
-            <h5 style="margin-left: 20px" class="profile-rating-grade-text">
-              Grade: <strong>{{ rating.grade }}</strong>
-            </h5>
-            <h5 style="margin-left: 20px" class="profile-rating-comment">
-              Comment: <strong>{{ rating.comment }}</strong>
-            </h5>
+              <h5 style="margin-left: 20px" class="profile-rating-grade-text">
+                Grade: <strong>{{ rating.grade }}</strong>
+              </h5>
+              <h5 style="margin-left: 20px" class="profile-rating-comment">
+                Comment: <strong>{{ rating.comment }}</strong>
+              </h5>
+            </div>
           </h5>
         </div>
       </div>

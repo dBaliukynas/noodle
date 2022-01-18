@@ -29,12 +29,14 @@
         ></professors-create-component>
         <students-create-component
           :auth_user="auth_user"
+          :courses="courses"
         ></students-create-component>
       </div>
       <div v-else class="professor-homepage-button-wrapper">
         <courses-component :auth_user="auth_user"></courses-component>
         <students-create-component
           :auth_user="auth_user"
+          :courses="courses"
         ></students-create-component>
       </div>
     </div>

@@ -20,7 +20,6 @@ Route::get('/course/{id}', [App\Http\Controllers\CourseController::class, 'index
 Route::post('/courses/image-upload', [App\Http\Controllers\CoursesController::class, 'imageUploadPost']);
 Route::post('/courses', [App\Http\Controllers\CoursesController::class, 'coursesPost']);
 Route::get('/', [App\Http\Controllers\WelcomeController::class, 'index']);
-Route::get('/room', [App\Http\Controllers\RoomController::class, 'index'])->name('room');
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
 
 Route::get('/groups', [App\Http\Controllers\GroupsController::class, 'index'])->name('groups');
@@ -41,7 +40,6 @@ Route::post('team/{team_id}/student/{id}/rating', [App\Http\Controllers\TeamCont
 
 Route::get('/about', [App\Http\Controllers\AboutController::class, 'index'])->name('about');
 
-Route::get('/professors', [App\Http\Controllers\ProfessorsController::class, 'index'])->name('professors');
 Route::post('/professors', [App\Http\Controllers\ProfessorsController::class, 'uploadProfessors'])->name('professors.post');
 Route::delete('/professors/professor/{id}', [App\Http\Controllers\ProfessorsController::class, 'delete']);
 Route::get('/professors/download', [App\Http\Controllers\ProfessorsController::class, 'downloadProfessorsList']);
