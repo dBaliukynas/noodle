@@ -225,6 +225,16 @@
             text-align: initial;
         }
 
+        .no-style-button {
+            background: none;
+            color: inherit;
+            border: none;
+            padding: 0;
+            font: inherit;
+            cursor: pointer;
+            outline: inherit;
+        }
+
         @media only screen and (max-width: 282px) {
             .navbar-collapse {
                 text-align: center;
@@ -289,7 +299,7 @@
                                 <a class="nav-link" href="#" style="color: #0d6efd;">FAQ</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#" style="color: #0d6efd;">About</a>
+                                <a class="nav-link" href="/about" style="color: #0d6efd;">About</a>
                             </li>
                             @endif
                         </ul>

@@ -5,7 +5,13 @@
       <div v-if="auth_user.project != undefined">
         <p class="lead">
           You have a project
-          <strong>{{ auth_user.project.title }}</strong> assigned
+          <strong
+            ><a
+              :href="`/forum/t/${auth_user.project_id}-${auth_user.project.title}`"
+              >{{ auth_user.project.title }}</a
+            ></strong
+          >
+          assigned
         </p>
         <p v-if="project_member_count == 0">
           There are no other members that have this project assigned.

@@ -6,15 +6,7 @@
       type="button"
       data-bs-toggle="modal"
       data-bs-target="#studentsCreateModal"
-      style="
-        background: none;
-        color: inherit;
-        border: none;
-        padding: 0px;
-        font: inherit;
-        cursor: pointer;
-        outline: inherit;
-      "
+      class="no-style-button"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
