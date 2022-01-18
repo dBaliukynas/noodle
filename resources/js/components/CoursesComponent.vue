@@ -1,20 +1,12 @@
 <template>
   <div>
     <div v-if="auth_user.role_id != 3">
-      <h4 >Create a course</h4>
+      <h4>Create a course</h4>
       <button
         type="button"
         data-bs-toggle="modal"
         data-bs-target="#courseModal"
-        style="
-          background: none;
-          color: inherit;
-          border: none;
-          padding: 0;
-          font: inherit;
-          cursor: pointer;
-          outline: inherit;
-        "
+        class="no-style-button"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
