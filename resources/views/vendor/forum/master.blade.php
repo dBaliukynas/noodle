@@ -221,6 +221,10 @@
             min-width: unset;
         }
 
+        .modal-body {
+            text-align: initial;
+        }
+
         @media only screen and (max-width: 282px) {
             .navbar-collapse {
                 text-align: center;
@@ -253,14 +257,6 @@
                 <a class="navbar-brand" href="/">Noodle</a>
                 @endif
                 <ul class="navbar-nav mr-auto mt-2 mt-lg-0 collapse navbar-collapse" :class="{ show: !isCollapsed }">
-                    @if (Auth::check())
-                    <li class="nav-item">
-                        <a class="nav-link" href="/room" style="color: #0d6efd;">Room</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/professors" style="color: #0d6efd;">Professors</a>
-                    </li>
-                    @endif
                     <li class="nav-item">
                         <ul class="navbar-nav">
                             @if (Auth::check())
@@ -280,6 +276,17 @@
                                     @endif
                                     @endcan
                                 </div>
+                            </li>
+                            @endif
+                            @if (Auth::check())
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" style="color: #0d6efd;">News</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" style="color: #0d6efd;">Faculties</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" style="color: #0d6efd;">FAQ</a>
                             </li>
                             @endif
                         </ul>
@@ -353,8 +360,6 @@
         <div class="offcanvas-body">
             <div class="list-group" style="margin-bottom: 50px;">
                 <a href="/home" class="list-group-item list-custom list-group-item-action {{ (request()->is('home')) ? 'active' : '' }}">Home</a>
-                <a href="/room" class="list-group-item list-custom list-group-item-action {{ (request()->is('room')) ? 'active' : '' }}">Room</a>
-                <a href="/professors" class="list-group-item list-custom list-group-item-action {{ (request()->is('professors')) ? 'active' : '' }}">Professors</a>
                 <a href="/forum" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum', 'forum/c/*', 'forum/t/*')) ? 'active' : '' }}">Forum</a>
                 <a href="/forum/recent" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/recent')) ? 'active' : '' }}">Recent threads</a>
                 <a href="/forum/unread" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/unread')) ? 'active' : '' }}">Unread & updated threads</a>

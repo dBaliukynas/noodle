@@ -19,11 +19,6 @@ window.events = new Vue();
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component(
-    "file-upload-component",
-    require("./components/FileUploadComponent.vue").default
-);
-
-Vue.component(
     "table-component",
     require("./components/TableComponent.vue").default
 );

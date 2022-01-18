@@ -19,11 +19,15 @@
       style="width: 96vw; position: relative; margin-left: -48vw; left: 50%"
     >
       <div
+        class="course-button-wrapper"
         style="display: flex;
     flex-direction: row;
 }"
       >
-        <div style="margin-right: 50px">
+        <div
+          style="margin-right: 50px"
+          class="course-students-professors-button-wrapper"
+        >
           <h5 style="margin-bottom: 10px">
             Click to see members of <strong>IT </strong>course:
           </h5>
@@ -35,7 +39,7 @@
             aria-expanded="false"
             aria-controls="collapseStudents"
             id="collapseStudentsButton"
-            style="margin-bottom: 20px; width: 100px"
+            style="width: 100px"
             @click="scrollToElement('studentsComponentWrapper')"
           >
             Students
@@ -48,7 +52,7 @@
             aria-controls="collapseProfessors"
             id="collapseProfessorsButton"
             href="#collapseProfessors"
-            style="margin-bottom: 20px; width: 100px"
+            style="width: 100px"
             @click="scrollToElement('professorsComponentWrapper')"
           >
             Professors
@@ -111,6 +115,7 @@
               :students="students"
               context="room"
               :auth_user="auth_user"
+              :forum_threads="forum_threads"
             ></table-component>
           </div>
         </div>
@@ -181,6 +186,9 @@ export default {
   color: white;
   transform: translate(-50%, -50%);
 }
+.course-button-wrapper {
+    margin-bottom: 20px;
+  }
 @media only screen and (max-width: 600px) {
   .course_image {
     background: linear-gradient(45deg, black, transparent);
@@ -190,6 +198,16 @@ export default {
   }
   .course_image_text {
     font-size: 30px;
+  }
+}
+@media only screen and (max-width: 800px) {
+  .course-button-wrapper {
+    justify-content: center;
+    flex-direction: column !important;
+  }
+  .course-students-professors-button-wrapper {
+    margin-right: unset !important;
+    margin-bottom: 10px !important;
   }
 }
 </style>

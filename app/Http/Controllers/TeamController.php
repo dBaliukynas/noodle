@@ -118,7 +118,7 @@ class TeamController extends Controller
         $auth_user = Auth::user();
         $user = User::where('team_id', $id)->with('group')->with('team')->with('project')->with('ratings')->get();
         $download = json_encode($user);
-        $filename = 'teamuserslist.json';
+        $filename = 'team_members_list.json';
         if ($auth_user->role_id == 3 && $auth_user->role_id != $team->user_id) {
             return response(403);
         }

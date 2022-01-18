@@ -1,52 +1,5 @@
 <template>
   <div>
-    <div class="col-md-8 section offset-md-2" v-if="auth_user.role_id == 1">
-      <div class="panel panel-primary">
-        <div class="panel-heading">
-          <h4 style="margin-bottom: 15px">Create a Professor</h4>
-        </div>
-        <div class="panel-body">
-          <label>Name</label>
-          <input
-            required
-            type="text"
-            class="form-control"
-            id="name"
-            aria-describedby="nameHelp"
-            placeholder="Enter name"
-            ref="name"
-          />
-          <label>Surname</label>
-          <input
-            required
-            type="text"
-            class="form-control"
-            id="surname"
-            aria-describedby="surnameHelp"
-            placeholder="Enter surname"
-            ref="surname"
-          />
-          <label for="email">Email</label>
-          <input
-            required
-            type="email"
-            class="form-control"
-            id="email"
-            aria-describedby="emailHelp"
-            placeholder="Enter email"
-            ref="email"
-          />
-          <button
-            type="button"
-            class="btn btn-primary"
-            style="margin-top: 15px"
-            @click="uploadProfessors()"
-          >
-            Submit
-          </button>
-        </div>
-      </div>
-    </div>
     <div class="ui container">
       <div style="display: flex; align-items: center; flex-direction: column">
         <div
@@ -92,21 +45,21 @@
             name="submit"
             class="btn btn-danger mt-4"
             data-bs-toggle="modal"
-            data-bs-target="#Modal"
+            data-bs-target="#deleteProfessorsModal"
           >
             Delete Selected Professors
           </button>
           <div
             class="modal fade"
-            id="Modal"
+            id="deleteProfessorsModal"
             tabindex="-1"
-            aria-labelledby="ModalLabel"
+            aria-labelledby="deleteProfessorsModalLabel"
             aria-hidden="true"
           >
             <div class="modal-dialog">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="ModalLabel">
+                  <h5 class="modal-title" id="deleteProfessorsModalLabel">
                     Delete Selected Professors
                   </h5>
                   <button
@@ -197,20 +150,6 @@ export default {
       }
     },
 
-    uploadProfessors() {
-      const data = {
-        name: this.$refs.name.value,
-        surname: this.$refs.surname.value,
-        email: this.$refs.email.value,
-      };
-
-      axios
-        .post("/professors", data)
-        .then(() => location.reload())
-        .catch((error) => {
-          showNotification(error.response.data.message, "alert-danger");
-        });
-    },
     dataManager(sortOrder) {
       if (this.professors.length < 1) return;
 
