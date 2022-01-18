@@ -288,6 +288,9 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="#" style="color: #0d6efd;">FAQ</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#" style="color: #0d6efd;">About</a>
+                            </li>
                             @endif
                         </ul>
                     </li>
@@ -324,9 +327,9 @@
                     </a>
 
 
-                    <a class="dropdown-item" href="{{ route('about') }}">
+                    <a class="dropdown-item" href="#">
 
-                        {{ __('About') }}
+                        {{ __('Grades') }}
                     </a>
 
                     <a class="dropdown-item" href="{{ url('/logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -361,16 +364,16 @@
             <div class="list-group" style="margin-bottom: 50px;">
                 <a href="/home" class="list-group-item list-custom list-group-item-action {{ (request()->is('home')) ? 'active' : '' }}">Home</a>
                 <a href="/forum" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum', 'forum/c/*', 'forum/t/*')) ? 'active' : '' }}">Forum</a>
-                <a href="/forum/recent" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/recent')) ? 'active' : '' }}">Recent threads</a>
-                <a href="/forum/unread" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/unread')) ? 'active' : '' }}">Unread & updated threads</a>
+                <a href="/forum/recent" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/recent')) ? 'active' : '' }}"><span style="margin-left: 10px;">Recent threads</span></a>
+                <a href="/forum/unread" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/unread')) ? 'active' : '' }}"><span style="margin-left: 10px;">Unread & updated threads</span></a>
                 @if (Auth::user()->role_id != 3)
-                <a href="/forum/manage" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/manage')) ? 'active' : '' }}">Manage</a>
+                <a href="/forum/manage" class="list-group-item list-custom list-group-item-action {{ (request()->is('forum/manage')) ? 'active' : '' }}"><span style="margin-left: 10px;">Manage</span></a>
                 @endif
             </div>
             <div class="list-group">
-                <a href="#" style="background-color: lightslategray; color: white;" class="list-group-item disabled list-group-item-action">Available courses</a>
+                <a href="#" style="background-color: lightslategray; color: white; font-size: 16px;" class="list-group-item disabled list-group-item-action">Available courses</a>
                 @foreach ($courses as $key=>$course)
-                <a href="/course/{{ $course->id }}" class="list-group-item list-custom list-group-item-action {{ (request()->is('course/'.$course->id))  ? 'active' : '' }}" id="{{ $course->id }}">{{$course->name}}</a>
+                <a href="/course/{{ $course->id }}" class="list-group-item list-custom list-group-item-action {{ (request()->is('course/'.$course->id))  ? 'active' : '' }}" id="{{ $course->id }}"><span>{{$course->name}}</span></a>
                 @endforeach
             </div>
         </div>
@@ -379,7 +382,7 @@
 
     @hasSection('content')
     <div id="forum" class="container">
-        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.3.2" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.3.2</strong></a>
+        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.3.2.1" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.3.2.1</strong></a>
         @include('forum::partials.breadcrumbs')
         @include('forum::partials.alerts')
 
@@ -392,7 +395,7 @@
         <notification-component></notification-component>
         @yield('main')
         @sectionMissing('hide_version')
-        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.3.2" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.3.2</strong></a>
+        <a href="https://github.com/dBaliukynas/noodle/releases/tag/v0.3.2.1" style="position: fixed !important; bottom: 0; right: 0; color: black;" target="_blank" rel="noopener noreferrer"><strong>v0.3.2.1</strong></a>
         @endif
     </div>
     @endif

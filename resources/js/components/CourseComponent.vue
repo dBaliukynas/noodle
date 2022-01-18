@@ -58,14 +58,15 @@
             Professors
           </a>
         </div>
-        <div>
+        <div
+          style="margin-right: 50px"
+          class="course-groups-teams-button-wrapper"
+        >
           <h5 style="margin-bottom: 10px">
             Visit <strong>groups</strong> &#38; <strong>teams</strong>:
           </h5>
           <a
             v-if="students.length == 0"
-            type="submit"
-            name="submit"
             class="btn btn-dark mt-4 disabled"
             style="margin: unset !important; width: 100px"
           >
@@ -73,8 +74,6 @@
           </a>
           <a
             v-else
-            type="submit"
-            name="submit"
             class="btn btn-dark mt-4"
             href="/groups"
             style="margin: unset !important; width: 100px"
@@ -84,8 +83,6 @@
 
           <a
             v-if="students.length == 0"
-            type="submit"
-            name="submit"
             class="btn btn-dark mt-4 disabled"
             style="margin: unset !important; width: 100px"
           >
@@ -93,13 +90,47 @@
           </a>
           <a
             v-else
-            type="submit"
-            name="submit"
             class="btn btn-dark mt-4"
             href="/teams"
             style="margin: unset !important; width: 100px"
           >
             Teams
+          </a>
+        </div>
+        <div class="course-forum-button-wrapper" style="margin-right: 50px">
+          <h5 style="margin-bottom: 10px">
+            Discuss in <strong>forum</strong>:
+          </h5>
+          <a
+            class="btn btn-primary"
+            href="/forum"
+            style="margin: unset !important; width: 100px"
+          >
+            Forum
+          </a>
+        </div>
+        <div class="course-grades-button-wrapper" style="margin-right: 50px">
+          <h5 style="margin-bottom: 10px">
+            View your <strong>grades</strong>:
+          </h5>
+          <a
+            class="btn btn-primary"
+            href="#"
+            style="margin: unset !important; width: 100px"
+          >
+            Grades
+          </a>
+        </div>
+        <div class="course-reflections-button-wrapper">
+          <h5 style="margin-bottom: 10px">
+            Leave reflections about <strong>IT</strong> course:
+          </h5>
+          <a
+            class="btn btn-primary"
+            href="#"
+            style="margin: unset !important; width: 100px"
+          >
+            Reflections
           </a>
         </div>
       </div>
@@ -187,8 +218,11 @@ export default {
   transform: translate(-50%, -50%);
 }
 .course-button-wrapper {
-    margin-bottom: 20px;
-  }
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: space-around;
+}
 @media only screen and (max-width: 600px) {
   .course_image {
     background: linear-gradient(45deg, black, transparent);
@@ -208,6 +242,38 @@ export default {
   .course-students-professors-button-wrapper {
     margin-right: unset !important;
     margin-bottom: 10px !important;
+  }
+  .course-groups-teams-button-wrapper {
+    margin-right: unset !important;
+    margin-bottom: 10px !important;
+  }
+  .course-forum-button-wrapper {
+    margin-right: unset !important;
+    margin-bottom: 10px !important;
+    margin-top: unset !important;
+  }
+  .course-grades-button-wrapper {
+    margin-right: unset !important;
+    margin-bottom: 10px !important;
+    margin-top: unset !important;
+  }
+  .course-reflections-button-wrapper {
+    margin-top: unset !important;
+  }
+}
+@media only screen and (max-width: 1269px) {
+  .course-reflections-button-wrapper {
+    margin-top: 15px;
+  }
+}
+@media only screen and (max-width: 1002px) {
+  .course-grades-button-wrapper {
+    margin-top: 15px;
+  }
+}
+@media only screen and (max-width: 807px) {
+  .course-forum-button-wrapper {
+    margin-top: 15px;
   }
 }
 </style>
