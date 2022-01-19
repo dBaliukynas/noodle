@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div id="container">
     <div
       style="width: 100vw; position: relative; margin-left: -50vw; left: 50%"
+      id="courseImageWrapper"
     >
       <div style="margin-bottom: 20px">
         <img
@@ -16,6 +17,7 @@
     </div>
     <div
       class="card card-body"
+      id="courseCard"
       style="width: 96vw; position: relative; margin-left: -48vw; left: 50%"
     >
       <div
@@ -175,18 +177,22 @@
       <hr class="my-4" />
       <div
         class="general-wrapper"
-        id="general-wrapper"
+        id="generalWrapper"
         style="display: flex"
         v-if="visibleEditSegment == false"
       >
-        <div>
+        <div class="segment-name-wrapper">
           <h3>General</h3>
         </div>
         <div style="margin-left: auto" v-if="auth_user.role_id != 3">
           <button
             title="Edit"
             class="no-style-button"
-            @click="editSegment(true), scrollToElement('editSegment')"
+            @click="
+              changeEditSegmentBoolean(true),
+                scrollToElement('editSegment'),
+                blur('edit')
+            "
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -209,13 +215,14 @@
           </button>
         </div>
       </div>
-      <div v-else id="editSegment">
+      <div v-else id="editSegment" class="edit-segment" @click="blur('edit')">
         <div class="mb-3">
           <div style="display: flex">
             <button
               class="no-style-button course-close"
+              id="buttonCourseCloseEdit"
               style="margin-left: auto"
-              @click="editSegment(false), scrollToElement('general-wrapper')"
+              @click="changeEditSegmentBoolean(false), blur('create')"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -244,22 +251,32 @@
           />
         </div>
         <div class="mb-3">
-          <label for="exampleFormControlTextarea1" class="form-label"
+          <label for="segmentContent" class="form-label"
             >Segment's content</label
           >
           <textarea
-            class="form-control"
-            id="exampleFormControlTextarea1"
+            class="form-control segment-content"
+            id="segmentContent"
             rows="3"
           ></textarea>
         </div>
       </div>
       <hr class="my-4" />
-      <div style="display: flex">
+      <div
+        style="display: flex"
+        v-if="visibleCreateSegment == false"
+        class="create-segment-wrapper"
+        id="createSegmentWrapper"
+      >
         <button
           class="no-style-button"
           title="Create new segment"
           style="margin-left: auto"
+          @click="
+            changeCreateSegmentBoolean(true),
+              scrollToElement('createSegment'),
+              blur('create')
+          "
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -278,6 +295,66 @@
           </svg>
         </button>
       </div>
+      <div
+        v-else
+        id="createSegment"
+        class="create-segment"
+        @click="blur('create')"
+      >
+        <div class="mb-3">
+          <div style="display: flex">
+            <button
+              class="no-style-button course-close"
+              id="buttonCourseCloseCreate"
+              style="margin-left: auto"
+              @click="changeCreateSegmentBoolean(false), blur('edit')"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#0d6efd"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          <div>
+            <label for="segmentName" class="form-label">Segment's name</label>
+          </div>
+          <input
+            class="form-control form-control-lg segment-name"
+            id="segmentName"
+            ref="segmentName"
+            type="text"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="newSegmentContent" class="form-label"
+            >Segment's content</label
+          >
+          <textarea
+            class="form-control new-segment-content"
+            id="newSegmentContent"
+            rows="3"
+            ref="newSegmentContent"
+          ></textarea>
+          <button
+            type="button"
+            class="btn btn-primary"
+            style="width: 125px; margin-top: 10px"
+            @click="createSegment()"
+          >
+            Create segment
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -294,19 +371,103 @@ export default {
     "project_member_count",
   ],
   data() {
-    return { visibleEditSegment: false };
+    return { visibleEditSegment: false, visibleCreateSegment: false };
   },
   methods: {
     scrollToElement(idName) {
       setTimeout(() => {
-        document.getElementById(idName).scrollIntoView({
+        document.getElementById(idName)?.scrollIntoView({
           behavior: "smooth",
         });
       }, 500);
     },
-    editSegment(value) {
+    changeEditSegmentBoolean(value) {
       this.visibleEditSegment = value;
+      // if (value) {
+      //   setTimeout(() => {
+      //     document.getElementById("courseCard").className =
+      //       "card card-body blur";
+      //     document.getElementById("courseImageWrapper").className = "blur";
+      //   }, 500);
+      // } else {
+      //   document.getElementById("courseCard").className = "card card-body";
+      //   document.getElementById("courseImageWrapper").classList.remove("blur");
+      // }
     },
+    changeCreateSegmentBoolean(value) {
+      this.visibleCreateSegment = value;
+    },
+    async blur(recentValue) {
+      if (!(this.visibleEditSegment || this.visibleCreateSegment)) {
+        setTimeout(() => {
+          document.querySelector(".my-4").classList.remove("blur-hr");
+          document.getElementById("courseCard").classList.remove("blur");
+          document
+            .getElementById("courseImageWrapper")
+            .classList.remove("blur");
+        }, 1);
+      } else {
+        await setTimeout(() => {
+          document.getElementById("courseCard").className =
+            "card card-body blur";
+          document.getElementById("courseImageWrapper").className = "blur";
+          document.querySelector(".my-4").className = "my-4 blur-hr";
+        }, 1);
+        if (this.visibleEditSegment && this.visibleCreateSegment) {
+          if (recentValue == "create") {
+            document.getElementById("createSegment").className = "no-blur";
+            document.getElementById("editSegment").className = "blur";
+          } else {
+            document.getElementById("createSegment").className = "blur";
+            document.getElementById("editSegment").className = "no-blur";
+          }
+        } else {
+          if (recentValue == "create") {
+            document.getElementById("createSegment").className = "no-blur";
+          } else {
+            document.getElementById("editSegment").className = "no-blur";
+          }
+        }
+      }
+
+      // if (!(this.visibleEditSegment || this.visibleCreateSegment)) {
+      //   document.getElementById("courseCard").className = "card card-body";
+      //   document.getElementById("courseImageWrapper").classList.remove("blur");
+      // } else if (this.visibleEditSegment && !this.visibleCreateSegment) {
+      //   setTimeout(() => {
+      //     document.getElementById("courseCard").className =
+      //       "card card-body blur";
+      //     document.getElementById("courseImageWrapper").className = "blur";
+      //     document.getElementById("editSegment").className = "no-blur";
+      //   }, 500);
+      // } else if (!this.visibleEditSegment && this.visibleCreateSegment) {
+      //   setTimeout(() => {
+      //     document.getElementById("courseCard").className =
+      //       "card card-body blur";
+      //     document.getElementById("courseImageWrapper").className = "blur";
+      //     document.getElementById("createSegment").className = "no-blur";
+      //   }, 500);
+      // } else if (this.visibleEditSegment && this.visibleCreateSegment) {
+      //   if (recentValue == "create") {
+      //     setTimeout(() => {
+      //       document.getElementById("courseCard").className =
+      //         "card card-body blur";
+      //       document.getElementById("courseImageWrapper").className = "blur";
+      //       document.getElementById("editSegment").className = "blur";
+      //       document.getElementById("createSegment").className = "no-blur";
+      //     }, 500);
+      //   } else {
+      //     setTimeout(() => {
+      //       document.getElementById("courseCard").className =
+      //         "card card-body blur";
+      //       document.getElementById("courseImageWrapper").className = "blur";
+      //       document.getElementById("createSegment").className = "blur";
+      //       document.getElementById("editSegment").className = "no-blur";
+      //     }, 500);
+      //   }
+      // }
+    },
+    createSegment() {},
   },
 };
 </script>
@@ -359,6 +520,15 @@ export default {
 .segment-name {
   font-size: 1.75rem;
 }
+.blur > * {
+  opacity: 0.35;
+}
+.blur-hr {
+  opacity: 0.15;
+}
+.no-blur {
+  opacity: 1;
+}
 @media only screen and (max-width: 600px) {
   .course_image {
     background: linear-gradient(45deg, black, transparent);
@@ -396,8 +566,23 @@ export default {
   .course-reflections-button-wrapper {
     margin-top: unset !important;
   }
+  .segment-name {
+    text-align: center;
+  }
+  .general-wrapper {
+    justify-content: center;
+  }
+  .segment-name-wrapper {
+    margin-left: auto;
+  }
+  .segment-content {
+    text-align: center;
+  }
+  .new-segment-content {
+    text-align: center;
+  }
 }
-@media only screen and (max-width: 1269px) {
+@media only screen and (max-width: 1273px) {
   .course-reflections-button-wrapper {
     margin-top: 15px;
   }
@@ -407,12 +592,12 @@ export default {
     font-size: calc(1.3rem + 0.6vw) !important;
   }
 }
-@media only screen and (max-width: 1002px) {
+@media only screen and (max-width: 1004px) {
   .course-grades-button-wrapper {
     margin-top: 15px;
   }
 }
-@media only screen and (max-width: 807px) {
+@media only screen and (max-width: 809px) {
   .course-forum-button-wrapper {
     margin-top: 15px;
   }
