@@ -19,6 +19,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/course/{id}', [App\Http\Controllers\CourseController::class, 'index']);
 Route::post('/courses/image-upload', [App\Http\Controllers\CoursesController::class, 'imageUploadPost']);
 Route::post('/courses', [App\Http\Controllers\CoursesController::class, 'coursesPost']);
+Route::post('/course/{id}/segments', [App\Http\Controllers\CourseController::class, 'segmentsPost']);
 Route::get('/', [App\Http\Controllers\WelcomeController::class, 'index']);
 Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile');
 

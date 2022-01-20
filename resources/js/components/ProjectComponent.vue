@@ -45,7 +45,11 @@
           Project members
         </a>
         <div class="collapse" id="collapseProjectMembers">
-          <div class="card card-body" id="projectMembersWrapper">
+          <div
+            class="card card-body"
+            id="projectMembersWrapper"
+            style="margin-bottom: 10px"
+          >
             <table-component
               :students="project_members"
               ref="projectMembersTableRef"
