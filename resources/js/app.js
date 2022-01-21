@@ -84,6 +84,10 @@ Vue.component(
     "students-create-component",
     require("./components/StudentsCreateComponent.vue").default
 );
+Vue.component(
+    "resizable-text-area-component",
+    require("./components/ResizableTextAreaComponent.vue").default
+);
 Vue.component("star-rating", require("vue-star-rating").default);
 
 window.showNotification = function (message, type = "alert-primary") {

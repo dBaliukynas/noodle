@@ -50,7 +50,12 @@
           v-for="course in courses"
           :key="course.id"
         >
-          <img :src="course.image_name" class="card-img-top" alt="course" />
+          <img
+            :src="course.image_name"
+            class="card-img-top"
+            alt="course"
+            style="width: 273px; height: 182px"
+          />
           <div class="card-body">
             <h5 class="card-title">{{ course.name }}</h5>
             <p class="card-text">

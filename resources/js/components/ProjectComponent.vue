@@ -40,12 +40,18 @@
           id="collapseProjectMembersButton"
           href="#collapseProjectMembers"
           style="margin-bottom: 20px; width: 130px"
-          @click="scrollToElementParent('projectMembersWrapper')"
+          @click="
+            scrollToElementParent('projectMembersWrapper', 'smooth', 'start')
+          "
         >
           Project members
         </a>
         <div class="collapse" id="collapseProjectMembers">
-          <div class="card card-body" id="projectMembersWrapper">
+          <div
+            class="card card-body"
+            id="projectMembersWrapper"
+            style="margin-bottom: 10px"
+          >
             <table-component
               :students="project_members"
               ref="projectMembersTableRef"
