@@ -45,7 +45,9 @@
               aria-controls="collapseStudents"
               id="collapseStudentsButton"
               style="width: 100px"
-              @click="scrollToElement('studentsComponentWrapper')"
+              @click="
+                scrollToElement('studentsComponentWrapper', 'smooth', 'start')
+              "
             >
               Students
             </a>
@@ -58,7 +60,9 @@
               id="collapseProfessorsButton"
               href="#collapseProfessors"
               style="width: 100px"
-              @click="scrollToElement('professorsComponentWrapper')"
+              @click="
+                scrollToElement('professorsComponentWrapper', 'smooth', 'start')
+              "
             >
               Professors
             </a>
@@ -193,7 +197,7 @@
         v-for="(course_segment, index) in course_segments"
         :key="course_segment.id"
       >
-        <div style="display: flex; flex-direction: row" v-if="show">
+        <div style="display: flex; flex-direction: row" v-if="show[index]">
           <div
             class="segment-name-content-wrapper"
             id="segmentNameContentWrapper"
@@ -212,7 +216,10 @@
             <button
               title="Edit"
               class="no-style-button no-blur"
-              @click="show = !show"
+              @click="
+                $set(show, index, !show[index]),
+                  scrollToElement('editSegment' + index, 'smooth', 'start')
+              "
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -235,19 +242,14 @@
             </button>
           </div>
         </div>
-        <div
-          v-else
-          :id="`editSegment${index}`"
-          :class="`edit-segment${index}`"
-          @click="blur('edit')"
-        >
+        <div v-else :id="`editSegment${index}`" :class="`edit-segment${index}`">
           <div class="mb-3">
             <div style="display: flex">
               <button
                 class="no-style-button course-close"
                 id="buttonCourseCloseEdit"
                 style="margin-left: auto"
-                @click="changeEditSegmentBoolean(false), blur('create')"
+                @click="$set(show, index, !show[index])"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -303,7 +305,7 @@
       </div>
       <div
         style="display: flex"
-        v-if="visibleCreateSegment == false"
+        v-if="showCreateSegment"
         class="create-segment-wrapper"
         id="createSegmentWrapper"
       >
@@ -312,9 +314,9 @@
           title="Create new segment"
           style="margin-left: auto"
           @click="
-            changeCreateSegmentBoolean(true),
-              scrollToElement('createSegment'),
-              blur('create')
+            (showCreateSegment = !showCreateSegment),
+              blur('create'),
+              scrollToElement('createSegment', 'smooth', 'start')
           "
         >
           <svg
@@ -334,19 +336,14 @@
           </svg>
         </button>
       </div>
-      <div
-        v-else
-        id="createSegment"
-        class="create-segment"
-        @click="blur('create')"
-      >
+      <div v-else id="createSegment" class="create-segment">
         <div class="mb-3">
           <div style="display: flex">
             <button
               class="no-style-button course-close"
               id="buttonCourseCloseCreate"
               style="margin-left: auto"
-              @click="changeCreateSegmentBoolean(false), blur('edit')"
+              @click="showCreateSegment = !showCreateSegment"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -380,12 +377,20 @@
           <label for="newSegmentContent" class="form-label"
             >Segment's content</label
           >
-          <textarea
-            class="form-control new-segment-content"
-            id="newSegmentContent"
-            ref="newSegmentContent"
-            rows="3"
-          ></textarea>
+          <resizable-text-area-component>
+            <textarea
+              rows="1"
+              class="
+                form-control
+                new-segment-content
+                resize-none
+                outline-0
+                w-full
+              "
+              id="newSegmentContent"
+              ref="newSegmentContent"
+            ></textarea>
+          </resizable-text-area-component>
           <button
             type="button"
             class="btn btn-primary"
@@ -402,7 +407,9 @@
 
 
 <script>
+import ResizableTextAreaComponent from "./ResizableTextAreaComponent.vue";
 export default {
+  components: { ResizableTextAreaComponent },
   props: [
     "students",
     "auth_user",
@@ -417,14 +424,16 @@ export default {
     return {
       visibleEditSegment: false,
       visibleCreateSegment: false,
-      show: true,
+      show: Array(this.course_segments.length).fill(true),
+      showCreateSegment: true,
     };
   },
   methods: {
-    scrollToElement(idName) {
+    scrollToElement(idName, scrollBehavior, scrollBlock) {
       setTimeout(() => {
-        document.getElementById(idName)?.scrollIntoView({
-          behavior: "smooth",
+        document.getElementById(idName).scrollIntoView({
+          behavior: scrollBehavior,
+          block: scrollBlock,
         });
       }, 500);
     },

@@ -40,7 +40,9 @@
           id="collapseProjectMembersButton"
           href="#collapseProjectMembers"
           style="margin-bottom: 20px; width: 130px"
-          @click="scrollToElementParent('projectMembersWrapper')"
+          @click="
+            scrollToElementParent('projectMembersWrapper', 'smooth', 'start')
+          "
         >
           Project members
         </a>
