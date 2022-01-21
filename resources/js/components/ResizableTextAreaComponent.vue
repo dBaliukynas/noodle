@@ -25,13 +25,9 @@ export default {
 };
 </script>
 <style>
-.resize-none {
+.textarea {
   resize: none;
-}
-.outline-0 {
   outline: 0;
-}
-.w-full {
   width: 100%;
 }
 </style>

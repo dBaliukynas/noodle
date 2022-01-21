@@ -69,8 +69,6 @@ class CourseController extends Controller
         })->get();
         $course = Course::find($id);
         $course_segments = CourseSegment::with('user')->get();
-        // return response(Auth::user()->id);
-        // return response($course_segments);
         return view('course')
             ->with('auth_user', $auth_user)
             ->with('students', $students)

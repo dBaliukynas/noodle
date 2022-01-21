@@ -205,10 +205,7 @@
             <h3 :id="`segmentName${index}`" :class="`segment-name${index}`">
               {{ course_segment.name }}
             </h3>
-            <p
-              :class="`segment-content${index}`"
-              :id="`segmentContent${index}`"
-            >
+            <p class="segment-content" :id="`segmentContent${index}`">
               {{ course_segment.content }}
             </p>
           </div>
@@ -242,7 +239,7 @@
             </button>
           </div>
         </div>
-        <div v-else :id="`editSegment${index}`" :class="`edit-segment${index}`">
+        <div v-else :id="`editSegment${index}`" class="edit-segment">
           <div class="mb-3">
             <div style="display: flex">
               <button
@@ -284,13 +281,15 @@
             <label :for="`segmentContent${index}`" class="form-label"
               >Segment's content</label
             >
-            <textarea
-              :class="`form-control segment-content${index}`"
-              :id="`segmentContent${index}`"
-              :ref="`segmentContent${index}`"
-              rows="3"
-              :value="`${course_segment.content}`"
-            ></textarea>
+            <resizable-text-area-component>
+              <textarea
+                class="form-control edit-segment-content textarea"
+                :id="`segmentContent${index}`"
+                :ref="`segmentContent${index}`"
+                rows="3"
+                :value="`${course_segment.content}`"
+              ></textarea>
+            </resizable-text-area-component>
             <button
               type="button"
               class="btn btn-primary"
@@ -380,13 +379,7 @@
           <resizable-text-area-component>
             <textarea
               rows="1"
-              class="
-                form-control
-                new-segment-content
-                resize-none
-                outline-0
-                w-full
-              "
+              class="form-control new-segment-content textarea"
               id="newSegmentContent"
               ref="newSegmentContent"
             ></textarea>
@@ -576,6 +569,14 @@ export default {
   pointer-events: none;
   user-select: none;
 }
+
+.edit-segment-content {
+  min-height: 100px !important;
+}
+.new-segment-content {
+  min-height: 100px !important;
+}
+
 @media only screen and (max-width: 600px) {
   .course_image {
     background: linear-gradient(45deg, black, transparent);
@@ -623,6 +624,9 @@ export default {
     margin-left: auto;
   }
   .segment-content {
+    text-align: center;
+  }
+  .edit-segment-content {
     text-align: center;
   }
   .new-segment-content {
