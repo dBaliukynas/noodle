@@ -32,7 +32,7 @@
             style="margin-right: 50px; margin-top: 7px"
             class="course-students-professors-button-wrapper"
           >
-            <h5 style="margin-bottom: 10px">
+            <h5>
               Click to see <strong>members</strong> of
               <strong>{{ course.name }}</strong> course:
             </h5>
@@ -71,9 +71,7 @@
             style="margin-right: 50px; margin-top: 7px"
             class="course-groups-teams-button-wrapper"
           >
-            <h5 style="margin-bottom: 10px">
-              Visit <strong>groups</strong> &#38; <strong>teams</strong>:
-            </h5>
+            <h5>Visit <strong>groups</strong> &#38; <strong>teams</strong>:</h5>
             <a
               v-if="students.length == 0"
               class="btn btn-dark mt-4 disabled"
@@ -110,9 +108,7 @@
             class="course-forum-button-wrapper"
             style="margin-right: 50px; margin-top: 7px"
           >
-            <h5 style="margin-bottom: 10px">
-              Discuss in <strong>forum</strong>:
-            </h5>
+            <h5>Discuss in <strong>forum</strong>:</h5>
             <a
               class="btn btn-primary"
               href="/forum"
@@ -125,9 +121,7 @@
             class="course-grades-button-wrapper"
             style="margin-right: 50px; margin-top: 7px"
           >
-            <h5 style="margin-bottom: 10px">
-              View your <strong>grades</strong>:
-            </h5>
+            <h5>View your <strong>grades</strong>:</h5>
             <a
               class="btn btn-primary"
               href="#"
@@ -136,8 +130,11 @@
               Grades
             </a>
           </div>
-          <div class="course-reflections-button-wrapper">
-            <h5 style="margin-bottom: 10px; margin-top: 7px">
+          <div
+            class="course-reflections-button-wrapper"
+            style="margin-top: 7px"
+          >
+            <h5>
               Leave <strong>reflections</strong> about
               <strong>{{ course.name }}</strong> course:
             </h5>
@@ -180,7 +177,7 @@
             </div>
           </div>
         </div>
-        <hr class="my-4" />
+        <hr class="my-3" />
         <project-component
           :auth_user="auth_user"
           :forum_threads="forum_threads"
@@ -188,7 +185,57 @@
           :project_member_count="project_member_count"
           :scrollToElementParent="scrollToElement"
         ></project-component>
-        <hr class="my-4" />
+        <div
+          v-if="auth_user.role_id != 3"
+          style="display: flex; flex-direction: column"
+        >
+          <hr class="my-3" />
+          <h3>Actions &#38; settings</h3>
+          <div
+            style="display: flex; flex-direction: row; flex-wrap: wrap"
+            class="course-settings-button-wrapper"
+          >
+            <div
+              style="margin-right: 50px"
+              class="course-settings-edit-button-wrapper"
+            >
+              <h5>Edit <strong>all</strong> segments</h5>
+              <a
+                href="#"
+                class="btn btn-primary"
+                style="margin: unset !important; width: 100px"
+                @click="show.fill(false), test()"
+              >
+                Edit
+              </a>
+            </div>
+            <div
+              class="course-settings-disable-blur-button-wrapper"
+              style="margin-right: 50px"
+            >
+              <h5><strong>Blur</strong> effect</h5>
+              <a
+                href="#"
+                class="btn btn-danger"
+                style="margin: unset !important; width: 100px"
+                @click="show.fill(false), test()"
+              >
+                Disable
+              </a>
+            </div>
+            <div class="course-settings-enable-student-view-button-wrapper">
+              <h5><strong>Student</strong> view</h5>
+              <a
+                href="#"
+                class="btn btn-success"
+                style="margin: unset !important; width: 100px"
+              >
+                Enable
+              </a>
+            </div>
+          </div>
+        </div>
+        <hr class="my-3" />
       </div>
       <div
         class="segment-wrapper"
@@ -202,13 +249,10 @@
             class="segment-name-content-wrapper"
             id="segmentNameContentWrapper"
           >
-            <h3 :id="`segmentName${index}`" :class="`segment-name${index}`">
+            <h3 :id="`segmentName${index}`" class="segment-name">
               {{ course_segment.name }}
             </h3>
-            <p
-              :class="`segment-content${index}`"
-              :id="`segmentContent${index}`"
-            >
+            <p class="segment-content" :id="`segmentContent${index}`">
               {{ course_segment.content }}
             </p>
           </div>
@@ -242,14 +286,117 @@
             </button>
           </div>
         </div>
-        <div v-else :id="`editSegment${index}`" :class="`edit-segment${index}`">
+        <div v-else :id="`editSegment${index}`" class="edit-segment">
+          <div v-if="auth_user.role_id != 3">
+            <div class="mb-3">
+              <div style="display: flex">
+                <button
+                  class="no-style-button course-close"
+                  id="buttonCourseCloseEdit"
+                  style="margin-left: auto"
+                  @click="$set(show, index, !show[index])"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#0d6efd"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <div>
+                <label :for="`segmentName${index}`" class="form-label"
+                  >Segment's name</label
+                >
+              </div>
+              <input
+                class="form-control form-control-lg segment-name"
+                :id="`segmentName${index}`"
+                :ref="`segmentName${index}`"
+                type="text"
+                :value="`${course_segment.name}`"
+              />
+            </div>
+            <div class="mb-3">
+              <label :for="`segmentContent${index}`" class="form-label"
+                >Segment's content</label
+              >
+              <resizable-text-area-component>
+                <textarea
+                  class="form-control edit-segment-content textarea"
+                  :id="`segmentContent${index}`"
+                  :ref="`segmentContent${index}`"
+                  rows="3"
+                  :value="`${course_segment.content}`"
+                ></textarea>
+              </resizable-text-area-component>
+              <button
+                type="button"
+                class="btn btn-primary"
+                style="width: 125px; margin-top: 10px"
+                @click="editSegment()"
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr class="my-3" />
+      </div>
+      <div
+        style="display: flex"
+        v-if="showCreateSegment"
+        class="create-segment-wrapper"
+        id="createSegmentWrapper"
+      >
+        <div
+          v-if="auth_user.role_id != 3"
+          style="display: flex; margin-left: auto"
+        >
+          <button
+            class="no-style-button"
+            title="Create new segment"
+            @click="
+              (showCreateSegment = !showCreateSegment),
+                blur('create'),
+                scrollToElement('createSegment', 'smooth', 'start')
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#0d6efd"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="course-add-segment-button"
+            >
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div v-else id="createSegment" class="create-segment">
+        <div v-if="auth_user.role_id != 3">
           <div class="mb-3">
             <div style="display: flex">
               <button
                 class="no-style-button course-close"
-                id="buttonCourseCloseEdit"
+                id="buttonCourseCloseCreate"
                 style="margin-left: auto"
-                @click="$set(show, index, !show[index])"
+                @click="showCreateSegment = !showCreateSegment"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -268,137 +415,38 @@
               </button>
             </div>
             <div>
-              <label :for="`segmentName${index}`" class="form-label"
+              <label for="newSegmentName" class="form-label"
                 >Segment's name</label
               >
             </div>
             <input
-              :class="`form-control form-control-lg segment-name${index}`"
-              :id="`segmentName${index}`"
-              :ref="`segmentName${index}`"
+              class="form-control form-control-lg new-segment-name"
+              id="newSegmentName"
+              ref="newSegmentName"
               type="text"
-              :value="`${course_segment.name}`"
             />
           </div>
           <div class="mb-3">
-            <label :for="`segmentContent${index}`" class="form-label"
+            <label for="newSegmentContent" class="form-label"
               >Segment's content</label
             >
-            <textarea
-              :class="`form-control segment-content${index}`"
-              :id="`segmentContent${index}`"
-              :ref="`segmentContent${index}`"
-              rows="3"
-              :value="`${course_segment.content}`"
-            ></textarea>
+            <resizable-text-area-component>
+              <textarea
+                rows="1"
+                class="form-control new-segment-content textarea"
+                id="newSegmentContent"
+                ref="newSegmentContent"
+              ></textarea>
+            </resizable-text-area-component>
             <button
               type="button"
               class="btn btn-primary"
               style="width: 125px; margin-top: 10px"
-              @click="editSegment()"
+              @click="createSegment()"
             >
-              Save changes
+              Create segment
             </button>
           </div>
-        </div>
-        <hr class="my-4" />
-      </div>
-      <div
-        style="display: flex"
-        v-if="showCreateSegment"
-        class="create-segment-wrapper"
-        id="createSegmentWrapper"
-      >
-        <button
-          class="no-style-button"
-          title="Create new segment"
-          style="margin-left: auto"
-          @click="
-            (showCreateSegment = !showCreateSegment),
-              blur('create'),
-              scrollToElement('createSegment', 'smooth', 'start')
-          "
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#0d6efd"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="course-add-segment-button"
-          >
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-        </button>
-      </div>
-      <div v-else id="createSegment" class="create-segment">
-        <div class="mb-3">
-          <div style="display: flex">
-            <button
-              class="no-style-button course-close"
-              id="buttonCourseCloseCreate"
-              style="margin-left: auto"
-              @click="showCreateSegment = !showCreateSegment"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#0d6efd"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <line x1="18" y1="6" x2="6" y2="18"></line>
-                <line x1="6" y1="6" x2="18" y2="18"></line>
-              </svg>
-            </button>
-          </div>
-          <div>
-            <label for="newSegmentName" class="form-label"
-              >Segment's name</label
-            >
-          </div>
-          <input
-            class="form-control form-control-lg segment-name"
-            id="newSegmentName"
-            ref="newSegmentName"
-            type="text"
-          />
-        </div>
-        <div class="mb-3">
-          <label for="newSegmentContent" class="form-label"
-            >Segment's content</label
-          >
-          <resizable-text-area-component>
-            <textarea
-              rows="1"
-              class="
-                form-control
-                new-segment-content
-                resize-none
-                outline-0
-                w-full
-              "
-              id="newSegmentContent"
-              ref="newSegmentContent"
-            ></textarea>
-          </resizable-text-area-component>
-          <button
-            type="button"
-            class="btn btn-primary"
-            style="width: 125px; margin-top: 10px"
-            @click="createSegment()"
-          >
-            Create segment
-          </button>
         </div>
       </div>
     </div>
@@ -431,7 +479,7 @@ export default {
   methods: {
     scrollToElement(idName, scrollBehavior, scrollBlock) {
       setTimeout(() => {
-        document.getElementById(idName).scrollIntoView({
+        document.getElementById(idName)?.scrollIntoView({
           behavior: scrollBehavior,
           block: scrollBlock,
         });
@@ -454,7 +502,7 @@ export default {
               element.classList.remove("no-user-interaction")
             );
           document
-            .querySelectorAll(".my-4")
+            .querySelectorAll(".my-3")
             .forEach((hrElement) => hrElement.classList.remove("blur-hr"));
           document
             .getElementById("segmentNameContentWrapper")
@@ -472,7 +520,7 @@ export default {
           document.getElementById("nonSegmentsWrapper").classList.add("blur");
           document.getElementById("courseImageWrapper").classList.add("blur");
           document
-            .querySelectorAll(".my-4")
+            .querySelectorAll(".my-3")
             .forEach((hrElement) => hrElement.classList.add("blur-hr"));
 
           document
@@ -511,6 +559,9 @@ export default {
         .then(() => location.reload());
     },
     editSegment() {},
+    test() {
+      console.log(this.show);
+    },
   },
 };
 </script>
@@ -576,6 +627,14 @@ export default {
   pointer-events: none;
   user-select: none;
 }
+
+.edit-segment-content {
+  min-height: 100px !important;
+}
+.new-segment-content {
+  min-height: 100px !important;
+}
+
 @media only screen and (max-width: 600px) {
   .course_image {
     background: linear-gradient(45deg, black, transparent);
@@ -616,22 +675,42 @@ export default {
   .segment-name {
     text-align: center;
   }
+  .new-segment-name {
+    text-align: center;
+  }
   .segment-wrapper {
     justify-content: center;
   }
   .segment-name-content-wrapper {
     margin-left: auto;
+    position: relative;
+    left: 11px;
   }
   .segment-content {
+    text-align: center;
+  }
+  .edit-segment-content {
     text-align: center;
   }
   .new-segment-content {
     text-align: center;
   }
+  .course-settings-button-wrapper {
+    justify-content: center;
+    flex-direction: column !important;
+  }
+  .course-settings-edit-button-wrapper {
+    margin-right: unset !important;
+    margin-bottom: 10px !important;
+  }
+  .course-settings-disable-blur-button-wrapper {
+    margin-right: unset !important;
+    margin-bottom: 10px !important;
+  }
 }
 
 @media only screen and (max-width: 1200px) {
-  .segment-name {
+  .new-segment-name {
     font-size: calc(1.3rem + 0.6vw) !important;
   }
 }
