@@ -1,6 +1,13 @@
 <template>
   <div>
-    <div class="ui container">
+    <div
+      class="ui container"
+      style="
+        width: unset !important;
+        padding-left: unset !important;
+        padding-right: unset !important;
+      "
+    >
       <div style="display: flex; align-items: center; flex-direction: column">
         <div
           v-if="auth_user.role_id == 1"
@@ -12,6 +19,7 @@
             margin-bottom: 10px;
             flex-wrap: wrap;
           "
+          class="professors-table-button-wrapper"
         >
           <a
             v-if="professors.length == 0"
@@ -223,5 +231,11 @@ th.large {
 }
 .color-aliceblue {
   background-color: aliceblue;
+}
+@media only screen and (max-width: 800px) {
+  .professors-table-button-wrapper {
+    flex-direction: column !important;
+    width: auto !important;
+  }
 }
 </style>

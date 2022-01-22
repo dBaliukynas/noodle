@@ -196,42 +196,93 @@
             class="course-settings-button-wrapper"
           >
             <div
+              v-if="!editAllSegmentsEnabled"
               style="margin-right: 50px"
               class="course-settings-edit-button-wrapper"
             >
               <h5>Edit <strong>all</strong> segments</h5>
-              <a
-                href="#"
+              <button
                 class="btn btn-primary"
                 style="margin: unset !important; width: 100px"
-                @click="show.fill(false), test()"
+                @click="
+                  $set(show, show.fill(false)),
+                    (editAllSegmentsEnabled = !editAllSegmentsEnabled),
+                    scrollToElement('editSegment0', 'smooth', 'start')
+                "
               >
                 Edit
-              </a>
+              </button>
             </div>
             <div
-              class="course-settings-disable-blur-button-wrapper"
+              v-else
+              style="margin-right: 50px"
+              class="course-settings-edit-button-wrapper"
+            >
+              <h5>Close <strong>all</strong> segments</h5>
+              <button
+                class="btn btn-danger"
+                style="margin: unset !important; width: 100px"
+                @click="
+                  $set(show, show.fill(true)),
+                    (editAllSegmentsEnabled = !editAllSegmentsEnabled)
+                "
+              >
+                Close
+              </button>
+            </div>
+            <div
+              v-if="!blurEnabled"
+              class="course-settings-blur-button-wrapper"
               style="margin-right: 50px"
             >
               <h5><strong>Blur</strong> effect</h5>
-              <a
-                href="#"
-                class="btn btn-danger"
-                style="margin: unset !important; width: 100px"
-                @click="show.fill(false), test()"
-              >
-                Disable
-              </a>
-            </div>
-            <div class="course-settings-enable-student-view-button-wrapper">
-              <h5><strong>Student</strong> view</h5>
-              <a
-                href="#"
+              <button
                 class="btn btn-success"
                 style="margin: unset !important; width: 100px"
+                @click="blurEnabled = !blurEnabled"
               >
                 Enable
-              </a>
+              </button>
+            </div>
+            <div
+              v-else
+              class="course-settings-blur-button-wrapper"
+              style="margin-right: 50px"
+            >
+              <h5><strong>Blur</strong> effect</h5>
+              <button
+                class="btn btn-danger"
+                style="margin: unset !important; width: 100px"
+                @click="blurEnabled = !blurEnabled"
+              >
+                Disable
+              </button>
+            </div>
+            <div
+              class="course-settings-enable-student-view-button-wrapper"
+              v-if="!studentViewEnabled"
+            >
+              <h5><strong>Student</strong> view</h5>
+              <button
+                class="btn btn-success"
+                style="margin: unset !important; width: 100px"
+                @click="studentViewEnabled = !studentViewEnabled"
+              >
+                Enable
+              </button>
+            </div>
+            <div
+              v-else
+              class="course-settings-enable-student-view-button-wrapper"
+            >
+              <h5><strong>Student</strong> view</h5>
+              <button
+                class="btn btn-danger"
+                style="margin: unset !important; width: 100px"
+                @click="studentViewEnabled = !studentViewEnabled"
+              >
+                Disable
+              </button>
             </div>
           </div>
         </div>
@@ -366,7 +417,6 @@
             title="Create new segment"
             @click="
               (showCreateSegment = !showCreateSegment),
-                blur('create'),
                 scrollToElement('createSegment', 'smooth', 'start')
             "
           >
@@ -474,6 +524,9 @@ export default {
       visibleCreateSegment: false,
       show: Array(this.course_segments.length).fill(true),
       showCreateSegment: true,
+      blurEnabled: false,
+      studentViewEnabled: false,
+      editAllSegmentsEnabled: false,
     };
   },
   methods: {
@@ -559,9 +612,6 @@ export default {
         .then(() => location.reload());
     },
     editSegment() {},
-    test() {
-      console.log(this.show);
-    },
   },
 };
 </script>
@@ -583,6 +633,11 @@ export default {
   font-size: 60px;
   color: white;
   transform: translate(-50%, -50%);
+  text-align: center;
+  width: -webkit-fill-available;
+  width: -moz-available;
+  word-wrap: break-word;
+  max-width: 600px;
 }
 .course-button-wrapper {
   margin-bottom: 20px;
@@ -703,7 +758,7 @@ export default {
     margin-right: unset !important;
     margin-bottom: 10px !important;
   }
-  .course-settings-disable-blur-button-wrapper {
+  .course-settings-blur-button-wrapper {
     margin-right: unset !important;
     margin-bottom: 10px !important;
   }

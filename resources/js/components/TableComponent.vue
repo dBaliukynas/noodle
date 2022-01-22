@@ -14,6 +14,7 @@
           margin-bottom: 10px;
           flex-wrap: wrap;
         "
+        class="students-table-button-wrapper"
       >
         <a
           v-if="students.length == 0"
@@ -227,56 +228,6 @@
           </div>
         </div>
       </div>
-      <div
-        v-else
-        style="
-          display: flex;
-          flex-grow: 1;
-          justify-content: space-around;
-          width: 45%;
-          margin-bottom: 10px;
-          flex-wrap: wrap;
-        "
-      >
-        <a
-          v-if="students.length == 0"
-          type="submit"
-          name="submit"
-          class="btn btn-dark mt-4 disabled"
-          style="min-width: 250px"
-        >
-          Go to Groups
-        </a>
-        <a
-          v-else
-          type="submit"
-          name="submit"
-          class="btn btn-dark mt-4"
-          style="min-width: 250px"
-          href="/groups"
-        >
-          Go to Groups
-        </a>
-        <a
-          v-if="students.length == 0"
-          type="submit"
-          name="submit"
-          class="btn btn-dark mt-4 disabled"
-          style="min-width: 250px"
-        >
-          Go to Teams
-        </a>
-        <a
-          v-else
-          type="submit"
-          name="submit"
-          class="btn btn-dark mt-4"
-          style="min-width: 250px"
-          href="/teams"
-        >
-          Go to Teams
-        </a>
-      </div>
       <p v-if="students.length != 0">
         Total Students: <strong>{{ students.length }}</strong>
       </p>
@@ -426,6 +377,14 @@ th.small {
   width: 35px;
   vertical-align: middle;
 }
+td.extra-small {
+  width: 25px;
+  vertical-align: middle;
+}
+th.extra-small {
+  width: 25px;
+  vertical-align: middle;
+}
 td.medium {
   width: 150px;
   vertical-align: middle;
@@ -459,5 +418,12 @@ th.large {
 }
 .table-responsive-xl {
   overflow-y: hidden;
+}
+
+@media only screen and (max-width: 800px) {
+  .students-table-button-wrapper {
+    flex-direction: column !important;
+    width: auto !important;
+  }
 }
 </style>
