@@ -45,7 +45,7 @@
       <h4>Available courses</h4>
       <div style="display: flex; flex-wrap: wrap" class="card-wrapper">
         <div
-          class="card"
+          class="card course-cards"
           style="width: 275px; margin-right: 20px; margin-bottom: 20px"
           v-for="course in courses"
           :key="course.id"
@@ -54,7 +54,7 @@
             :src="course.image_name"
             class="card-img-top"
             alt="course"
-            style="width: 273px; height: 182px"
+            style="object-fit: cover; width: 273px; height: 182px"
           />
           <div class="card-body">
             <h5 class="card-title">{{ course.name }}</h5>
@@ -116,6 +116,12 @@ export default {
 
   .card {
     margin-right: unset !important;
+  }
+}
+@media only screen and (max-width: 767px) {
+  .card-img-top {
+    max-width: 100% !important;
+    max-height: 182px;
   }
 }
 @media only screen and (max-width: 400px) {
