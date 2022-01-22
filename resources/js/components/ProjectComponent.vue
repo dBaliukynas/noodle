@@ -24,7 +24,7 @@
         <a
           v-if="project_member_count == 0"
           disabled
-          class="btn btn-primary"
+          class="btn btn-primary project-members-button"
           style="margin-bottom: 20px; width: 130px"
           role="button"
         >
@@ -32,7 +32,7 @@
         </a>
         <a
           v-else
-          class="btn btn-primary"
+          class="btn btn-primary project-members-button"
           data-bs-toggle="collapse"
           role="button"
           aria-expanded="false"
@@ -97,5 +97,10 @@ a {
   font: inherit;
   cursor: pointer;
   outline: inherit;
+}
+@media only screen and (max-width: 800px) {
+  .project-members-button {
+    width: auto !important;
+  }
 }
 </style>
