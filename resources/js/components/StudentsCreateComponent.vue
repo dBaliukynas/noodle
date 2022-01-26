@@ -143,10 +143,10 @@ export default {
 
 <style>
 .students-create-button {
-  transition: 0.15s ease-out;
+  transition: 0.1s ease-out;
 }
 .students-create-button:hover {
   stroke: #0056b3;
-  transition: 0.15s ease-in;
+  transition: 0.1s ease-in;
 }
 </style>

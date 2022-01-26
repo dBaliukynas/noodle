@@ -131,10 +131,10 @@ export default {
 
 <style>
 .professors-create-button {
-  transition: 0.15s ease-out;
+  transition: 0.1s ease-out;
 }
 .professors-create-button:hover {
   stroke: #0056b3;
-  transition: 0.15s ease-in;
+  transition: 0.1s ease-in;
 }
 </style>

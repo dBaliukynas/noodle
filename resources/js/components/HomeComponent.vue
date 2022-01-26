@@ -81,13 +81,6 @@ export default {
 </script>
 
 <style>
-.course-button {
-  transition: 0.15s ease-out;
-}
-.course-button:hover {
-  stroke: #0056b3;
-  transition: 0.15s ease-in;
-}
 .admin-homepage-button-wrapper {
   display: flex;
   flex-direction: row;
