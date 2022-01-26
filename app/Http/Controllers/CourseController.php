@@ -58,6 +58,17 @@ class CourseController extends Controller
 
         return response()->json($course_segment, 200);
     }
+    public function segmentsDelete($course_id, $segment_id)
+    {
+        $auth_user = Auth::user();
+        if ($auth_user->role_id == 3) {
+            return response(403);
+        }
+
+        $course_segment = CourseSegment::find($segment_id);
+        $course_segment->delete();
+        return response()->json($course_segment, 200);
+    }
     public function index($id)
     {
         $auth_user = User::with('group')->with('team')->with('project')->with('ratings')->find(Auth::id());

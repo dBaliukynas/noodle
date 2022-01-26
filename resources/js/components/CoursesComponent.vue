@@ -18,7 +18,7 @@
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="course-button"
+          class="course-create-button"
         >
           <circle cx="12" cy="12" r="10"></circle>
           <line x1="12" y1="8" x2="12" y2="16"></line>
@@ -150,11 +150,11 @@ export default {
 </script>
 
 <style>
-.course-button {
-  transition: 0.15s ease-out;
+.course-create-button {
+  transition: 0.1s ease-out;
 }
-.course-button:hover {
+.course-create-button:hover {
   stroke: #0056b3;
-  transition: 0.15s ease-in;
+  transition: 0.1s ease-in;
 }
 </style>

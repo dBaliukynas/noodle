@@ -190,49 +190,53 @@
           style="display: flex; flex-direction: column"
         >
           <hr class="my-3" />
-          <h3>Actions &#38; settings</h3>
+          <h3>Settings</h3>
           <div
-            style="display: flex; flex-direction: row; flex-wrap: wrap"
+            style="
+              display: flex;
+              flex-direction: row;
+              flex-wrap: wrap;
+              justify-content: space-around;
+              text-align: center;
+            "
             class="course-settings-button-wrapper"
           >
-            <div
-              v-if="!editAllSegmentsEnabled"
-              style="margin-right: 50px"
-              class="course-settings-edit-button-wrapper"
-            >
-              <h5>Edit <strong>all</strong> segments</h5>
-              <button
-                class="btn btn-primary"
-                style="margin: unset !important; width: 100px"
-                @click="
-                  $set(show, show.fill(false)),
-                    (editAllSegmentsEnabled = !editAllSegmentsEnabled),
-                    scrollToElement('editSegment0', 'smooth', 'start')
-                "
+            <div>
+              <div
+                v-if="show.find((isEnabled) => isEnabled) == undefined"
+                style="margin-right: 50px"
+                class="course-setting-button-wrapper"
               >
-                Edit
-              </button>
-            </div>
-            <div
-              v-else
-              style="margin-right: 50px"
-              class="course-settings-edit-button-wrapper"
-            >
-              <h5>Close <strong>all</strong> segments</h5>
-              <button
-                class="btn btn-danger"
-                style="margin: unset !important; width: 100px"
-                @click="
-                  $set(show, show.fill(true)),
-                    (editAllSegmentsEnabled = !editAllSegmentsEnabled)
-                "
+                <h5>Edit <strong>all</strong> segments</h5>
+                <button
+                  class="btn btn-primary"
+                  style="margin: unset !important; width: 100px"
+                  @click="
+                    (show = new Array(course_segments.length).fill(true)),
+                      scrollToElement('editSegment0', 'smooth', 'start')
+                  "
+                >
+                  Edit
+                </button>
+              </div>
+              <div
+                v-else
+                style="margin-right: 50px"
+                class="course-setting-button-wrapper"
               >
-                Close
-              </button>
+                <h5>Close <strong>all</strong> segments</h5>
+                <button
+                  class="btn btn-danger"
+                  style="margin: unset !important; width: 100px"
+                  @click="show = new Array(course_segments.length).fill(false)"
+                >
+                  Close
+                </button>
+              </div>
             </div>
             <div
               v-if="!blurEnabled"
-              class="course-settings-blur-button-wrapper"
+              class="course-setting-button-wrapper"
               style="margin-right: 50px"
             >
               <h5><strong>Blur</strong> effect</h5>
@@ -246,7 +250,7 @@
             </div>
             <div
               v-else
-              class="course-settings-blur-button-wrapper"
+              class="course-setting-button-wrapper"
               style="margin-right: 50px"
             >
               <h5><strong>Blur</strong> effect</h5>
@@ -259,8 +263,9 @@
               </button>
             </div>
             <div
-              class="course-settings-enable-student-view-button-wrapper"
+              class="course-setting-button-wrapper"
               v-if="!studentViewEnabled"
+              style="margin-right: 50px"
             >
               <h5><strong>Student</strong> view</h5>
               <button
@@ -273,7 +278,8 @@
             </div>
             <div
               v-else
-              class="course-settings-enable-student-view-button-wrapper"
+              class="course-setting-button-wrapper"
+              style="margin-right: 50px"
             >
               <h5><strong>Student</strong> view</h5>
               <button
@@ -283,10 +289,100 @@
               >
                 Disable
               </button>
+            </div>
+            <div
+              class="course-setting-button-wrapper"
+              v-if="!checkboxesEnabled"
+              style="margin-right: 50px"
+            >
+              <h5>Checkboxes</h5>
+              <button
+                class="btn btn-success"
+                style="margin: unset !important; width: 100px"
+                @click="checkboxesEnabled = !checkboxesEnabled"
+              >
+                Enable
+              </button>
+            </div>
+            <div
+              v-else
+              class="course-setting-button-wrapper"
+              style="margin-right: 50px"
+            >
+              <h5>Checkboxes</h5>
+              <button
+                class="btn btn-danger"
+                style="margin: unset !important; width: 100px"
+                @click="checkboxesEnabled = !checkboxesEnabled"
+              >
+                Disable
+              </button>
+            </div>
+            <div v-if="!checkboxesEnabled">
+              <div class="course-setting-button-wrapper" v-if="!buttonsEnabled">
+                <h5>Buttons (only when checkboxes are enabled)</h5>
+                <button
+                  class="btn btn-success disabled"
+                  style="margin: unset !important; width: 100px"
+                  @click="buttonsEnabled = !buttonsEnabled"
+                >
+                  Enable
+                </button>
+              </div>
+              <div v-else class="course-setting-button-wrapper">
+                <h5>Buttons (only when checkboxes are enabled)</h5>
+                <button
+                  class="btn btn-danger disabled"
+                  style="margin: unset !important; width: 100px"
+                  @click="buttonsEnabled = !buttonsEnabled"
+                >
+                  Disable
+                </button>
+              </div>
+            </div>
+            <div v-else>
+              <div class="course-setting-button-wrapper" v-if="!buttonsEnabled">
+                <h5>Buttons (only when checkboxes are enabled)</h5>
+                <button
+                  class="btn btn-success"
+                  style="margin: unset !important; width: 100px"
+                  @click="buttonsEnabled = !buttonsEnabled"
+                >
+                  Enable
+                </button>
+              </div>
+              <div v-else class="course-setting-button-wrapper">
+                <h5>Buttons (only when checkboxes are enabled)</h5>
+                <button
+                  class="btn btn-danger"
+                  style="margin: unset !important; width: 100px"
+                  @click="buttonsEnabled = !buttonsEnabled"
+                >
+                  Disable
+                </button>
+              </div>
             </div>
           </div>
         </div>
         <hr class="my-3" />
+        <div
+          v-if="
+            checkboxesEnabled &&
+            show.find((isEnabled) => !isEnabled) != undefined
+          "
+          style="display: flex; align-items: center"
+        >
+          <input type="checkbox" style="margin-right: 10px" /><span
+            >Select all segments</span
+          >
+        </div>
+        <hr
+          class="my-3"
+          v-if="
+            checkboxesEnabled &&
+            show.find((isEnabled) => !isEnabled) != undefined
+          "
+        />
       </div>
       <div
         class="segment-wrapper"
@@ -295,7 +391,12 @@
         v-for="(course_segment, index) in course_segments"
         :key="course_segment.id"
       >
-        <div style="display: flex; flex-direction: row" v-if="show[index]">
+        <div style="display: flex; flex-direction: row" v-if="!show[index]">
+          <div v-if="auth_user.role_id != 3" style="margin-right: 10px">
+            <div v-if="checkboxesEnabled">
+              <input type="checkbox" />
+            </div>
+          </div>
           <div
             class="segment-name-content-wrapper"
             id="segmentNameContentWrapper"
@@ -307,34 +408,137 @@
               {{ course_segment.content }}
             </p>
           </div>
-          <div style="margin-left: auto" v-if="auth_user.role_id != 3">
-            <button
-              title="Edit"
-              class="no-style-button no-blur"
-              @click="
-                $set(show, index, !show[index]),
-                  scrollToElement('editSegment' + index, 'smooth', 'start')
-              "
+          <div
+            style="
+              margin-left: auto;
+              display: flex;
+              flex-direction: row;
+              align-items: flex-start;
+            "
+            v-if="auth_user.role_id != 3"
+          >
+            <div
+              class="segment-button-wrapper"
+              style="display: flex"
+              v-if="buttonsEnabled || !checkboxesEnabled"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#0d6efd"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="course-edit-segment-button"
-                id="courseEditSegmentButton"
+              <button
+                type="button"
+                title="Pin"
+                class="no-style-button no-blur"
+                style="margin-right: 10px"
               >
-                <path
-                  d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"
-                ></path>
-                <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
-              </svg>
-            </button>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0d6efd"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="course-pin-segment-icon"
+                  id="coursePinSegmentIcon"
+                  style="display: block"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M16 12l-4-4-4 4M12 16V9" />
+                </svg>
+              </button>
+
+              <button
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#hideSegmentModal"
+                title="Hide from students"
+                class="no-style-button no-blur"
+                style="margin-right: 10px"
+                :id="`${course_segments[index].id}`"
+                @click="hidingCourseId = course_segment.id"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0d6efd"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="course-hide-segment-icon"
+                  id="courseHideSegmentIcon"
+                  style="display: block"
+                >
+                  <svg height="23.5" width="23.5">
+                    <line x1="0" y1="0" x2="200" y2="200" />
+                  </svg>
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+              <button
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteSegmentModal"
+                title="Delete"
+                class="no-style-button no-blur"
+                style="margin-right: 10px"
+                :id="`${course_segments[index].id}`"
+                @click="deletingCourseId = course_segment.id"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0d6efd"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="course-delete-segment-icon"
+                  id="courseDeleteSegmentIcon"
+                  style="display: block"
+                >
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path
+                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                  ></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+              </button>
+              <button
+                title="Edit"
+                class="no-style-button no-blur"
+                @click="
+                  $set(show, index, !show[index]),
+                    scrollToElement('editSegment' + index, 'smooth', 'start')
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0d6efd"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="course-edit-segment-icon"
+                  id="courseEditSegmentIcon"
+                  style="display: block"
+                >
+                  <path
+                    d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"
+                  ></path>
+                  <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
         <div v-else :id="`editSegment${index}`" class="edit-segment">
@@ -357,6 +561,9 @@
                     stroke-width="2"
                     stroke-linecap="round"
                     stroke-linejoin="round"
+                    style="display: block"
+                    class="course-close-segment-icon"
+                    id="courseCloseSegmentIcon"
                   >
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -404,7 +611,7 @@
       </div>
       <div
         style="display: flex"
-        v-if="showCreateSegment"
+        v-if="!showCreateSegment"
         class="create-segment-wrapper"
         id="createSegmentWrapper"
       >
@@ -430,7 +637,8 @@
               stroke-width="2"
               stroke-linecap="round"
               stroke-linejoin="round"
-              class="course-add-segment-button"
+              class="course-add-segment-icon"
+              style="display: block"
             >
               <line x1="12" y1="5" x2="12" y2="19"></line>
               <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -458,6 +666,9 @@
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
+                  style="display: block"
+                  class="course-close-segment-icon"
+                  id="courseCloseSegmentIcon"
                 >
                   <line x1="18" y1="6" x2="6" y2="18"></line>
                   <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -499,6 +710,49 @@
           </div>
         </div>
       </div>
+
+      <div
+        class="modal fade"
+        id="deleteSegmentModal"
+        tabindex="-1"
+        aria-labelledby="deleteSegmentModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteSegmentModalLabel">
+                Delete a segment
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              Are you sure you want to delete a segment?
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                class="btn btn-danger"
+                @click="deleteSegment()"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -522,11 +776,15 @@ export default {
     return {
       visibleEditSegment: false,
       visibleCreateSegment: false,
-      show: Array(this.course_segments.length).fill(true),
-      showCreateSegment: true,
+      show: Array(this.course_segments.length).fill(false),
+      showCreateSegment: false,
       blurEnabled: false,
       studentViewEnabled: false,
       editAllSegmentsEnabled: false,
+      checkboxesEnabled: false,
+      buttonsEnabled: true,
+      deletingCourseId: null,
+      hidingCourseId: null,
     };
   },
   methods: {
@@ -544,64 +802,64 @@ export default {
     changeCreateSegmentBoolean(value) {
       this.visibleCreateSegment = value;
     },
-    async blur(recentValue) {
-      if (!(this.visibleEditSegment || this.visibleCreateSegment)) {
-        setTimeout(() => {
-          document
-            .querySelectorAll(
-              "div.non-segments-wrapper, div.course-image-wrapper"
-            )
-            .forEach((element) =>
-              element.classList.remove("no-user-interaction")
-            );
-          document
-            .querySelectorAll(".my-3")
-            .forEach((hrElement) => hrElement.classList.remove("blur-hr"));
-          document
-            .getElementById("segmentNameContentWrapper")
-            .classList.remove("blur");
-          document
+    // async blur(recentValue) {
+    //   if (!(this.visibleEditSegment || this.visibleCreateSegment)) {
+    //     setTimeout(() => {
+    //       document
+    //         .querySelectorAll(
+    //           "div.non-segments-wrapper, div.course-image-wrapper"
+    //         )
+    //         .forEach((element) =>
+    //           element.classList.remove("no-user-interaction")
+    //         );
+    //       document
+    //         .querySelectorAll(".my-3")
+    //         .forEach((hrElement) => hrElement.classList.remove("blur-hr"));
+    //       document
+    //         .getElementById("segmentNameContentWrapper")
+    //         .classList.remove("blur");
+    //       document
 
-            .getElementById("nonSegmentsWrapper")
-            .classList.remove("blur");
-          document
-            .getElementById("courseImageWrapper")
-            .classList.remove("blur");
-        }, 1);
-      } else {
-        await setTimeout(() => {
-          document.getElementById("nonSegmentsWrapper").classList.add("blur");
-          document.getElementById("courseImageWrapper").classList.add("blur");
-          document
-            .querySelectorAll(".my-3")
-            .forEach((hrElement) => hrElement.classList.add("blur-hr"));
+    //         .getElementById("nonSegmentsWrapper")
+    //         .classList.remove("blur");
+    //       document
+    //         .getElementById("courseImageWrapper")
+    //         .classList.remove("blur");
+    //     }, 1);
+    //   } else {
+    //     await setTimeout(() => {
+    //       document.getElementById("nonSegmentsWrapper").classList.add("blur");
+    //       document.getElementById("courseImageWrapper").classList.add("blur");
+    //       document
+    //         .querySelectorAll(".my-3")
+    //         .forEach((hrElement) => hrElement.classList.add("blur-hr"));
 
-          document
-            .querySelectorAll(
-              "div.non-segments-wrapper, div.course-image-wrapper, div.segment-name-content-wrapper"
-            )
-            .forEach((element) => element.classList.add("no-user-interaction"));
-        }, 1);
-        if (this.visibleEditSegment && this.visibleCreateSegment) {
-          if (recentValue == "create") {
-            document.getElementById("createSegment").className = "no-blur";
-            document.getElementById("editSegment").className = "blur";
-          } else {
-            document.getElementById("createSegment").className = "blur";
-            document.getElementById("editSegment").className = "no-blur";
-          }
-        } else {
-          if (recentValue == "create") {
-            document.getElementById("createSegment").className = "no-blur";
-            document
-              .getElementById("segmentNameContentWrapper")
-              .classList.add("blur");
-          } else {
-            document.getElementById("editSegment").className = "no-blur";
-          }
-        }
-      }
-    },
+    //       document
+    //         .querySelectorAll(
+    //           "div.non-segments-wrapper, div.course-image-wrapper, div.segment-name-content-wrapper"
+    //         )
+    //         .forEach((element) => element.classList.add("no-user-interaction"));
+    //     }, 1);
+    //     if (this.visibleEditSegment && this.visibleCreateSegment) {
+    //       if (recentValue == "create") {
+    //         document.getElementById("createSegment").className = "no-blur";
+    //         document.getElementById("editSegment").className = "blur";
+    //       } else {
+    //         document.getElementById("createSegment").className = "blur";
+    //         document.getElementById("editSegment").className = "no-blur";
+    //       }
+    //     } else {
+    //       if (recentValue == "create") {
+    //         document.getElementById("createSegment").className = "no-blur";
+    //         document
+    //           .getElementById("segmentNameContentWrapper")
+    //           .classList.add("blur");
+    //       } else {
+    //         document.getElementById("editSegment").className = "no-blur";
+    //       }
+    //     }
+    //   }
+    // },
     createSegment() {
       const data = {
         newSegmentName: this.$refs.newSegmentName.value,
@@ -612,6 +870,14 @@ export default {
         .then(() => location.reload());
     },
     editSegment() {},
+    deleteSegment() {
+      axios
+        .delete(`/course/${this.course.id}/segment/${this.deletingCourseId}`)
+        .then(() => location.reload());
+    },
+    test() {
+      console.log("test");
+    },
   },
 };
 </script>
@@ -645,26 +911,54 @@ export default {
   text-align: center;
   justify-content: space-around;
 }
-.course-edit-segment-button {
-  transition: 0.15s ease-out;
+.course-edit-segment-icon {
+  transition: 0.1s ease-out;
 }
-.course-edit-segment-button:hover {
+.course-edit-segment-icon:hover {
   stroke: #0056b3;
-  transition: 0.15s ease-in;
+  transition: 0.1s ease-in;
 }
-.course-add-segment-button {
-  transition: 0.15s ease-out;
+.course-add-segment-icon {
+  transition: 0.1s ease-out;
 }
-.course-add-segment-button:hover {
+.course-add-segment-icon:hover {
   stroke: #0056b3;
-  transition: 0.15s ease-in;
+  transition: 0.1s ease-in;
+}
+.course-delete-segment-icon {
+  transition: 0.1s ease-out;
+}
+.course-delete-segment-icon:hover {
+  stroke: #0056b3;
+  transition: 0.1s ease-in;
+}
+.course-hide-segment-icon {
+  transition: 0.1s ease-out;
+}
+.course-hide-segment-icon:hover {
+  stroke: #0056b3;
+  transition: 0.1s ease-in;
+}
+.course-pin-segment-icon {
+  transition: 0.1s ease-out;
+}
+.course-pin-segment-icon:hover {
+  stroke: #0056b3;
+  transition: 0.1s ease-in;
+}
+.course-close-segment-icon {
+  transition: 0.1s ease-out;
+}
+.course-close-segment-icon:hover {
+  stroke: #0056b3;
+  transition: 0.1s ease-in;
 }
 .course-close {
-  transition: 0.15s ease-out;
+  transition: 0.1s ease-out;
 }
 .course-close:hover {
   stroke: #0056b3;
-  transition: 0.15s ease-in;
+  transition: 0.1s ease-in;
 }
 .segment-name {
   font-size: 1.75rem;
@@ -754,11 +1048,7 @@ export default {
     justify-content: center;
     flex-direction: column !important;
   }
-  .course-settings-edit-button-wrapper {
-    margin-right: unset !important;
-    margin-bottom: 10px !important;
-  }
-  .course-settings-blur-button-wrapper {
+  .course-setting-button-wrapper {
     margin-right: unset !important;
     margin-bottom: 10px !important;
   }
