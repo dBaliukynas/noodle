@@ -372,9 +372,34 @@
           "
           style="display: flex; align-items: center"
         >
-          <input type="checkbox" style="margin-right: 10px" /><span
-            >Select all segments</span
-          >
+          <input
+            v-if="
+              selectedSegmentsLength == null ||
+              selectedSegmentsLength == 0 ||
+              (allSelected && selectedSegmentsLength == course_segments.length)
+            "
+            type="checkbox"
+            v-model="allSelected"
+            @change="selectAll"
+            style="margin-right: 10px"
+          />
+
+          <input
+            v-else-if="
+              selectedSegmentsLength == course_segments.length && !allSelected
+            "
+            type="checkbox"
+            :checked="true"
+            @change="selectAll"
+            style="margin-right: 10px"
+          />
+          <input
+            v-else
+            type="checkbox"
+            :indeterminate.prop="true"
+            @change="selectAll"
+            style="margin-right: 10px"
+          /><span>Select all segments</span>
         </div>
         <hr
           class="my-3"
@@ -394,7 +419,12 @@
         <div style="display: flex; flex-direction: row" v-if="!show[index]">
           <div v-if="auth_user.role_id != 3" style="margin-right: 10px">
             <div v-if="checkboxesEnabled">
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                v-model="selected"
+                :id="course_segment.id"
+                :value="course_segment.id"
+              />
             </div>
           </div>
           <div
@@ -785,9 +815,29 @@ export default {
       buttonsEnabled: true,
       deletingCourseId: null,
       hidingCourseId: null,
+      selected: [],
+      allSelected: false,
+      selectedSegmentsLength: null,
     };
   },
+  watch: {
+    selected(val) {
+      this.selectedSegmentsLength = val.length;
+      if (this.selectedSegmentsLength != this.course_segments.length) {
+        this.allSelected = false;
+      }
+    },
+  },
   methods: {
+    selectAll() {
+      if (this.allSelected) {
+        const selected = this.course_segments.map((c) => c.id);
+        this.selected = selected;
+      } else {
+        this.selected = [];
+      }
+    },
+
     scrollToElement(idName, scrollBehavior, scrollBlock) {
       setTimeout(() => {
         document.getElementById(idName)?.scrollIntoView({
@@ -874,9 +924,6 @@ export default {
       axios
         .delete(`/course/${this.course.id}/segment/${this.deletingCourseId}`)
         .then(() => location.reload());
-    },
-    test() {
-      console.log("test");
     },
   },
 };
@@ -993,6 +1040,18 @@ export default {
   }
   .course_image_text {
     font-size: 30px;
+  }
+  .segment-button-wrapper {
+    flex-direction: column;
+  }
+  .course-hide-segment-icon {
+    margin-top: 2px;
+  }
+  .course-delete-segment-icon {
+    margin-top: 2px;
+  }
+  .course-edit-segment-icon {
+    margin-top: 2px;
   }
 }
 @media only screen and (max-width: 800px) {
