@@ -383,7 +383,7 @@
             @change="selectAll"
             style="margin-right: 10px"
           />
-         
+
           <input
             v-else-if="
               selectedSegmentsLength == course_segments.length && !allSelected
@@ -829,7 +829,7 @@ export default {
     },
   },
   methods: {
-    async selectAll() {
+    selectAll() {
       if (this.allSelected) {
         const selected = this.course_segments.map((c) => c.id);
         this.selected = selected;
