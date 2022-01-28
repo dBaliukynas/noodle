@@ -367,6 +367,206 @@
         <hr class="my-3" />
         <div
           v-if="
+            auth_user.role_id != 3 &&
+            checkboxesEnabled &&
+            show.find((isEnabled) => !isEnabled) != undefined
+          "
+        >
+          <div style="flex-direction: column">
+            <h3>Actions with selected segments</h3>
+            <div
+              v-if="
+                selectedSegmentsLength == null || selectedSegmentsLength == 0
+              "
+              style="display: flex"
+            >
+              <button
+                type="button"
+                class="btn btn-primary disabled"
+                style="
+                  width: 100px;
+                  margin-right: 4px;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#ffffff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="margin-right: 3px"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M16 12l-4-4-4 4M12 16V9" />
+                </svg>
+                <span>Pin</span>
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary disabled"
+                style="
+                  width: 100px;
+                  margin-right: 4px;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#ffffff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="margin-right: 5px"
+                >
+                  <svg height="23.5" width="23.5">
+                    <line x1="0" y1="0" x2="200" y2="200" />
+                  </svg>
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span>Hide</span>
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary disabled"
+                style="
+                  width: 100px;
+                  margin-right: 4px;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#ffffff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="margin-right: 3px"
+                >
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path
+                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                  ></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+                <span>Delete</span>
+              </button>
+            </div>
+            <div v-else style="display: flex">
+              <button
+                type="button"
+                class="btn btn-primary"
+                style="
+                  width: 100px;
+                  margin-right: 4px;
+                  display: flex;
+                  justify-content: center;
+                "
+                @click="test()"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#ffffff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="margin-right: 3px"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M16 12l-4-4-4 4M12 16V9" />
+                </svg>
+                <span>Pin</span>
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                style="
+                  width: 100px;
+                  margin-right: 4px;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#ffffff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="margin-right: 5px"
+                >
+                  <svg height="23.5" width="23.5">
+                    <line x1="0" y1="0" x2="200" y2="200" />
+                  </svg>
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                <span>Hide</span>
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                style="
+                  width: 100px;
+                  margin-right: 4px;
+                  display: flex;
+                  justify-content: center;
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#ffffff"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  style="margin-right: 3px"
+                >
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path
+                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                  ></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+                <span>Delete</span>
+              </button>
+            </div>
+          </div>
+          <hr class="my-3" />
+        </div>
+
+        <div
+          v-if="
+            auth_user.role_id != 3 &&
             checkboxesEnabled &&
             show.find((isEnabled) => !isEnabled) != undefined
           "
@@ -376,7 +576,8 @@
             v-if="
               selectedSegmentsLength == null ||
               selectedSegmentsLength == 0 ||
-              (allSelected && selectedSegmentsLength == course_segments.length)
+              (allSelected &&
+                selectedSegmentsLength == closedSegmentsIds.length)
             "
             type="checkbox"
             v-model="allSelected"
@@ -386,7 +587,7 @@
 
           <input
             v-else-if="
-              selectedSegmentsLength == course_segments.length && !allSelected
+              selectedSegmentsLength == closedSegmentsIds.length && !allSelected
             "
             type="checkbox"
             :checked="true"
@@ -545,7 +746,8 @@
                 class="no-style-button no-blur"
                 @click="
                   $set(show, index, !show[index]),
-                    scrollToElement('editSegment' + index, 'smooth', 'start')
+                    scrollToElement('editSegment' + index, 'smooth', 'start'),
+                    deleteFromClosedSegmentIds(course_segment.id)
                 "
               >
                 <svg
@@ -579,7 +781,10 @@
                   class="no-style-button course-close"
                   id="buttonCourseCloseEdit"
                   style="margin-left: auto"
-                  @click="$set(show, index, !show[index])"
+                  @click="
+                    $set(show, index, !show[index]),
+                      pushToClosedSegmentsIds(course_segment.id)
+                  "
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -593,7 +798,7 @@
                     stroke-linejoin="round"
                     style="display: block"
                     class="course-close-segment-icon"
-                    id="courseCloseSegmentIcon"
+                    :id="`courseCloseSegmentEditIcon${index}`"
                   >
                     <line x1="18" y1="6" x2="6" y2="18"></line>
                     <line x1="6" y1="6" x2="18" y2="18"></line>
@@ -789,6 +994,7 @@
 
 
 <script>
+import CoursesComponentVue from "./CoursesComponent.vue";
 import ResizableTextAreaComponent from "./ResizableTextAreaComponent.vue";
 export default {
   components: { ResizableTextAreaComponent },
@@ -807,6 +1013,10 @@ export default {
       visibleEditSegment: false,
       visibleCreateSegment: false,
       show: Array(this.course_segments.length).fill(false),
+      closedSegmentsIds: this.course_segments.map(
+        (course_segment) => course_segment.id
+      ),
+
       showCreateSegment: false,
       blurEnabled: false,
       studentViewEnabled: false,
@@ -823,16 +1033,19 @@ export default {
   watch: {
     selected(val) {
       this.selectedSegmentsLength = val.length;
-      if (this.selectedSegmentsLength != this.course_segments.length) {
+
+      if (this.selectedSegmentsLength != this.closedSegmentsIds.length) {
         this.allSelected = false;
       }
+    },
+    allSelected(val) {
+
     },
   },
   methods: {
     selectAll() {
       if (this.allSelected) {
-        const selected = this.course_segments.map((c) => c.id);
-        this.selected = selected;
+        this.selected = [...this.closedSegmentsIds];
       } else {
         this.selected = [];
       }
@@ -846,12 +1059,12 @@ export default {
         });
       }, 500);
     },
-    changeEditSegmentBoolean(value) {
-      this.visibleEditSegment = value;
-    },
-    changeCreateSegmentBoolean(value) {
-      this.visibleCreateSegment = value;
-    },
+    // changeEditSegmentBoolean(value) {
+    //   this.visibleEditSegment = value;
+    // },
+    // changeCreateSegmentBoolean(value) {
+    //   this.visibleCreateSegment = value;
+    // },
     // async blur(recentValue) {
     //   if (!(this.visibleEditSegment || this.visibleCreateSegment)) {
     //     setTimeout(() => {
@@ -925,6 +1138,21 @@ export default {
         .delete(`/course/${this.course.id}/segment/${this.deletingCourseId}`)
         .then(() => location.reload());
     },
+    deleteFromClosedSegmentIds(courseSegmentId) {
+      this.allSelected = false;
+      const indexOfClosedSegmentId =
+        this.closedSegmentsIds.indexOf(courseSegmentId);
+      const indexOfSelectedSegmentId = this.selected.indexOf(courseSegmentId);
+
+      this.closedSegmentsIds.splice(indexOfClosedSegmentId, 1);
+      if (indexOfSelectedSegmentId != -1) {
+        this.selected.splice(indexOfSelectedSegmentId, 1);
+      }
+    },
+    pushToClosedSegmentsIds(courseSegmentId) {
+      this.closedSegmentsIds.push(courseSegmentId);
+    },
+    test() {},
   },
 };
 </script>
