@@ -6,6 +6,7 @@
 
 window.Vue = require("vue").default;
 window.events = new Vue();
+import { store } from "./store/store.js";
 
 /**
  * The following block of code may be used to automatically register your
@@ -88,6 +89,14 @@ Vue.component(
     "resizable-text-area-component",
     require("./components/ResizableTextAreaComponent.vue").default
 );
+Vue.component(
+    "course-segment-component",
+    require("./components/CourseSegmentComponent.vue").default
+);
+Vue.component(
+    "course-settings-component",
+    require("./components/CourseSettingsComponent.vue").default
+);
 Vue.component("star-rating", require("vue-star-rating").default);
 
 window.showNotification = function (message, type = "alert-primary") {
@@ -103,4 +112,5 @@ window.showNotification = function (message, type = "alert-primary") {
 new Vue({
     el: "#main",
     extractStyles: true,
+    store,
 });
