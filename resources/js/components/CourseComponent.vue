@@ -187,21 +187,17 @@
         ></project-component>
         <course-settings-component
           :auth_user="auth_user"
-          :show="show"
-          :blurEnabled="blurEnabled"
-          :studentViewEnabled="studentViewEnabled"
+          :scrollToElementParent="scrollToElement"
           :editAllSegmentsEnabled="editAllSegmentsEnabled"
-          :checkboxesEnabled="checkboxesEnabled"
           :buttonsEnabled="buttonsEnabled"
         ></course-settings-component>
       </div>
       <hr class="my-3" />
       <course-segment-component
         :auth_user="auth_user"
+        :scrollToElementParent="scrollToElement"
         :course="course"
-        :course_segments="course_segments"
         :buttonsEnabled="buttonsEnabled"
-        :checkboxesEnabled="checkboxesEnabled"
       ></course-segment-component>
     </div>
   </div>
@@ -222,43 +218,39 @@ export default {
   ],
   data() {
     return {
-      show: Array(this.course_segments.length).fill(false),
-      closedSegmentsIds: this.course_segments.map(
-        (course_segment) => course_segment.id
-      ),
-
-      showCreateSegment: false,
-      blurEnabled: false,
       studentViewEnabled: false,
       editAllSegmentsEnabled: false,
       checkboxesEnabled: false,
       buttonsEnabled: true,
-      deletingCourseId: null,
-      hidingCourseId: null,
-      selected: [],
-      allSelected: false,
-      selectedSegmentsLength: null,
+      blurEnabled: false,
     };
   },
-  watch: {
-    selected(val) {
-      this.selectedSegmentsLength = val.length;
-
-      if (this.selectedSegmentsLength != this.closedSegmentsIds.length) {
-        this.allSelected = false;
-      }
-    },
-    allSelected(val) {},
+  mounted() {
+    this.$nextTick(() => {
+      this.$store.dispatch(
+        "courseSegmentsModule/setCourseSegments",
+        this.course_segments
+      );
+      this.$store.dispatch(
+        "courseSegmentsModule/initShow",
+        this.course_segments.length
+      );
+      this.$store.dispatch(
+        "courseSegmentsModule/setBlurEnabled",
+        this.blurEnabled
+      );
+      this.$store.dispatch(
+        "courseSegmentsModule/setStudentViewEnabled",
+        this.studentViewEnabled
+      );
+         this.$store.dispatch(
+        "courseSegmentsModule/setCheckboxesEnabled",
+        this.checkboxesEnabled
+      );
+    });
   },
-  methods: {
-    selectAll() {
-      if (this.allSelected) {
-        this.selected = [...this.closedSegmentsIds];
-      } else {
-        this.selected = [];
-      }
-    },
 
+  methods: {
     scrollToElement(idName, scrollBehavior, scrollBlock) {
       setTimeout(() => {
         document.getElementById(idName)?.scrollIntoView({

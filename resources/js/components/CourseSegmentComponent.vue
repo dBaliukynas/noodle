@@ -101,6 +101,35 @@
             </svg>
             <span>Delete</span>
           </button>
+          <button
+            type="button"
+            class="btn btn-primary disabled"
+            style="
+              width: 100px;
+              margin-right: 4px;
+              display: flex;
+              justify-content: center;
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#ffffff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              style="margin-right: 3px"
+            >
+              <path
+                d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"
+              ></path>
+              <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
+            </svg>
+            <span>Edit</span>
+          </button>
         </div>
         <div v-else style="display: flex">
           <button
@@ -191,6 +220,35 @@
             </svg>
             <span>Delete</span>
           </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            style="
+              width: 100px;
+              margin-right: 4px;
+              display: flex;
+              justify-content: center;
+            "
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#ffffff"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              style="margin-right: 3px"
+            >
+              <path
+                d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"
+              ></path>
+              <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
+            </svg>
+            <span>Edit</span>
+          </button>
         </div>
       </div>
       <hr class="my-3" />
@@ -243,8 +301,8 @@
       class="segment-wrapper"
       id="segmentWrapper"
       style="display: flex; flex-direction: column"
-      v-for="(course_segment, index) in course_segments"
-      :key="course_segment.id"
+      v-for="(courseSegment, index) in courseSegments"
+      :key="courseSegment.id"
     >
       <div style="display: flex; flex-direction: row" v-if="!show[index]">
         <div v-if="auth_user.role_id != 3" style="margin-right: 10px">
@@ -252,8 +310,8 @@
             <input
               type="checkbox"
               v-model="selected"
-              :id="course_segment.id"
-              :value="course_segment.id"
+              :id="courseSegment.id"
+              :value="courseSegment.id"
             />
           </div>
         </div>
@@ -262,10 +320,10 @@
           id="segmentNameContentWrapper"
         >
           <h3 :id="`segmentName${index}`" class="segment-name">
-            {{ course_segment.name }}
+            {{ courseSegment.name }}
           </h3>
           <p class="segment-content" :id="`segmentContent${index}`">
-            {{ course_segment.content }}
+            {{ courseSegment.content }}
           </p>
         </div>
         <div
@@ -314,8 +372,8 @@
               title="Hide from students"
               class="no-style-button no-blur"
               style="margin-right: 10px"
-              :id="`${course_segments[index].id}`"
-              @click="hidingCourseId = course_segment.id"
+              :id="`${courseSegments[index].id}`"
+              @click="hidingSegmentId = courseSegment.id"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -345,8 +403,8 @@
               title="Delete"
               class="no-style-button no-blur"
               style="margin-right: 10px"
-              :id="`${course_segments[index].id}`"
-              @click="deletingCourseId = course_segment.id"
+              :id="`${courseSegments[index].id}`"
+              @click="deletingSegmentId = courseSegment.id"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -374,10 +432,16 @@
               title="Edit"
               class="no-style-button no-blur"
               @click="
-                $set(show, index, !show[index]),
-                  scrollToElement('editSegment' + index, 'smooth', 'start'),
-                  deleteFromClosedSegmentIds(course_segment.id),
-                  increment()
+                $store.dispatch('courseSegmentsModule/updateShow', {
+                  index,
+                  value: !show[index],
+                }),
+                  scrollToElementParent(
+                    'editSegment' + index,
+                    'smooth',
+                    'start'
+                  ),
+                  deleteFromclosedSegmentsIds(courseSegment.id)
               "
             >
               <svg
@@ -412,8 +476,11 @@
                 id="buttonCourseCloseEdit"
                 style="margin-left: auto"
                 @click="
-                  $set(show, index, !show[index]),
-                    pushToClosedSegmentsIds(course_segment.id)
+                  $store.dispatch('courseSegmentsModule/updateShow', {
+                    index,
+                    value: !show[index],
+                  }),
+                    pushToclosedSegmentsIds(courseSegment.id)
                 "
               >
                 <svg
@@ -445,7 +512,7 @@
               :id="`segmentName${index}`"
               :ref="`segmentName${index}`"
               type="text"
-              :value="`${course_segment.name}`"
+              :value="`${courseSegment.name}`"
             />
           </div>
           <div class="mb-3">
@@ -458,7 +525,7 @@
                 :id="`segmentContent${index}`"
                 :ref="`segmentContent${index}`"
                 rows="3"
-                :value="`${course_segment.content}`"
+                :value="`${courseSegment.content}`"
               ></textarea>
             </resizable-text-area-component>
             <button
@@ -489,7 +556,7 @@
           title="Create new segment"
           @click="
             (showCreateSegment = !showCreateSegment),
-              scrollToElement('createSegment', 'smooth', 'start')
+              scrollToElementParent('createSegment', 'smooth', 'start')
           "
         >
           <svg
@@ -622,28 +689,28 @@
 
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  props: [
-    "auth_user",
-    "course",
-    "course_segments",
-    "checkboxesEnabled",
-    "buttonsEnabled",
-  ],
+  props: ["auth_user", "scrollToElementParent", "course"],
   data() {
     return {
-      show: Array(this.course_segments.length).fill(false),
-      closedSegmentsIds: this.course_segments.map(
-        (course_segment) => course_segment.id
-      ),
-
       showCreateSegment: false,
-      deletingCourseId: null,
-      hidingCourseId: null,
+      deletingSegmentId: null,
+      hidingSegmentId: null,
       selected: [],
       allSelected: false,
       selectedSegmentsLength: null,
     };
+  },
+  computed: {
+    ...mapGetters({
+      courseSegments: "courseSegmentsModule/courseSegments",
+      show: "courseSegmentsModule/show",
+      checkboxesEnabled: "courseSegmentsModule/checkboxesEnabled",
+      buttonsEnabled: "courseSegmentsModule/buttonsEnabled",
+      closedSegmentsIds: "courseSegmentsModule/closedSegmentsIds",
+    }),
   },
   watch: {
     selected(val) {
@@ -664,14 +731,6 @@ export default {
       }
     },
 
-    scrollToElement(idName, scrollBehavior, scrollBlock) {
-      setTimeout(() => {
-        document.getElementById(idName)?.scrollIntoView({
-          behavior: scrollBehavior,
-          block: scrollBlock,
-        });
-      }, 500);
-    },
     // changeEditSegmentBoolean(value) {
     //   this.visibleEditSegment = value;
     // },
@@ -748,10 +807,10 @@ export default {
     editSegment() {},
     deleteSegment() {
       axios
-        .delete(`/course/${this.course.id}/segment/${this.deletingCourseId}`)
+        .delete(`/course/${this.course.id}/segment/${this.deletingSegmentId}`)
         .then(() => location.reload());
     },
-    deleteFromClosedSegmentIds(courseSegmentId) {
+    deleteFromclosedSegmentsIds(courseSegmentId) {
       this.allSelected = false;
       const indexOfClosedSegmentId =
         this.closedSegmentsIds.indexOf(courseSegmentId);
@@ -762,12 +821,9 @@ export default {
         this.selected.splice(indexOfSelectedSegmentId, 1);
       }
     },
-    pushToClosedSegmentsIds(courseSegmentId) {
+    pushToclosedSegmentsIds(courseSegmentId) {
+      this.allSelected = false;
       this.closedSegmentsIds.push(courseSegmentId);
-    },
-    increment() {
-      this.$store.commit("courseSegmentsModule/increment");
-      console.log(this.$store.state.courseSegmentsModule.count);
     },
   },
 };

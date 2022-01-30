@@ -26,8 +26,11 @@
             class="btn btn-primary"
             style="margin: unset !important; width: 100px"
             @click="
-              (show = new Array(course_segments.length).fill(true)),
-                scrollToElement('editSegment0', 'smooth', 'start')
+              $store.dispatch(
+                'courseSegmentsModule/setShow',
+                new Array(courseSegments.length).fill(true)
+              ),
+                scrollToElementParent('editSegment0', 'smooth', 'start')
             "
           >
             Edit
@@ -42,7 +45,12 @@
           <button
             class="btn btn-danger"
             style="margin: unset !important; width: 100px"
-            @click="show = new Array(course_segments.length).fill(false)"
+            @click="
+              $store.dispatch(
+                'courseSegmentsModule/setShow',
+                new Array(courseSegments.length).fill(false)
+              )
+            "
           >
             Close
           </button>
@@ -57,7 +65,9 @@
         <button
           class="btn btn-success"
           style="margin: unset !important; width: 100px"
-          @click="blurEnabled = !blurEnabled"
+          @click="
+            $store.dispatch('courseSegmentsModule/setBlurEnabled', !blurEnabled)
+          "
         >
           Enable
         </button>
@@ -71,7 +81,9 @@
         <button
           class="btn btn-danger"
           style="margin: unset !important; width: 100px"
-          @click="blurEnabled = !blurEnabled"
+          @click="
+            $store.dispatch('courseSegmentsModule/setBlurEnabled', !blurEnabled)
+          "
         >
           Disable
         </button>
@@ -85,7 +97,12 @@
         <button
           class="btn btn-success"
           style="margin: unset !important; width: 100px"
-          @click="studentViewEnabled = !studentViewEnabled"
+          @click="
+            $store.dispatch(
+              'courseSegmentsModule/setStudentViewEnabled',
+              !studentViewEnabled
+            )
+          "
         >
           Enable
         </button>
@@ -99,7 +116,12 @@
         <button
           class="btn btn-danger"
           style="margin: unset !important; width: 100px"
-          @click="studentViewEnabled = !studentViewEnabled"
+          @click="
+            $store.dispatch(
+              'courseSegmentsModule/setStudentViewEnabled',
+              !studentViewEnabled
+            )
+          "
         >
           Disable
         </button>
@@ -113,7 +135,12 @@
         <button
           class="btn btn-success"
           style="margin: unset !important; width: 100px"
-          @click="checkboxesEnabled = !checkboxesEnabled"
+          @click="
+            $store.dispatch(
+              'courseSegmentsModule/setCheckboxesEnabled',
+              !checkboxesEnabled
+            )
+          "
         >
           Enable
         </button>
@@ -127,7 +154,12 @@
         <button
           class="btn btn-danger"
           style="margin: unset !important; width: 100px"
-          @click="checkboxesEnabled = !checkboxesEnabled"
+          @click="
+            $store.dispatch(
+              'courseSegmentsModule/setCheckboxesEnabled',
+              !checkboxesEnabled
+            )
+          "
         >
           Disable
         </button>
@@ -138,7 +170,12 @@
           <button
             class="btn btn-success disabled"
             style="margin: unset !important; width: 100px"
-            @click="buttonsEnabled = !buttonsEnabled"
+            @click="
+              $store.dispatch(
+                'courseSegmentsModule/setButtonsEnabled',
+                !buttonsEnabled
+              )
+            "
           >
             Enable
           </button>
@@ -148,7 +185,12 @@
           <button
             class="btn btn-danger disabled"
             style="margin: unset !important; width: 100px"
-            @click="buttonsEnabled = !buttonsEnabled"
+            @click="
+              $store.dispatch(
+                'courseSegmentsModule/setButtonsEnabled',
+                !buttonsEnabled
+              )
+            "
           >
             Disable
           </button>
@@ -160,7 +202,12 @@
           <button
             class="btn btn-success"
             style="margin: unset !important; width: 100px"
-            @click="buttonsEnabled = !buttonsEnabled"
+            @click="
+              $store.dispatch(
+                'courseSegmentsModule/setButtonsEnabled',
+                !buttonsEnabled
+              )
+            "
           >
             Enable
           </button>
@@ -170,7 +217,12 @@
           <button
             class="btn btn-danger"
             style="margin: unset !important; width: 100px"
-            @click="buttonsEnabled = !buttonsEnabled"
+            @click="
+              $store.dispatch(
+                'courseSegmentsModule/setButtonsEnabled',
+                !buttonsEnabled
+              )
+            "
           >
             Disable
           </button>
@@ -182,16 +234,20 @@
 
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  props: [
-    "show",
-    "auth_user",
-    "blurEnabled",
-    "studentViewEnabled",
-    "editAllSegmentsEnabled",
-    "checkboxesEnabled",
-    "buttonsEnabled",
-  ],
+  props: ["auth_user", "scrollToElementParent", "editAllSegmentsEnabled"],
+  computed: {
+    ...mapGetters({
+      courseSegments: "courseSegmentsModule/courseSegments",
+      show: "courseSegmentsModule/show",
+      blurEnabled: "courseSegmentsModule/blurEnabled",
+      studentViewEnabled: "courseSegmentsModule/studentViewEnabled",
+      checkboxesEnabled: "courseSegmentsModule/checkboxesEnabled",
+      buttonsEnabled: "courseSegmentsModule/buttonsEnabled",
+    }),
+  },
 };
 </script>
 
