@@ -369,7 +369,8 @@
               v-if="hiddenSegmentsBooleans[index]"
               title="Hidden"
               v-bind:style="[
-                !pinnedSegmentsBooleans[index] && buttonsEnabled
+                !pinnedSegmentsBooleans[index] &&
+                (buttonsEnabled || !checkboxesEnabled)
                   ? { 'margin-right': '20px' }
                   : { 'margin-right': '10px' },
               ]"
