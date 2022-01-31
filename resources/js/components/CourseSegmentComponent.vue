@@ -297,83 +297,82 @@
         checkboxesEnabled && show.find((isEnabled) => !isEnabled) != undefined
       "
     />
-    <div
-      class="segment-wrapper"
-      id="segmentWrapper"
-      style="display: flex; flex-direction: column"
-      v-for="(courseSegment, index) in courseSegments"
-      :key="courseSegment.id"
-    >
-      <div style="display: flex; flex-direction: row" v-if="!show[index]">
-        <div v-if="auth_user.role_id != 3" style="margin-right: 10px">
-          <div v-if="checkboxesEnabled">
-            <input
-              type="checkbox"
-              v-model="selected"
-              :id="courseSegment.id"
-              :value="courseSegment.id"
-            />
-          </div>
-        </div>
-        <div
-          class="segment-name-content-wrapper"
-          id="segmentNameContentWrapper"
-        >
-          <h3 :id="`segmentName${index}`" class="segment-name">
-            {{ courseSegment.name }}
-          </h3>
-          <p class="segment-content" :id="`segmentContent${index}`">
-            {{ courseSegment.content }}
-          </p>
-        </div>
+    <div id="segmentsWrapper" class="segments-wrapper" ref="segmentsWrapper">
+      <div
+        class="segment-wrapper"
+        :id="`segmentWrapper${courseSegment.id}`"
+        :ref="`segmentWrapper${courseSegment.id}`"
+        style="display: flex; flex-direction: column"
+        v-for="(courseSegment, index) in courseSegments"
+        :key="courseSegment.id"
+      >
         <div
           style="
-            margin-left: auto;
             display: flex;
             flex-direction: row;
-            align-items: flex-start;
+            min-height: 65px;
+            position: relative;
           "
-          v-if="auth_user.role_id != 3"
+          v-bind:style="[
+            checkboxesEnabled &&
+            selected.find(
+              (selectedCourseSegmentId) =>
+                selectedCourseSegmentId == courseSegment.id
+            )
+              ? { 'background-color': 'whitesmoke' }
+              : { 'background-color': 'white' },
+          ]"
+          v-if="!show[index]"
+          class="course-segment"
+          :ref="`courseSegment${courseSegment.id}`"
+          :id="`courseSegment${courseSegment.id}`"
         >
+          <div v-if="auth_user.role_id != 3" style="margin-right: 10px">
+            <div v-if="checkboxesEnabled">
+              <input
+                type="checkbox"
+                v-model="selected"
+                :id="courseSegment.id"
+                :value="courseSegment.id"
+              />
+            </div>
+          </div>
           <div
-            class="segment-button-wrapper"
-            style="display: flex"
-            v-if="buttonsEnabled || !checkboxesEnabled"
+            style="display: flex; flex-direction: column"
+            class="segment-name-content-wrapper"
           >
-            <button
-              type="button"
-              title="Pin"
-              class="no-style-button no-blur"
-              style="margin-right: 10px"
+            <div
+              class="segment-name-wrapper"
+              id="segmentNameWrapper"
+              style="margin-bottom: 10px"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#0d6efd"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="course-pin-segment-icon"
-                id="coursePinSegmentIcon"
-                style="display: block"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <path d="M16 12l-4-4-4 4M12 16V9" />
-              </svg>
-            </button>
+              <h3 :id="`segmentName${index}`" class="segment-name">
+                {{ courseSegment.name }}
+              </h3>
+            </div>
+            <div class="segment-content-wrapper" id="segmentContentWrapper">
+              <p class="segment-content" :id="`segmentContent${index}`">
+                {{ courseSegment.content }}
+              </p>
+            </div>
+          </div>
 
-            <button
-              type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#hideSegmentModal"
-              title="Hide from students"
-              class="no-style-button no-blur"
-              style="margin-right: 10px"
-              :id="`${courseSegments[index].id}`"
-              @click="hidingSegmentId = courseSegment.id"
+          <div
+            style="
+              margin-left: auto;
+              display: flex;
+              flex-direction: row;
+              align-items: flex-start;
+            "
+          >
+            <div
+              v-if="hiddenSegmentsBooleans[index]"
+              title="Hidden"
+              v-bind:style="[
+                !pinnedSegmentsBooleans[index] && buttonsEnabled
+                  ? { 'margin-right': '20px' }
+                  : { 'margin-right': '10px' },
+              ]"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -381,11 +380,10 @@
                 height="22"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#0d6efd"
+                stroke="#708090"
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="course-hide-segment-icon"
                 id="courseHideSegmentIcon"
                 style="display: block"
               >
@@ -395,92 +393,52 @@
                 <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                 <circle cx="12" cy="12" r="3"></circle>
               </svg>
-            </button>
-            <button
-              type="button"
-              data-bs-toggle="modal"
-              data-bs-target="#deleteSegmentModal"
-              title="Delete"
-              class="no-style-button no-blur"
-              style="margin-right: 10px"
-              :id="`${courseSegments[index].id}`"
-              @click="deletingSegmentId = courseSegment.id"
+            </div>
+            <div
+              v-if="pinnedSegmentsBooleans[index]"
+              title="Pinned"
+              v-bind:style="[
+                (buttonsEnabled || !checkboxesEnabled) && auth_user.role_id != 3
+                  ? { 'margin-right': '20px' }
+                  : {},
+              ]"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="22"
                 height="22"
                 viewBox="0 0 24 24"
-                fill="none"
-                stroke="#0d6efd"
+                fill="#ffb800"
+                stroke="#ffb800"
                 stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
-                class="course-delete-segment-icon"
-                id="courseDeleteSegmentIcon"
                 style="display: block"
               >
-                <polyline points="3 6 5 6 21 6"></polyline>
-                <path
-                  d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
-                ></path>
-                <line x1="10" y1="11" x2="10" y2="17"></line>
-                <line x1="14" y1="11" x2="14" y2="17"></line>
+                <polygon
+                  points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"
+                ></polygon>
               </svg>
-            </button>
-            <button
-              title="Edit"
-              class="no-style-button no-blur"
-              @click="
-                $store.dispatch('courseSegmentsModule/updateShow', {
-                  index,
-                  value: !show[index],
-                }),
-                  scrollToElementParent(
-                    'editSegment' + index,
-                    'smooth',
-                    'start'
-                  ),
-                  deleteFromclosedSegmentsIds(courseSegment.id)
+            </div>
+            <div
+              class="segment-button-wrapper"
+              style="display: flex"
+              v-if="
+                (buttonsEnabled || !checkboxesEnabled) && auth_user.role_id != 3
               "
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="22"
-                height="22"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="#0d6efd"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="course-edit-segment-icon"
-                id="courseEditSegmentIcon"
-                style="display: block"
-              >
-                <path
-                  d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"
-                ></path>
-                <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
-              </svg>
-            </button>
-          </div>
-        </div>
-      </div>
-      <div v-else :id="`editSegment${index}`" class="edit-segment">
-        <div v-if="auth_user.role_id != 3">
-          <div class="mb-3">
-            <div style="display: flex">
               <button
-                class="no-style-button course-close"
-                id="buttonCourseCloseEdit"
-                style="margin-left: auto"
-                @click="
-                  $store.dispatch('courseSegmentsModule/updateShow', {
-                    index,
-                    value: !show[index],
-                  }),
-                    pushToclosedSegmentsIds(courseSegment.id)
+                v-if="!pinnedSegmentsBooleans[index]"
+                type="button"
+                title="Pin"
+                class="no-style-button no-blur"
+                style="margin-right: 10px"
+                @click.once="
+                  pinSegment(courseSegment.id),
+                    $store.dispatch(
+                      'courseSegmentsModule/setPinnedSegmentsBooleans',
+                      { index, value: !pinnedSegmentsBooleans[index] }
+                    )
                 "
               >
                 <svg
@@ -493,53 +451,260 @@
                   stroke-width="2"
                   stroke-linecap="round"
                   stroke-linejoin="round"
+                  class="course-pin-segment-icon"
+                  id="coursePinSegmentIcon"
                   style="display: block"
-                  class="course-close-segment-icon"
-                  :id="`courseCloseSegmentEditIcon${index}`"
                 >
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M16 12l-4-4-4 4M12 16V9" />
+                </svg>
+              </button>
+              <button
+                v-else
+                type="button"
+                title="Unpin"
+                class="no-style-button no-blur"
+                style="margin-right: 10px"
+                @click="
+                  $store.dispatch(
+                    'courseSegmentsModule/setPinnedSegmentsBooleans',
+                    { index, value: !pinnedSegmentsBooleans[index] }
+                  )
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0d6efd"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="course-pin-segment-icon"
+                  id="coursePinSegmentIcon"
+                  style="display: block"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M16 12l-4 4-4-4M12 8v7" />
+                </svg>
+              </button>
+
+              <button
+                v-if="!hiddenSegmentsBooleans[index]"
+                type="button"
+                title="Hide"
+                class="no-style-button no-blur"
+                style="margin-right: 10px"
+                :id="`${courseSegments[index].id}`"
+                @click="
+                  hideSegment(courseSegment.id),
+                    $store.dispatch(
+                      'courseSegmentsModule/setHiddenSegmentsBooleans',
+                      { index, value: !hiddenSegmentsBooleans[index] }
+                    )
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0d6efd"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="course-hide-segment-icon"
+                  id="courseHideSegmentIcon"
+                  style="display: block"
+                >
+                  <svg height="23.5" width="23.5">
+                    <line x1="0" y1="0" x2="200" y2="200" />
+                  </svg>
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+              <button
+                v-else
+                type="button"
+                title="Reveal"
+                class="no-style-button no-blur"
+                style="margin-right: 10px"
+                :id="`${courseSegments[index].id}`"
+                @click="
+                  hideSegment(courseSegment.id),
+                    $store.dispatch(
+                      'courseSegmentsModule/setHiddenSegmentsBooleans',
+                      { index, value: !hiddenSegmentsBooleans[index] }
+                    )
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0d6efd"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="course-hide-segment-icon"
+                  id="courseHideSegmentIcon"
+                  style="display: block"
+                >
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+              </button>
+              <button
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#deleteSegmentModal"
+                title="Delete"
+                class="no-style-button no-blur"
+                style="margin-right: 10px"
+                :id="`${courseSegments[index].id}`"
+                @click="deleteCourseSegmentId = courseSegment.id"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0d6efd"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="course-delete-segment-icon"
+                  id="courseDeleteSegmentIcon"
+                  style="display: block"
+                >
+                  <polyline points="3 6 5 6 21 6"></polyline>
+                  <path
+                    d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                  ></path>
+                  <line x1="10" y1="11" x2="10" y2="17"></line>
+                  <line x1="14" y1="11" x2="14" y2="17"></line>
+                </svg>
+              </button>
+              <button
+                title="Edit"
+                class="no-style-button no-blur"
+                @click="
+                  $store.dispatch('courseSegmentsModule/updateShow', {
+                    index,
+                    value: !show[index],
+                  }),
+                    scrollToElementParent(
+                      'editSegment' + index,
+                      'smooth',
+                      'start'
+                    ),
+                    deleteFromclosedSegmentsIds(courseSegment.id)
+                "
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="22"
+                  height="22"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#0d6efd"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="course-edit-segment-icon"
+                  id="courseEditSegmentIcon"
+                  style="display: block"
+                >
+                  <path
+                    d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"
+                  ></path>
+                  <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"></polygon>
                 </svg>
               </button>
             </div>
-            <div>
-              <label :for="`segmentName${index}`" class="form-label"
-                >Segment's name</label
-              >
-            </div>
-            <input
-              class="form-control form-control-lg segment-name"
-              :id="`segmentName${index}`"
-              :ref="`segmentName${index}`"
-              type="text"
-              :value="`${courseSegment.name}`"
-            />
-          </div>
-          <div class="mb-3">
-            <label :for="`segmentContent${index}`" class="form-label"
-              >Segment's content</label
-            >
-            <resizable-text-area-component>
-              <textarea
-                class="form-control edit-segment-content textarea"
-                :id="`segmentContent${index}`"
-                :ref="`segmentContent${index}`"
-                rows="3"
-                :value="`${courseSegment.content}`"
-              ></textarea>
-            </resizable-text-area-component>
-            <button
-              type="button"
-              class="btn btn-primary"
-              style="width: 125px; margin-top: 10px"
-              @click="editSegment()"
-            >
-              Save changes
-            </button>
           </div>
         </div>
+        <div v-else :id="`editSegment${index}`" class="edit-segment">
+          <div v-if="auth_user.role_id != 3">
+            <div class="mb-3">
+              <div style="display: flex">
+                <button
+                  class="no-style-button course-close"
+                  id="buttonCourseCloseEdit"
+                  style="margin-left: auto"
+                  @click="
+                    $store.dispatch('courseSegmentsModule/updateShow', {
+                      index,
+                      value: !show[index],
+                    }),
+                      pushToclosedSegmentsIds(courseSegment.id)
+                  "
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="22"
+                    height="22"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="#0d6efd"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    style="display: block"
+                    class="course-close-segment-icon"
+                    :id="`courseCloseSegmentEditIcon${index}`"
+                  >
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                  </svg>
+                </button>
+              </div>
+              <div>
+                <label :for="`segmentName${index}`" class="form-label"
+                  >Segment's name</label
+                >
+              </div>
+              <input
+                class="form-control form-control-lg segment-name"
+                :id="`segmentName${index}`"
+                :ref="`segmentName${index}`"
+                type="text"
+                :value="`${courseSegment.name}`"
+              />
+            </div>
+            <div class="mb-3">
+              <label :for="`segmentContent${index}`" class="form-label"
+                >Segment's content</label
+              >
+              <resizable-text-area-component>
+                <textarea
+                  class="form-control edit-segment-content textarea"
+                  :id="`segmentContent${index}`"
+                  :ref="`segmentContent${index}`"
+                  rows="3"
+                  :value="`${courseSegment.content}`"
+                ></textarea>
+              </resizable-text-area-component>
+              <button
+                type="button"
+                class="btn btn-primary"
+                style="width: 125px; margin-top: 10px"
+                @click="editSegment()"
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
+        <hr class="my-3" />
       </div>
-      <hr class="my-3" />
     </div>
     <div
       style="display: flex"
@@ -696,8 +861,7 @@ export default {
   data() {
     return {
       showCreateSegment: false,
-      deletingSegmentId: null,
-      hidingSegmentId: null,
+      deleteCourseSegmentId: null,
       selected: [],
       allSelected: false,
       selectedSegmentsLength: null,
@@ -710,6 +874,8 @@ export default {
       checkboxesEnabled: "courseSegmentsModule/checkboxesEnabled",
       buttonsEnabled: "courseSegmentsModule/buttonsEnabled",
       closedSegmentsIds: "courseSegmentsModule/closedSegmentsIds",
+      pinnedSegmentsBooleans: "courseSegmentsModule/pinnedSegmentsBooleans",
+      hiddenSegmentsBooleans: "courseSegmentsModule/hiddenSegmentsBooleans",
     }),
   },
   watch: {
@@ -805,9 +971,23 @@ export default {
         .then(() => location.reload());
     },
     editSegment() {},
+    hideSegment(courseSegmentId) {},
+    pinSegment(courseSegmentId) {
+      let childElement = document.getElementById(
+        `segmentWrapper${courseSegmentId}`
+      );
+
+      let parentElement = document.getElementById("segmentsWrapper");
+
+      parentElement.prepend(childElement);
+      childElement.classList.add("pinned");
+    },
+
     deleteSegment() {
       axios
-        .delete(`/course/${this.course.id}/segment/${this.deletingSegmentId}`)
+        .delete(
+          `/course/${this.course.id}/segment/${this.deleteCourseSegmentId}`
+        )
         .then(() => location.reload());
     },
     deleteFromclosedSegmentsIds(courseSegmentId) {
@@ -932,7 +1112,7 @@ export default {
   .segment-name-content-wrapper {
     margin-left: auto;
     position: relative;
-    left: 11px;
+    left: 54px;
   }
   .segment-content {
     text-align: center;
