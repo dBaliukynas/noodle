@@ -243,9 +243,17 @@ export default {
         "courseSegmentsModule/setStudentViewEnabled",
         this.studentViewEnabled
       );
-         this.$store.dispatch(
+      this.$store.dispatch(
         "courseSegmentsModule/setCheckboxesEnabled",
         this.checkboxesEnabled
+      );
+      this.$store.dispatch(
+        "courseSegmentsModule/initPinnedSegmentsBooleans",
+        this.course_segments.length
+      );
+      this.$store.dispatch(
+        "courseSegmentsModule/initHiddenSegmentsBooleans",
+        this.course_segments.length
       );
     });
   },
