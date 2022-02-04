@@ -33,7 +33,7 @@ class FileUploadController extends Controller
         if ($auth_user->role_id == 3) {
             return response(403);
         }
-        
+
         $request->validate([
             'file' => 'required|file|mimes:csv,xls,ods,json|max:2000',
         ]);
@@ -48,7 +48,7 @@ class FileUploadController extends Controller
         try {
             User::insert(array_map(fn ($student) => $this->convertStudentToRecord($student), $students));
         } catch (QueryException $e) {
-            return response()->json(['message' => 'You can rate same student only once'], 409);
+            return response()->json(['message' => 'Students cannot have the same email'], 409);
         }
         foreach ($students as &$student) {
             $student->name = $student->firstname;
@@ -56,7 +56,35 @@ class FileUploadController extends Controller
         }
         return response(200);
     }
+    public function courseUsersPost(Request $request, $id)
+    {
+        $auth_user = Auth::user();
 
+        if ($auth_user->role_id == 3) {
+            return response(403);
+        }
+
+        $request->validate([
+            'file' => 'required|file|mimes:csv,xls,ods,json|max:2000',
+        ]);
+
+        $content = $request->file->get();
+        $users = json_decode($content);
+        foreach ($users as &$user) {
+            $user_2 = User::where('email', $user->email)->first();
+            if ($user_2 == null) {
+                $this->fileUploadPost($request);
+                $user_2 = User::where('email', $user->email)->first();
+            }
+
+            if ($user_2->courses->find($id) != null) {
+                return response()->json(['message' => 'Student already exists in this course'], 403);
+            } else {
+                $user_2->save();
+                $user_2->courses()->attach($id);
+            }
+        }
+    }
 
     private function convertStudentToRecord($student)
     {

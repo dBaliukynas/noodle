@@ -42,7 +42,8 @@
     </div>
     <div>
       <hr class="my-4" />
-      <h4>Available courses</h4>
+      <h4 v-if="courses.length != 0">Available courses</h4>
+      <h4 v-else>You have no available courses at the moment</h4>
       <div style="display: flex; flex-wrap: wrap" class="card-wrapper">
         <div
           class="card course-cards"

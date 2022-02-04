@@ -16,6 +16,6 @@ class Course extends Model
     ];
     public function users()
     {
-        return $this->hasMany(User::class, 'course_user');
+        return $this->belongstoMany(User::class)->withTimestamps();
     }
 }

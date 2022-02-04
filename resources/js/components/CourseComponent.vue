@@ -160,6 +160,7 @@
                 context="room"
                 :auth_user="auth_user"
                 :forum_threads="forum_threads"
+                :course="course"
               ></table-component>
             </div>
           </div>
