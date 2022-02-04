@@ -82,9 +82,6 @@
             text-decoration: none;
         }
 
-        .deleted {
-            opacity: 0.65;
-        }
 
         #main {
             padding: 2em;
