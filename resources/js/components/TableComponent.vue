@@ -4,6 +4,36 @@
       style="display: flex; align-items: center; flex-direction: column"
       v-if="context == 'room'"
     >
+      <div v-if="auth_user.role_id != 3">
+        <input
+          class="form-control"
+          type="file"
+          name="file"
+          ref="file"
+          id="chooseFile"
+          @change="onFileChange()"
+        />
+      </div>
+      <div v-if="auth_user.role_id != 3">
+        <a
+          v-if="file.name == ' No file chosen '"
+          type="submit"
+          name="submit"
+          class="btn btn-primary mt-4 disabled"
+        >
+          Upload student list
+        </a>
+
+        <a
+          v-else
+          type="submit"
+          name="submit"
+          class="btn btn-primary mt-4"
+          @click="onFileUpload"
+        >
+          Upload student list
+        </a>
+      </div>
       <div
         v-if="auth_user.role_id != 3"
         style="
@@ -16,6 +46,16 @@
         "
         class="students-table-button-wrapper"
       >
+        <div
+          style="border: 0;
+    clear: both;
+    display: block;
+    width: 96%;
+    background-color: #e2d1c5;
+    height: 1px;
+    margin-top: 25px;
+}"
+        ></div>
         <a
           v-if="students.length == 0"
           type="submit"
@@ -278,7 +318,7 @@ import _ from "lodash";
 import { getFields } from "./TableComponent.fields";
 
 export default {
-  props: ["students", "context", "auth_user", "forum_threads"],
+  props: ["students", "context", "auth_user", "forum_threads", "course"],
 
   components: {
     Vuetable,
@@ -302,10 +342,43 @@ export default {
         this.auth_user.role_id != 3 && this.context != "project"
       ),
       selectedStudents: [],
+      file: { name: " No file chosen " },
     };
   },
 
   methods: {
+    onFileChange() {
+      this.file = this.$refs.file.files[0];
+    },
+    onFileUpload() {
+      let formData = new FormData();
+      formData.append("file", this.file);
+      axios
+        .post(`/course/${this.course.id}/file-upload`, formData)
+        .then(() => location.reload())
+        .catch((error) => {
+          if (error.response.status == 422) {
+            showNotification(
+              "Supported formats: csv, xls, ods, json",
+              "alert-danger"
+            );
+          } else if (error.response.status == 403) {
+            showNotification(
+              "Student already exists in this course",
+              "alert-danger"
+            );
+          } else if (error.response.status == 413) {
+            showNotification("The file is too large", "alert-danger");
+          } else if (error.response.status == 409) {
+            showNotification(
+              "Students cannot have the same email",
+              "alert-danger"
+            );
+          } else if (error.response.status == 500) {
+            showNotification("Unexpected error", "alert-danger");
+          }
+        });
+    },
     onRowClass(user, index) {
       if (user.id == this.auth_user.id) {
         return "color-aliceblue";

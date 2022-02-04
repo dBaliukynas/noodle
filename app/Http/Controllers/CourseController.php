@@ -69,21 +69,24 @@ class CourseController extends Controller
         $course_segment->delete();
         return response()->json($course_segment, 200);
     }
+
     public function index($id)
     {
+
         $auth_user = User::with('group')->with('team')->with('project')->with('ratings')->find(Auth::id());
-        $students = User::where('role_id', 3)->with('group')->with('team')->with('project')->get();
-        $professors = User::where('role_id', 2)->get();
         $project_members = User::where('project_id', $auth_user->project_id)->where('id', '!=', $auth_user->id)->with('group')->with('team')->with('project')->get();
         $forum_threads = ForumThread::with('category')->whereHas('category', function ($query) {
             $query->where('title', 'like', 'Projects');
         })->get();
+        if ($auth_user->courses->find($id) == null && $auth_user->role_id != 1) {
+            return response()->json('You do not have permissions to access this page', 403);
+        }
         $course = Course::find($id);
         $course_segments = CourseSegment::with('user')->get();
         return view('course')
             ->with('auth_user', $auth_user)
-            ->with('students', $students)
-            ->with('professors', $professors)
+            ->with('students', $course->users->where('role_id', 3))
+            ->with('professors', $course->users->where('role_id', 2))
             ->with('forum_threads', $forum_threads)
             ->with('project_members', $project_members)
             ->with('project_member_count',  $this->countProjectMembers($project_members))

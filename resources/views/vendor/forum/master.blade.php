@@ -386,7 +386,9 @@
                 @endif
             </div>
             <div class="list-group">
+                @if (count($courses) != null)
                 <a href="#" style="background-color: lightslategray; color: white; font-size: 16px;" class="list-group-item disabled list-group-item-action">Available courses</a>
+                @endif
                 @foreach ($courses as $key=>$course)
                 <a href="/course/{{ $course->id }}" class="list-group-item list-custom list-group-item-action {{ (request()->is('course/'.$course->id))  ? 'active' : '' }}" id="{{ $course->id }}"><span>{{$course->name}}</span></a>
                 @endforeach

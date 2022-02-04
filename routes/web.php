@@ -20,6 +20,8 @@ Route::get('/course/{id}', [App\Http\Controllers\CourseController::class, 'index
 Route::post('/courses/image-upload', [App\Http\Controllers\CoursesController::class, 'imageUploadPost']);
 Route::post('/courses', [App\Http\Controllers\CoursesController::class, 'coursesPost']);
 Route::post('/course/{id}/segments', [App\Http\Controllers\CourseController::class, 'segmentsPost']);
+Route::post('/course/{id}/file-upload', [App\Http\Controllers\FileUploadController::class, 'courseUsersPost']);
+
 Route::delete('/course/{course_id}/segment/{segment_id}', [App\Http\Controllers\CourseController::class, 'segmentsDelete']);
 
 Route::get('/', [App\Http\Controllers\WelcomeController::class, 'index']);

@@ -29,7 +29,13 @@ class HomeController extends Controller
     public function index()
     {
         $auth_user = Auth::user();
-        $courses = Course::all();
+
+        if ($auth_user->role_id != 1) {
+            $courses = $auth_user->courses;
+        } else {
+            $courses = Course::all();
+        }
+
         return view('home')->with('auth_user', $auth_user)->with('courses', $courses);
     }
 }

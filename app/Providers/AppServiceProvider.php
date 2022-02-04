@@ -31,8 +31,15 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         view()->composer('*', function ($view) {
+            $auth_user = Auth::user();
             if ($view->getName() != 'welcome' && $view->getName() != 'auth.login' && $view->getName() != 'vendor.forum.master') {
-                $view->with('courses', Course::all());
+                if ($auth_user->role_id != 1) {
+                    $view->with('courses', $auth_user->courses);
+                }
+                else {
+                    $view->with('courses', Course::all());
+                }
+              
             }
         });
         view()->composer(['forum::thread.partials.list', 'forum::thread.show', 'forum::thread.recent'], function ($view) {

@@ -704,7 +704,10 @@
             </div>
           </div>
         </div>
-        <hr class="my-3" />
+        <hr
+          v-if="auth_user.role_id != 3 || courseSegments.length - 1 != index"
+          class="my-3"
+        />
       </div>
     </div>
     <div
