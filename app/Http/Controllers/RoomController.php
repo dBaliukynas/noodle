@@ -52,15 +52,6 @@ class RoomController extends Controller
         $student->save();
         return response()->json($student, 200);
     }
-    public function index()
-    {
-        $auth_user = Auth::user();
-        $forum_threads = ForumThread::with('category')->whereHas('category', function ($query) {
-            $query->where('title', 'like', 'Projects');
-        })->get();
-        $students = User::where('role_id', 3)->with('group')->with('team')->with('project')->get();
-        return view('room')->with('students', $students)->with('auth_user', $auth_user)->with('forum_threads', $forum_threads);
-    }
 
     public function delete($id)
     {

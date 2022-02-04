@@ -56,8 +56,9 @@
               style="margin-bottom: 1rem !important"
               @change="onFileChange()"
             />
+            <label for="chooseFile"> No file chosen </label>
             <label style="margin-bottom: 0.5rem">Select a course</label>
-            <select class="form-control" ref="rate">
+            <select class="form-control" ref="availableCourse">
               <option
                 v-for="course in courses"
                 :key="course.id"
@@ -78,7 +79,7 @@
             </button>
             <button
               disabled
-              v-if="file.name == ' No file chosen '"
+              v-if="file == undefined || file.name == ' No file chosen '"
               type="button"
               class="btn btn-primary"
             >
@@ -117,12 +118,20 @@ export default {
       let formData = new FormData();
       formData.append("file", this.file);
       axios
-        .post("/file-upload", formData)
+        .post(
+          `/course/${this.$refs.availableCourse.value}/file-upload`,
+          formData
+        )
         .then(() => location.reload())
         .catch((error) => {
           if (error.response.status == 422) {
             showNotification(
               "Supported formats: csv, xls, ods, json",
+              "alert-danger"
+            );
+          } else if (error.response.status == 403) {
+            showNotification(
+              "Student already exists in this course",
               "alert-danger"
             );
           } else if (error.response.status == 413) {

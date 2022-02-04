@@ -73,7 +73,7 @@
           >
             <h5>Visit <strong>groups</strong> &#38; <strong>teams</strong>:</h5>
             <a
-              v-if="students.length == 0"
+              v-if="students.length == 0 && auth_user.role_id == 3"
               class="btn btn-dark mt-4 disabled"
               style="margin: unset !important; width: 100px"
             >
@@ -89,7 +89,7 @@
             </a>
 
             <a
-              v-if="students.length == 0"
+              v-if="students.length == 0 && auth_user.role_id == 3"
               class="btn btn-dark mt-4 disabled"
               style="margin: unset !important; width: 100px"
             >

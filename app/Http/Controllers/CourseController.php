@@ -85,8 +85,8 @@ class CourseController extends Controller
         $course_segments = CourseSegment::with('user')->get();
         return view('course')
             ->with('auth_user', $auth_user)
-            ->with('students', $course->users->where('role_id', 3))
-            ->with('professors', $course->users->where('role_id', 2))
+            ->with('students', $course->users->where('role_id', 3)->values())
+            ->with('professors', $course->users->where('role_id', 2)->values())
             ->with('forum_threads', $forum_threads)
             ->with('project_members', $project_members)
             ->with('project_member_count',  $this->countProjectMembers($project_members))
