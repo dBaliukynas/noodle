@@ -60,21 +60,6 @@ class CoursesController extends Controller
             ]
         );
 
-        // ForumCategory::insert(([
-        //     'title' => 'Projects',
-        //     'description' => 'In this category, both students and professors offer the projects for ' . $data['name'] . ' course.',
-        //     'accepts_threads' => true,
-        //     'is_private' => false,
-        //     'course_id' => $course->id,
-        //     'parent_id' => $forum_category->id,
-        //     'color' => '#FFC107',
-        //     'created_at' => '2022-02-06 08:15:42',
-        //     'updated_at' => '2022-02-06 08:16:47',
-        //     '_lft' => $forum_category_seq += 1,
-        //     '_rgt' => $forum_category_seq += 1,
-        // ]
-        // ));
-
         $course_forum_categories = ([
 
             [
