@@ -17,6 +17,14 @@ class ForumCategory extends Model
     protected $table = 'forum_categories';
     protected $fillable = [
         'title',
+        'description',
+        'course_id',
+        'accepts_threads',
+        'is_private',
+        'parent_id',
+        'color',
+        '_lft',
+        '_rgt',
     ];
     public function forum_threads()
     {

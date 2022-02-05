@@ -10,7 +10,7 @@
           :src="course.image_name"
           class="course_image_background"
           alt="..."
-          style="height: 500px; width: 100%; object-fit: cover"
+          style="height: 500px; width: 100%; object-fit: cover; filter: brightness(0.65);"
         />
         <h1 class="course_image_text">{{ course.name }}</h1>
         <div class="course_image"></div>
