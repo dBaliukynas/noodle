@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Course;
 use App\Models\ForumThreadLike;
+use App\Models\ForumCategory;
 use App\Models\ForumPost;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;

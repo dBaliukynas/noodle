@@ -1,3 +1,4 @@
+@if (Auth::user()->courses->find($category->course_id ) != null || Auth::user()->role_id == 1)
 <div class="category list-group my-4">
     <div class="list-group-item shadow-sm">
         <div class="row align-items-center text-center">
@@ -75,3 +76,4 @@
         </div>
     @endif
 </div>
+@endif

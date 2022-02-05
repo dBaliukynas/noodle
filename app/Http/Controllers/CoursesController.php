@@ -90,7 +90,7 @@ class CoursesController extends Controller
             ],
             [
                 'title' => 'News / Information',
-                'description' => 'In this category, professors may post news and / or information about the ' . $data['name'] . ' course.',
+                'description' => 'In this category, professors may post news and / or information about ' . $data['name'] . ' course.',
                 'accepts_threads' => true,
                 'is_private' => false,
                 'course_id' => $course->id,
@@ -103,7 +103,7 @@ class CoursesController extends Controller
             ],
             [
                 'title' => 'Feedback',
-                'description' => 'In this category, students can write feedback ' . $data['name'] . ' course.',
+                'description' => 'In this category, students can write feedback about ' . $data['name'] . ' course.',
                 'accepts_threads' => true,
                 'is_private' => false,
                 'course_id' => $course->id,
