@@ -753,6 +753,7 @@
         </div>
       </div>
     </div>
+    <chat-component></chat-component>
   </div>
 </template>
 
@@ -761,6 +762,7 @@ import Vuetable from "vuetable-2";
 import axios from "axios";
 import _ from "lodash";
 import { getFields } from "./TableComponent.fields";
+import ChatComponent from "./ChatComponent.vue";
 
 export default {
   props: [
@@ -777,6 +779,7 @@ export default {
 
   components: {
     Vuetable,
+    ChatComponent,
   },
 
   mounted() {

@@ -97,6 +97,10 @@ Vue.component(
     "course-settings-component",
     require("./components/CourseSettingsComponent.vue").default
 );
+Vue.component(
+    "chat-component",
+    require("./components/ChatComponent.vue").default
+);
 Vue.component("star-rating", require("vue-star-rating").default);
 
 window.showNotification = function (message, type = "alert-primary") {
