@@ -16,7 +16,7 @@
       </div>
       <div v-if="auth_user.role_id != 3">
         <a
-          v-if="file.name == ' No file chosen '"
+          v-if="file == undefined || file.name == ' No file chosen '"
           type="submit"
           name="submit"
           class="btn btn-primary mt-4 disabled"
@@ -196,7 +196,7 @@
               <div class="modal-body">
                 Are you sure you want to Assign Selected Students to a Project?
 
-                <select class="form-control" ref="rate">
+                <select class="form-control" ref="assignableProject">
                   <option
                     v-for="forum_thread in forum_threads"
                     :key="forum_thread.id"
@@ -417,7 +417,7 @@ export default {
     assignProject() {
       const tasks = this.$refs.vuetable.selectedTo.map((studentId) =>
         axios.post(
-          `/room/student/${studentId}/project/${this.$refs.rate.value}`
+          `/room/student/${studentId}/project/${this.$refs.assignableProject.value}`
         )
       );
       Promise.all(tasks).then(() => location.reload());
@@ -425,7 +425,7 @@ export default {
     removeAssignedProject() {
       const tasks = this.$refs.vuetable.selectedTo.map((studentId) =>
         axios.delete(
-          `/room/student/${studentId}/project/${this.$refs.rate.value}`
+          `/room/student/${studentId}/project/${this.$refs.assignableProject.value}`
         )
       );
       Promise.all(tasks).then(() => location.reload());

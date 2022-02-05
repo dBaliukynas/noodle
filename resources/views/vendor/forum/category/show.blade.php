@@ -175,15 +175,17 @@
     .list-group.threads .list-group-item.locked
     {
         border-left-color: var(--bs-yellow);
+        background: rgb(255 213 5 / 14%);
     }
     .list-group.threads .list-group-item.pinned
     {
         border-left-color: var(--bs-cyan);
+        background: rgb(0 231 255 / 14%);
     }
-    .list-group.threads .list-group-item.deleted
+    .list-group-item.deleted
     {
         border-left-color: var(--bs-red);
-        opacity: 0.5;
+        background: rgb(217 132 132 / 14%);
     }
     </style>
 

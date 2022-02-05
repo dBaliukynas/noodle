@@ -82,9 +82,6 @@
             text-decoration: none;
         }
 
-        .deleted {
-            opacity: 0.65;
-        }
 
         #main {
             padding: 2em;
@@ -257,7 +254,7 @@
                 <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg></button>
         <div class="container" style="display: flex; padding: 0; justify-content: unset; margin: 0; flex-direction: column; margin-left: auto">
-            <div class="navbar-collapse" :class="{ show: !isCollapsed }">
+            <div class="navbar-collapse" :class="{ show: !isCollapsed }" style="align-items: end;">
                 <a href="/home">
                     <img src="/img/noodle.png" alt="Noodle Logo" style="height: 35px; width: 35px; margin-right: 3px;" />
                 </a>

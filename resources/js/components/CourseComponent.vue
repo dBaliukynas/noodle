@@ -10,7 +10,7 @@
           :src="course.image_name"
           class="course_image_background"
           alt="..."
-          style="height: 500px; width: 100%; object-fit: cover"
+          style="height: 500px; width: 100%; object-fit: cover; filter: brightness(0.65);"
         />
         <h1 class="course_image_text">{{ course.name }}</h1>
         <div class="course_image"></div>
@@ -73,7 +73,7 @@
           >
             <h5>Visit <strong>groups</strong> &#38; <strong>teams</strong>:</h5>
             <a
-              v-if="students.length == 0"
+              v-if="students.length == 0 && auth_user.role_id == 3"
               class="btn btn-dark mt-4 disabled"
               style="margin: unset !important; width: 100px"
             >
@@ -89,7 +89,7 @@
             </a>
 
             <a
-              v-if="students.length == 0"
+              v-if="students.length == 0 && auth_user.role_id == 3"
               class="btn btn-dark mt-4 disabled"
               style="margin: unset !important; width: 100px"
             >

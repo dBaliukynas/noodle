@@ -2,19 +2,20 @@
 @extends ('forum::master', ['category' => null])
 
 @section ('content')
-    <div class="d-flex flex-row justify-content-between mb-2">
-        <h2 class="flex-grow-1">{{ trans('forum::general.index') }}</h2>
+<div class="d-flex flex-row justify-content-between mb-2">
+    <h2 class="flex-grow-1">{{ trans('forum::general.index') }}</h2>
 
-        @can ('createCategories')
-            <button type="button" class="btn btn-primary" data-open-modal="create-category">
-                {{ trans('forum::categories.create') }}
-            </button>
+    @can ('createCategories')
+    <button type="button" class="btn btn-primary" data-open-modal="create-category">
+        {{ trans('forum::categories.create') }}
+    </button>
 
-            @include ('forum::category.modals.create')
-        @endcan
-    </div>
+    @include ('forum::category.modals.create')
+    @endcan
+</div>
 
-    @foreach ($categories as $category)
-        @include ('forum::category.partials.list', ['titleClass' => 'lead'])
-    @endforeach
+@foreach ($categories as $category)
+@include ('forum::category.partials.list', ['titleClass' => 'lead'])
+@endforeach
+
 @stop
