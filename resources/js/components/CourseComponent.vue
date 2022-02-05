@@ -111,7 +111,7 @@
             <h5>Discuss in <strong>forum</strong>:</h5>
             <a
               class="btn btn-primary"
-              href="/forum"
+              :href="`/forum/c/${course_forum_category.id}-${course_forum_category.title}`"
               style="margin: unset !important; width: 100px"
             >
               Forum
@@ -216,6 +216,7 @@ export default {
     "project_member_count",
     "course",
     "course_segments",
+    "course_forum_category"
   ],
   data() {
     return {

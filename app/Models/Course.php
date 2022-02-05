@@ -18,4 +18,8 @@ class Course extends Model
     {
         return $this->belongstoMany(User::class)->withTimestamps();
     }
+    public function forum_categories()
+    {
+        return $this->hasMany(ForumCategory::class);
+    }
 }
