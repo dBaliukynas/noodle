@@ -82,7 +82,7 @@ class CourseController extends Controller
             return response()->json('You do not have permissions to access this page', 403);
         }
         $course = Course::find($id);
-        $course_segments = CourseSegment::with('user')->get();
+        $course_segments = CourseSegment::with('user')->where('course_id', $id)->get();
         return view('course')
             ->with('auth_user', $auth_user)
             ->with('students', $course->users->where('role_id', 3)->values())

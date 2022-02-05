@@ -47,5 +47,10 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('forum_thread_like_users', $forum_thread_like_users)->with('forum_thread_reply_users', $forum_thread_reply_users);
         });
+        view()->composer(['forum::*', ], function ($view) {
+            $forum_category = ForumCategory::all();
+
+            $view->with('forum_category', $forum_category);
+        });
     }
 }

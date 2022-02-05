@@ -1,8 +1,10 @@
+@if (Auth::user()->courses->find($forum_category->find($thread->category_id)->course_id) != null || Auth::user()->role_id == 1)
+
 <div class="list-group-item {{ $thread->pinned ? 'pinned' : '' }} {{ $thread->locked ? 'locked' : '' }} {{ $thread->trashed() ? 'deleted' : '' }}" :class="{ 'border-primary': selectedThreads.includes({{ $thread->id }}) }">
   <div class="row align-items-center text-center">
     <div class="col-sm text-md-start">
       <span class="lead">
-        <a href="{{ Forum::route('thread.show', $thread) }}" @if (isset($category))style="color: {{ $category->color }};" @endif>{{ $thread->title }}</a>
+        <a href="{{ Forum::route('thread.show', $thread) }}" @if (isset($category)) @endif>{{ $thread->title }}</a>
       </span>
       <br>
       {{ $thread->authorName }} <span class="text-muted">@include ('forum::partials.timestamp', ['carbon' => $thread->created_at])</span>
@@ -101,10 +103,11 @@
       ul.insertAdjacentHTML('beforeend', `<a href="#" class="list-group-item list-custom list-group-item-action" id="likesModalContent">${users[i].user.name} ${users[i].user.surname}</a>`);
     }
   }
-    function fetchRepliesUsers(clickedButtonId) {
+
+  function fetchRepliesUsers(clickedButtonId) {
     const forumThreadReplyUsers = @json($forum_thread_reply_users);
     const forumThreadId = document.getElementById(clickedButtonId).value;
-      console.log('s');
+    console.log('s');
     const users = forumThreadReplyUsers.filter(forumThreadReplyUsers => forumThreadReplyUsers.thread_id.toString() === forumThreadId);
     const ul = document.getElementById("repliesUsersList");
 
@@ -114,3 +117,4 @@
     }
   }
 </script>
+@endif
