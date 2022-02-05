@@ -91,6 +91,25 @@
             box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
         }
 
+        .list-group.threads .list-group-item {
+            border-left-width: 2px;
+        }
+
+        .list-group.threads .list-group-item.locked {
+            border-left-color: var(--bs-yellow);
+            background: rgb(255 213 5 / 10%);
+        }
+
+        .list-group.threads .list-group-item.pinned {
+            border-left-color: var(--bs-cyan);
+            background: rgb(0 231 255 / 10%);
+        }
+
+        .list-group-item.deleted {
+            border-left-color: var(--bs-red);
+            background: rgb(217 132 132 / 10%);
+        }
+
         .card.category {
             margin-bottom: 1em;
         }

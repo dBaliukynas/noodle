@@ -75,14 +75,14 @@ class CourseController extends Controller
 
         $auth_user = User::with('group')->with('team')->with('project')->with('ratings')->find(Auth::id());
         $project_members = User::where('project_id', $auth_user->project_id)->where('id', '!=', $auth_user->id)->with('group')->with('team')->with('project')->get();
-        $forum_threads = ForumThread::with('category')->whereHas('category', function ($query) {
-            $query->where('title', 'like', 'Projects');
+        $forum_threads = ForumThread::with('category')->whereHas('category', function ($query) use ($id) {
+            $query->where('title', 'like', 'Projects')->where('course_id', 'like', $id);
         })->get();
         if ($auth_user->courses->find($id) == null && $auth_user->role_id != 1) {
             return response()->json('You do not have permissions to access this page', 403);
         }
         $course = Course::find($id);
-        $course_segments = CourseSegment::with('user')->get();
+        $course_segments = CourseSegment::with('user')->where('course_id', $id)->get();
         return view('course')
             ->with('auth_user', $auth_user)
             ->with('students', $course->users->where('role_id', 3)->values())

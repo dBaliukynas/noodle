@@ -1,3 +1,4 @@
+@if (Auth::user()->courses->find($category->course_id ) != null || Auth::user()->role_id == 1)
 @extends ('forum::master', ['thread' => null, 'breadcrumbs_append' => [$thread->title]])
 
 @section ('content')
@@ -459,3 +460,4 @@
 }
 </script>
 @stop
+@endif
