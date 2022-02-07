@@ -376,13 +376,9 @@
 @endcan
 @endif
 
-<style>
-    .thread-badges .badge {
-        font-size: 100%;
-    }
-</style>
 
-<script>
+
+<script type="application/javascript">
     new Vue({
         el: '.v-thread',
         name: 'Thread',
