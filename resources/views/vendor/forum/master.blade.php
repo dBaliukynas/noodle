@@ -596,65 +596,28 @@
             const chatHeader = document.querySelector('.card-header.chat');
             const chatSendButton = document.querySelector('.chat-send-icon');
             const chatTextArea = document.querySelector(".chat-text-area");
-            let lastElement;
-            let mouseOnChat;
-            async function getValue() {
-                return new Promise(function(resolve, reject) {
-                    setTimeout(() =>
-                        resolve(''), 0);
-                });
+
+            if (element == "chat") {
+                chatTextArea.focus();
             }
 
-            getValue().then((value) =>
-                this.lastElement = value);
+            window.onmousedown = element => {
+                if (element.target.classList.contains('chat')) {
 
-            if (chatHeader == null) {
-                return;
-            } else {
+                    chatHeader.style.background = "#0d6efd";
+                    chatSendButton.setAttribute('stroke', "#0d6efd");
 
-                 if (element == "chat") {
-                    chatTextArea.focus();
-                 }
+                    window.onmouseup = () => {};
+                } else {
+                    window.onmouseup = element => {
+                        if (!element.target.classList.contains('chat')) {
+                            chatHeader.style.background = "rgb(53 65 82)";
+                            chatSendButton.setAttribute('stroke', "#354152");
+                        }
+                    };
+                }
+            };
 
-
-                // if (window.onmousedown = element => (element.target.classList.contains('chat'))) {
-                //     console.log("YES!");
-                // }
-                // if (window.onmouseup = element => (element.target.classList.contains('chat'))) {
-                //     console.log("YES!");
-                // }
-               
-                window.onmousedown = element => {
-                    if (element.target.classList.contains('chat')) {
-                        
-                        chatHeader.style.background = "#0d6efd";
-                        chatSendButton.setAttribute('stroke', "#0d6efd");
-                        console.log("CONTAINS CHAT")
-                        window.onmouseup = () => {};
-                    } else {
-                        window.onmouseup = element => {
-                            if (!element.target.classList.contains('chat')) {
-                                chatHeader.style.background = "rgb(53 65 82)";
-
-                                chatSendButton.setAttribute('stroke', "#354152");
-                                console.log("DOES NOT CONTAIN CHAT")
-                             
-                            }
-
-                        };
-                    }
-                };
-
-
-                this.lastElement = "chat";
-                // } else if (element == "body" && this.lastElement == '') {
-
-                //     chatHeader.style.background = "rgb(53 65 82)";
-
-                //     chatSendButton.setAttribute('stroke', "#354152");
-
-                // }
-            }
         }
 
 
