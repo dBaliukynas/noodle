@@ -426,7 +426,7 @@
     @endif
     @sectionMissing('hide_chat')
 
-    <div class="v-chat" onclick="changeChatStyles('chat');">
+    <div class="v-chat chat" onclick="changeChatStyles('chat')">
         <div style="width: 100vw; position: relative; margin-left: -50vw; left: 50%">
             <div style="position: fixed;
     bottom: 0;
@@ -434,11 +434,12 @@
     margin-bottom: 3rem;
     z-index: 1000;
 }" onclick="changeChatStyles('chat'); event.stopPropagation()">
+
                 <button v-if="!chatOpened" class="no-style-button chat-button" @click="chatOpened = !chatOpened">
 
 
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="white" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block" class="chat-icon">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" stroke="#0d6efd">
                             <circle cx="12" cy="15" r="1"></circle>
                             <circle cx="19" cy="15" r="1"></circle>
                             <circle cx="5" cy="15" r="1"></circle>
@@ -446,7 +447,12 @@
                         <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
                     </svg>
 
+
+
+
+
                 </button>
+
                 <button v-else class="no-style-button chat-button" style="    margin-bottom: 10px;
     margin-right: 3px;
 }" @click="chatOpened = !chatOpened">
@@ -470,22 +476,24 @@
     color: white; width: 252px;
     margin-left: -1px;
 }">Chat</div>
-            <div class="card-body" style="    overflow-y: auto;
+            <div class="card-body chat" style="    overflow-y: auto;
     height: 20rem;
 }">
-                <h5 class="card-title">Welcome to Noodle Chat!</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                <div>
+                    <h5 class="card-title chat"><span class="chat">Welcome to Noodle Chat!</span></h5>
+                    <p class="card-text chat"><span class="chat">Some quick example text to build on the card title and make up the bulk of the card's content.</span></p>
+                </div>
             </div>
 
-            <div class="card-footer bg-transparent" style="border-color: #d4d4d5;     display: flex;
+            <div class="card-footer bg-transparent chat" style="border-color: #d4d4d5;     display: flex;
     align-items: center;
 }">
                 <textarea rows=1 style="    height: 2rem;
     min-height: 2rem !important; max-height: 400px; resize: none; width: 100%;
-}" name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' id="chatTextArea" class="chat-text-area"></textarea>
+}" name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' id="chatTextArea" class="chat-text-area chat"></textarea>
                 <button class="no-style-button" title="Send">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block" class="chat-send-icon">
-                        <path d="M5 12h13M12 5l7 7-7 7" />
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block" class="chat-send-icon chat">
+                        <path class="chat" d="M5 12h13M12 5l7 7-7 7" />
                     </svg>
                 </button>
             </div>
@@ -589,11 +597,11 @@
             const chatSendButton = document.querySelector('.chat-send-icon');
             const chatTextArea = document.querySelector(".chat-text-area");
             let lastElement;
+            let mouseOnChat;
             async function getValue() {
                 return new Promise(function(resolve, reject) {
-                    setTimeout(function() {
-                        resolve('');
-                    }, 0);
+                    setTimeout(() =>
+                        resolve(''), 0);
                 });
             }
 
@@ -603,16 +611,49 @@
             if (chatHeader == null) {
                 return;
             } else {
-                if (element == "chat") {
-                    chatTextArea.focus();
-                    chatHeader.style.background = "#0d6efd";
-                    chatSendButton.style.stroke = "#0d6efd";
-                    this.lastElement = "chat";
-                } else if (element == "body" && this.lastElement == '') {
-                    chatHeader.style.background = "rgb(53 65 82)";
-                    chatSendButton.style.stroke = "rgb(53 65 82)";
 
-                }
+                 if (element == "chat") {
+                    chatTextArea.focus();
+                 }
+
+
+                // if (window.onmousedown = element => (element.target.classList.contains('chat'))) {
+                //     console.log("YES!");
+                // }
+                // if (window.onmouseup = element => (element.target.classList.contains('chat'))) {
+                //     console.log("YES!");
+                // }
+               
+                window.onmousedown = element => {
+                    if (element.target.classList.contains('chat')) {
+                        
+                        chatHeader.style.background = "#0d6efd";
+                        chatSendButton.setAttribute('stroke', "#0d6efd");
+                        console.log("CONTAINS CHAT")
+                        window.onmouseup = () => {};
+                    } else {
+                        window.onmouseup = element => {
+                            if (!element.target.classList.contains('chat')) {
+                                chatHeader.style.background = "rgb(53 65 82)";
+
+                                chatSendButton.setAttribute('stroke', "#354152");
+                                console.log("DOES NOT CONTAIN CHAT")
+                             
+                            }
+
+                        };
+                    }
+                };
+
+
+                this.lastElement = "chat";
+                // } else if (element == "body" && this.lastElement == '') {
+
+                //     chatHeader.style.background = "rgb(53 65 82)";
+
+                //     chatSendButton.setAttribute('stroke', "#354152");
+
+                // }
             }
         }
 
