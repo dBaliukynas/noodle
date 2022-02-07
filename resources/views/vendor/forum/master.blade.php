@@ -26,6 +26,7 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     @endif
 
+
     <!-- Axios -->
     <script src="https://cdn.jsdelivr.net/npm/axios@0.24.0/dist/axios.min.js"></script>
 
@@ -59,6 +60,13 @@
     <script src="//cdn.jsdelivr.net/npm/sortablejs@1.10.1/Sortable.min.js"></script>
     <!-- Vue.Draggable (https://github.com/SortableJS/Vue.Draggable) -->
     <script src="//cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.23.2/vuedraggable.umd.min.js"></script>
+    @hasSection('content')
+    <style>
+        #main {
+            padding: unset !important;
+        }
+    </style>
+    @endif
 
     <style>
         body {
@@ -255,16 +263,10 @@
             cursor: pointer;
             outline: inherit;
         }
-
-        @media only screen and (max-width: 282px) {
-            .navbar-collapse {
-                text-align: center;
-            }
-        }
     </style>
 </head>
 
-<body style="body">
+<body onclick="changeChatStyles('body')">
     <nav class="v-navbar navbar navbar-expand-md navbar-light bg-white shadow-sm" style="flex-wrap: unset;">
         @if (Auth::check())
         <button class="btn btn-primary" type="button" style="margin-left: 10px; display: flex;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -272,7 +274,7 @@
                 <line x1="3" y1="6" x2="21" y2="6"></line>
                 <line x1="3" y1="18" x2="21" y2="18"></line>
             </svg></button>
-        <div class="container" style="display: flex; padding: 0; justify-content: unset; margin: 0; flex-direction: column; margin-left: auto">
+        <div class="container" style="display: flex; padding: 0; justify-content: unset; margin: 0; flex-direction: column; margin-left: auto; text-align: center">
             <div class="navbar-collapse" :class="{ show: !isCollapsed }" style="align-items: end;">
                 <a href="/home">
                     <img src="/img/noodle.png" alt="Noodle Logo" style="height: 35px; width: 35px; margin-right: 3px;" />
@@ -422,6 +424,112 @@
         @yield('content')
     </div>
     @endif
+    @sectionMissing('hide_chat')
+
+    <div class="v-chat" onclick="changeChatStyles('chat');">
+        <div style="width: 100vw; position: relative; margin-left: -50vw; left: 50%">
+            <div style="position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-bottom: 3rem;
+    z-index: 1000;
+}" onclick="changeChatStyles('chat'); event.stopPropagation()">
+                <button v-if="!chatOpened" class="no-style-button chat-button" @click="chatOpened = !chatOpened">
+
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="white" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block" class="chat-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="15" r="1"></circle>
+                            <circle cx="19" cy="15" r="1"></circle>
+                            <circle cx="5" cy="15" r="1"></circle>
+                        </svg>
+                        <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                    </svg>
+
+                </button>
+                <button v-else class="no-style-button chat-button" style="    margin-bottom: 10px;
+    margin-right: 3px;
+}" @click="chatOpened = !chatOpened">
+                    <div> <svg xmlns="http://www.w3.org/2000/svg" width="42" height="42" viewBox="0 0 24 24" fill="white" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block" class="chat-icon">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <line x1="15" y1="9" x2="9" y2="15"></line>
+                            <line x1="9" y1="9" x2="15" y2="15"></line>
+                        </svg></div>
+                </button>
+            </div>
+        </div>
+        <div v-if="chatOpened" class="card" style="    max-width: 18rem;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    margin-right: 3rem;
+    margin-bottom: 6rem;
+    border-color: #d4d4d5;
+    z-index: 1000;">
+            <div class="card-header chat" style="    background-color: #0d6efd;
+    color: white; width: 252px;
+    margin-left: -1px;
+}">Chat</div>
+            <div class="card-body" style="    overflow-y: auto;
+    height: 20rem;
+}">
+                <h5 class="card-title">Welcome to Noodle Chat!</h5>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+
+            <div class="card-footer bg-transparent" style="border-color: #d4d4d5;     display: flex;
+    align-items: center;
+}">
+                <textarea rows=1 style="    height: 2rem;
+    min-height: 2rem !important; max-height: 400px; resize: none; width: 100%;
+}" name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' id="chatTextArea" class="chat-text-area"></textarea>
+                <button class="no-style-button" title="Send">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block" class="chat-send-icon">
+                        <path d="M5 12h13M12 5l7 7-7 7" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+    <style>
+        .chat-icon {
+            transition: 0.1s ease-out;
+        }
+
+        .chat-icon:hover {
+            stroke: #0056b3;
+            transition: 0.1s ease-in;
+        }
+
+        .chat-send-icon {
+            transition: 0.1s ease-out;
+        }
+
+        .chat-send-icon:hover {
+            stroke: #0056b3;
+            transition: 0.1s ease-in;
+        }
+
+        textarea:focus {
+            outline: none;
+        }
+    </style>
+    <script>
+        new Vue({
+            el: ".v-chat",
+            name: "Chat",
+
+            data: {
+                chatOpened: false,
+            },
+            methods: {
+
+
+            },
+        })
+    </script>
+
+    @endif
 
     @hasSection('main')
     <div id="main" class="container">
@@ -475,6 +583,40 @@
                 mask.classList.add('show');
             }, 200);
         }
+
+        function changeChatStyles(element) {
+            const chatHeader = document.querySelector('.card-header.chat');
+            const chatSendButton = document.querySelector('.chat-send-icon');
+            const chatTextArea = document.querySelector(".chat-text-area");
+            let lastElement;
+            async function getValue() {
+                return new Promise(function(resolve, reject) {
+                    setTimeout(function() {
+                        resolve('');
+                    }, 0);
+                });
+            }
+
+            getValue().then((value) =>
+                this.lastElement = value);
+
+            if (chatHeader == null) {
+                return;
+            } else {
+                if (element == "chat") {
+                    chatTextArea.focus();
+                    chatHeader.style.background = "#0d6efd";
+                    chatSendButton.style.stroke = "#0d6efd";
+                    this.lastElement = "chat";
+                } else if (element == "body" && this.lastElement == '') {
+                    chatHeader.style.background = "rgb(53 65 82)";
+                    chatSendButton.style.stroke = "rgb(53 65 82)";
+
+                }
+            }
+        }
+
+
 
         document.querySelectorAll('[data-open-modal]').forEach(item => {
             item.addEventListener('click', event => {

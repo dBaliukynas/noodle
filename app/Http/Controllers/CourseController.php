@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\User;
 use App\Models\ForumThread;
+use App\Models\ForumCategory;
 use App\Helpers\StringHelper;
 use App\Models\CourseSegment;
 use Illuminate\Support\Facades\Auth;
@@ -83,6 +84,7 @@ class CourseController extends Controller
         }
         $course = Course::find($id);
         $course_segments = CourseSegment::with('user')->where('course_id', $id)->get();
+        $course_forum_category = ForumCategory::where('course_id', $id)->where('title', $course->name)->where('parent_id', null)->first();
         return view('course')
             ->with('auth_user', $auth_user)
             ->with('students', $course->users->where('role_id', 3)->values())
@@ -91,6 +93,7 @@ class CourseController extends Controller
             ->with('project_members', $project_members)
             ->with('project_member_count',  $this->countProjectMembers($project_members))
             ->with('course', $course)
-            ->with('course_segments', $course_segments);
+            ->with('course_segments', $course_segments)
+            ->with('course_forum_category', $course_forum_category);
     }
 }

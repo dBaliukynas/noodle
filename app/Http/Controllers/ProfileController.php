@@ -30,7 +30,7 @@ class ProfileController extends Controller
     {
         $auth_user = User::with('group')->with('team')->with('project')->with('ratings')->find(Auth::id());
         $ratings = Rating::with('user')->where('user_id', $auth_user->id)->get();
-        $likes = ForumThreadLike::where('user_id', Auth::user()->id)->with('forum_thread.category')->get();
+        $likes = ForumThreadLike::where('user_id', Auth::user()->id)->with('forum_thread.category.course')->get();
        
 
         $grade_total = 0;

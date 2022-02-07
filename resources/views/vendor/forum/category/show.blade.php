@@ -63,7 +63,7 @@
 
         @if (count($selectableThreadIds) > 0)
         @can ('manageThreads', $category)
-        <div class="fixed-bottom-right pb-xs-0 pr-xs-0 pb-sm-3 pr-sm-3 m-2" style="z-index: 1000;">
+        <div class="fixed-bottom-right pb-xs-0 pr-xs-0 pb-sm-3 pr-sm-3 m-2" style="z-index: 6000;">
             <transition name="fade">
                 <div class="card text-white bg-secondary shadow-sm" v-if="selectedThreads.length">
                     <div class="card-header text-center">
@@ -167,28 +167,8 @@
 @endcan
 @endif
 
-<style>
-    .list-group.threads .list-group-item {
-        border-left-width: 2px;
-    }
 
-    .list-group.threads .list-group-item.locked {
-        border-left-color: var(--bs-yellow);
-        background: rgb(255 213 5 / 10%);
-    }
-
-    .list-group.threads .list-group-item.pinned {
-        border-left-color: var(--bs-cyan);
-        background: rgb(0 231 255 / 10%);
-    }
-
-    .list-group-item.deleted {
-        border-left-color: var(--bs-red);
-        background: rgb(217 132 132 / 10%);
-    }
-</style>
-
-<script>
+<script type="application/javascript">
     new Vue({
         el: '.v-category-show',
         name: 'CategoryShow',

@@ -40,7 +40,7 @@
         </draggable>
     </script>
 
-    <script>
+    <script type="application/javascript">
     var draggableCategoryList = {
         name: 'draggable-category-list',
         template: '#draggable-category-list-template',

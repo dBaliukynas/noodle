@@ -30,4 +30,8 @@ class ForumCategory extends Model
     {
         return $this->hasMany(ForumThread::class);
     }
+    public function course()
+    {
+        return $this->belongsTo(Course::class);
+    }
 }

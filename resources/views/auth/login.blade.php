@@ -1,5 +1,6 @@
 @extends('vendor/forum/master')
 @section('title', 'Log in')
+@section('hide_chat', true)
 @section('main')
 <div class="container">
     <div class="row justify-content-center">

@@ -140,6 +140,12 @@
       >
       | Likes:
       <strong> {{ like.forum_thread.likes }} </strong>
+      | Course:
+      <strong
+        ><a :href="`/course/${like.forum_thread.category.course.id}`">{{
+          like.forum_thread.category.course.name
+        }}</a></strong
+      >
       | Category:
       <strong
         ><a
