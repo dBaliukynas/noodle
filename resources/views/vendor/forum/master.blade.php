@@ -597,27 +597,28 @@
             const chatSendButton = document.querySelector('.chat-send-icon');
             const chatTextArea = document.querySelector(".chat-text-area");
 
-            if (element == "chat") {
-                chatTextArea.focus();
-            }
-
-            window.onmousedown = element => {
-                if (element.target.classList.contains('chat')) {
-
-                    chatHeader.style.background = "#0d6efd";
-                    chatSendButton.setAttribute('stroke', "#0d6efd");
-
-                    window.onmouseup = () => {};
-                } else {
-                    window.onmouseup = element => {
-                        if (!element.target.classList.contains('chat')) {
-                            chatHeader.style.background = "rgb(53 65 82)";
-                            chatSendButton.setAttribute('stroke', "#354152");
-                        }
-                    };
+            if (chatHeader != null) {
+                if (element == "chat") {
+                    chatTextArea.focus();
                 }
-            };
 
+                window.onmousedown = element => {
+                    if (element.target.classList.contains('chat')) {
+
+                        chatHeader.style.background = "#0d6efd";
+                        chatSendButton.setAttribute('stroke', "#0d6efd");
+
+                        window.onmouseup = () => {};
+                    } else {
+                        window.onmouseup = element => {
+                            if (!element.target.classList.contains('chat')) {
+                                chatHeader.style.background = "rgb(53 65 82)";
+                                chatSendButton.setAttribute('stroke', "#354152");
+                            }
+                        };
+                    }
+                };
+            }
         }
 
 
