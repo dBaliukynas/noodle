@@ -266,7 +266,7 @@
     </style>
 </head>
 
-<body onclick="changeChatStyles('body')">
+<body @click="changeChatStyles('body')">
     <nav class="v-navbar navbar navbar-expand-md navbar-light bg-white shadow-sm" style="flex-wrap: unset;">
         @if (Auth::check())
         <button class="btn btn-primary" type="button" style="margin-left: 10px; display: flex;" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBackdrop" aria-controls="offcanvasWithBackdrop"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -426,14 +426,14 @@
     @endif
     @sectionMissing('hide_chat')
 
-    <div class="v-chat chat" onclick="changeChatStyles('chat')">
+    <div class="v-chat chat" @click="changeChatStyles('chat')">
         <div style="width: 100vw; position: relative; margin-left: -50vw; left: 50%">
             <div style="position: fixed;
     bottom: 0;
     right: 0;
     margin-bottom: 3rem;
     z-index: 1000;
-}" onclick="changeChatStyles('chat'); event.stopPropagation()">
+}" @click="changeChatStyles('chat')">
 
                 <button v-if="!chatOpened" class="no-style-button chat-button" @click="chatOpened = !chatOpened">
 
@@ -474,14 +474,25 @@
     z-index: 1000;">
             <div class="card-header chat" style="    background-color: #0d6efd;
     color: white; width: 252px;
-    margin-left: -1px;
+    margin-left: -1px; margin-top: -1px;
 }">Chat</div>
-            <div class="card-body chat" style="    overflow-y: auto;
-    height: 20rem;
+            <div class="card-body chat" id="chatBody" style="    overflow-y: auto;
+    height: 20rem; padding: unset !important
 }">
-                <div>
-                    <h5 class="card-title chat"><span class="chat">Welcome to Noodle Chat!</span></h5>
-                    <p class="card-text chat"><span class="chat">Some quick example text to build on the card title and make up the bulk of the card's content.</span></p>
+                <div style="    display: flex;
+    flex-direction: column; padding: 1rem 1rem;
+    padding-top: 1rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 1rem;" class="chat" id="chatContent">
+                    <div style="margin-bottom: 10px; " class="chat">
+                        <h5 class="card-title chat"><span class="chat">Welcome to Noodle Chat!</span></h5>
+                    </div>
+                    <div v-for="(chatMessage, index) in chatMessages" :key="index" id="chatSegment" style="margin-bottom: 20px; background-color: whitesmoke; border-radius: 15px; padding: 5px; width: 165px;" class="chat">
+                        <div style="margin-left: 7px;" class="chat">
+                            <span class="chat">@{{ chatMessages[index] }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -490,8 +501,8 @@
 }">
                 <textarea rows=1 style="    height: 2rem;
     min-height: 2rem !important; max-height: 400px; resize: none; width: 100%;
-}" name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' id="chatTextArea" class="chat-text-area chat"></textarea>
-                <button class="no-style-button" title="Send">
+}" name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' id="chatTextArea" ref="chatTextArea" class="chat-text-area chat" @keyup.enter="sendMessage()"></textarea>
+                <button class="no-style-button" title="Send" @click="sendMessage()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block" class="chat-send-icon chat">
                         <path class="chat" d="M5 12h13M12 5l7 7-7 7" />
                     </svg>
@@ -529,12 +540,54 @@
 
             data: {
                 chatOpened: false,
+                chatMessages: [],
             },
             methods: {
+                changeChatStyles(element) {
+                    const chatHeader = document.querySelector('.card-header.chat');
+                    const chatSendButton = document.querySelector('.chat-send-icon');
+                    const chatTextArea = document.querySelector(".chat-text-area");
 
+                    if (chatHeader != null && element == "chat" && window.getSelection().toString() == '') {
+                        chatTextArea.focus();
+                    }
 
+                    window.onmousedown = element => {
+                        if (element.target.classList.contains('chat')) {
+
+                            chatHeader.style.background = "#0d6efd";
+                            chatSendButton.setAttribute('stroke', "#0d6efd");
+
+                            window.onmouseup = () => {};
+                        } else {
+                            window.onmouseup = element => {
+                                if (!element.target.classList.contains('chat')) {
+                                    chatHeader.style.background = "rgb(53 65 82)";
+                                    chatSendButton.setAttribute('stroke', "#354152");
+                                }
+                            };
+                        }
+                    };
+                },
+
+                async sendMessage() {
+                    const chatBody = document.getElementById("chatBody");
+
+                    const chatSegment = document.getElementById("chatSegment");
+
+                    await this.chatMessages.push(this.$refs.chatTextArea.value);
+
+                    this.$refs.chatTextArea.value = '';
+                    chatContent.scrollIntoView({
+                        behavior: 'auto',
+                        block: 'end',
+                    });
+                    console.log(this.chatMessages);
+                },
             },
-        })
+
+
+        }, )
     </script>
 
     @endif
@@ -591,36 +644,6 @@
                 mask.classList.add('show');
             }, 200);
         }
-
-        function changeChatStyles(element) {
-            const chatHeader = document.querySelector('.card-header.chat');
-            const chatSendButton = document.querySelector('.chat-send-icon');
-            const chatTextArea = document.querySelector(".chat-text-area");
-
-            if (chatHeader != null) {
-                if (element == "chat") {
-                    chatTextArea.focus();
-                }
-
-                window.onmousedown = element => {
-                    if (element.target.classList.contains('chat')) {
-
-                        chatHeader.style.background = "#0d6efd";
-                        chatSendButton.setAttribute('stroke', "#0d6efd");
-
-                        window.onmouseup = () => {};
-                    } else {
-                        window.onmouseup = element => {
-                            if (!element.target.classList.contains('chat')) {
-                                chatHeader.style.background = "rgb(53 65 82)";
-                                chatSendButton.setAttribute('stroke', "#354152");
-                            }
-                        };
-                    }
-                };
-            }
-        }
-
 
 
         document.querySelectorAll('[data-open-modal]').forEach(item => {
