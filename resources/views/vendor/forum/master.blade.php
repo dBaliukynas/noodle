@@ -488,8 +488,8 @@
                     <div style="margin-bottom: 10px; " class="chat">
                         <h5 class="card-title chat"><span class="chat">Welcome to Noodle Chat!</span></h5>
                     </div>
-                    <div v-for="(chatMessage, index) in chatMessages" :key="index" id="chatSegment" style="margin-bottom: 20px; background-color: whitesmoke; border-radius: 15px; padding: 5px; width: 165px;" class="chat">
-                        <div style="margin-left: 7px;" class="chat">
+                    <div v-for="(chatMessage, index) in chatMessages" :key="index" id="chatSegment" style="margin-bottom: 20px; background-color: whitesmoke; border-radius: 15px; padding: 5px; width: 165px; margin-right: 10px;" class="chat">
+                        <div style="margin-left: 7px; white-space: pre-wrap;" class="chat">
                             <span class="chat">@{{ chatMessages[index] }}</span>
                         </div>
                     </div>
@@ -499,9 +499,24 @@
             <div class="card-footer bg-transparent chat" style="border-color: #d4d4d5;     display: flex;
     align-items: center;
 }">
-                <textarea rows=1 style="    height: 2rem;
-    min-height: 2rem !important; max-height: 400px; resize: none; width: 100%;
-}" name="text" oninput='this.style.height = "";this.style.height = this.scrollHeight + "px"' id="chatTextArea" ref="chatTextArea" class="chat-text-area chat" @keyup.enter="sendMessage()"></textarea>
+
+
+                <div style="    height: 2rem;
+    min-height: 2.3rem !important; max-height: 400px; height: auto; resize: none; overflow-y: auto; padding: unset; outline: unset;   width: 12rem; display: flex;justify-content: center; flex-direction: column; border: 2px solid #9d9a9a;
+    border-radius: 15px;
+}" name="text" class="chat-textarea-wrapper chat" id="chatTextAreaWrapper" @keydown.enter.exact.prevent="sendMessage('textarea', $event)" @keydown.enter.shift.exact>
+                    <div style="  width: 10px;
+  height: 100%;"></div>
+                    <div @paste="convertToText($event), computeHeight()" @input="computeHeight()" id="chatTextArea" ref="chatTextArea" class="chat-text-area chat" contenteditable style="    margin-left: 0.45rem;
+    outline: unset;
+    width: 85%;
+    line-height: initial; overflow-x: auto"></div>
+
+
+                </div>
+
+
+
                 <button class="no-style-button" title="Send" @click="sendMessage()">
                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block" class="chat-send-icon chat">
                         <path class="chat" d="M5 12h13M12 5l7 7-7 7" />
@@ -538,6 +553,7 @@
             el: ".v-chat",
             name: "Chat",
 
+
             data: {
                 chatOpened: false,
                 chatMessages: [],
@@ -547,46 +563,67 @@
                     const chatHeader = document.querySelector('.card-header.chat');
                     const chatSendButton = document.querySelector('.chat-send-icon');
                     const chatTextArea = document.querySelector(".chat-text-area");
+                    const chatTextAreaWrapper = document.querySelector(".chat-textarea-wrapper.chat");
 
-                    if (chatHeader != null && element == "chat" && window.getSelection().toString() == '') {
-                        chatTextArea.focus();
-                    }
 
-                    window.onmousedown = element => {
-                        if (element.target.classList.contains('chat')) {
+                    if (chatHeader != null) {
+                        if (element == "chat" && window.getSelection().toString() == '') {
+                            chatTextArea.focus();
 
-                            chatHeader.style.background = "#0d6efd";
-                            chatSendButton.setAttribute('stroke', "#0d6efd");
-
-                            window.onmouseup = () => {};
-                        } else {
-                            window.onmouseup = element => {
-                                if (!element.target.classList.contains('chat')) {
-                                    chatHeader.style.background = "rgb(53 65 82)";
-                                    chatSendButton.setAttribute('stroke', "#354152");
-                                }
-                            };
                         }
-                    };
+
+                        window.onmousedown = element => {
+                            if (element.target.classList.contains('chat')) {
+
+                                chatHeader.style.background = "#0d6efd";
+                                chatSendButton.setAttribute('stroke', "#0d6efd");
+                                chatTextAreaWrapper.style.borderColor = "#9d9a9a";
+
+                                window.onmouseup = () => {};
+                            } else {
+                                window.onmouseup = element => {
+                                    if (!element.target.classList.contains('chat')) {
+                                        chatHeader.style.background = "rgb(53 65 82)";
+                                        chatSendButton.setAttribute('stroke', "#354152");
+                                        chatTextAreaWrapper.style.borderColor = "#354152";
+                                    }
+                                };
+                            }
+                        };
+                    }
                 },
 
-                async sendMessage() {
+                async sendMessage(element, event) {
                     const chatBody = document.getElementById("chatBody");
-
+                    const chatTextArea = document.querySelector(".chat-text-area");
                     const chatSegment = document.getElementById("chatSegment");
 
-                    await this.chatMessages.push(this.$refs.chatTextArea.value);
 
-                    this.$refs.chatTextArea.value = '';
-                    chatContent.scrollIntoView({
-                        behavior: 'auto',
-                        block: 'end',
-                    });
-                    console.log(this.chatMessages);
+                    if (this.$refs.chatTextArea.innerText.trim() != '') {
+                        await this.chatMessages.push(this.$refs.chatTextArea.innerText);
+
+                        chatTextArea.style.height = '19px';
+                        this.$refs.chatTextArea.innerText = '';
+
+                        chatContent.scrollIntoView({
+                            behavior: 'auto',
+                            block: 'end',
+                        });
+                    }
                 },
+
+                computeHeight() {
+                    const chatTextArea = document.querySelector(".chat-text-area");
+                    chatTextArea.style.height = "";
+                    chatTextArea.style.height = this.scrollHeight + "px";
+                },
+                convertToText(event) {
+                    event.preventDefault();
+                    const text = event.clipboardData.getData('text/plain');
+                    this.$refs.chatTextArea.innerText += text;
+                },
+
             },
-
-
         }, )
     </script>
 
