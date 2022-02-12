@@ -614,7 +614,6 @@
 
                 computeHeight() {
                     const chatTextArea = document.querySelector(".chat-text-area");
-                    chatTextArea.style.height = "";
                     chatTextArea.style.height = this.scrollHeight + "px";
                 },
                 convertToText(event) {
