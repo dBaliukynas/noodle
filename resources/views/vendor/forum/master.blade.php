@@ -435,7 +435,7 @@
     z-index: 1000;
 }" @click="changeChatStyles('chat')">
 
-                <button v-if="!chatOpened" class="no-style-button chat-button" @click="chatOpened = !chatOpened">
+                <button v-if="!chatOpened" class="no-style-button chat-button" @click="chatOpened = !chatOpened, scrollToElement('chatContent', 'auto', 'end')">
 
 
                     <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="white" stroke="#0d6efd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: block" class="chat-icon">
@@ -605,15 +605,20 @@
                         chatTextArea.style.height = '19px';
                         this.$refs.chatTextArea.innerText = '';
 
-                        chatContent.scrollIntoView({
-                            behavior: 'auto',
-                            block: 'end',
-                        });
+                        this.scrollToElement('chatContent', 'auto', 'end');
                     }
+                },
+                scrollToElement(idName, behavior, block) {
+
+                    this.$nextTick(() => document.getElementById(idName).scrollIntoView({
+                        behavior: 'auto',
+                        block: 'end',
+                    }));
                 },
 
                 computeHeight() {
                     const chatTextArea = document.querySelector(".chat-text-area");
+                    chatTextArea.style.height = '';
                     chatTextArea.style.height = this.scrollHeight + "px";
                 },
                 convertToText(event) {

@@ -4,11 +4,12 @@ export const courseSegmentsModule = {
     namespaced: true,
     state: () => ({
         courseSegments: [],
+        closedSegmentIds: [],
         show: [],
         blurEnabled: null,
         studentViewEnabled: null,
         checkboxesEnabled: null,
-        buttonsEnabled: null,
+        buttonsEnabled: true,
         pinnedSegmentsBooleans: [],
         hiddenSegmentsBooleans: [],
     }),
@@ -41,15 +42,23 @@ export const courseSegmentsModule = {
             state.pinnedSegmentsBooleans =
                 Array(courseSegmentsLength).fill(false);
         },
-        SET_PINNED_SEGMENTS_BOOLEANS(state, payload) {
+        UPDATE_PINNED_SEGMENTS_BOOLEANS(state, payload) {
             Vue.set(state.pinnedSegmentsBooleans, payload.index, payload.value);
         },
         INIT_HIDDEN_SEGMENTS_BOOLEANS(state, courseSegmentsLength) {
             state.hiddenSegmentsBooleans =
                 Array(courseSegmentsLength).fill(false);
         },
-        SET_HIDDEN_SEGMENTS_BOOLEANS(state, payload) {
+        UPDATE_HIDDEN_SEGMENTS_BOOLEANS(state, payload) {
             Vue.set(state.hiddenSegmentsBooleans, payload.index, payload.value);
+        },
+        INIT_CLOSED_SEGMENT_IDS(state, courseSegments) {
+            state.closedSegmentIds = courseSegments.map(
+                (courseSegment) => courseSegment.id
+            );
+        },
+        UPDATE_CLOSED_SEGMENT_IDS(state, value) {
+            Vue.set(state, "closedSegmentIds", value);
         },
     },
     actions: {
@@ -81,14 +90,20 @@ export const courseSegmentsModule = {
         initPinnedSegmentsBooleans({ commit }, value) {
             commit("INIT_PINNED_SEGMENTS_BOOLEANS", value);
         },
-        setPinnedSegmentsBooleans({ commit }, { index, value }) {
+        updatePinnedSegmentsBooleans({ commit }, { index, value }) {
             commit({ type: "SET_PINNED_SEGMENTS_BOOLEANS", index, value });
         },
         initHiddenSegmentsBooleans({ commit }, value) {
             commit("INIT_HIDDEN_SEGMENTS_BOOLEANS", value);
         },
-        setHiddenSegmentsBooleans({ commit }, { index, value }) {
+        updateHiddenSegmentsBooleans({ commit }, { index, value }) {
             commit({ type: "SET_HIDDEN_SEGMENTS_BOOLEANS", index, value });
+        },
+        initClosedSegmentIds({ commit }, value) {
+            commit("INIT_CLOSED_SEGMENT_IDS", value);
+        },
+        updateClosedSegmentIds({ commit }, value) {
+            commit("UPDATE_CLOSED_SEGMENT_IDS", value);
         },
     },
     getters: {
@@ -110,10 +125,8 @@ export const courseSegmentsModule = {
         buttonsEnabled: (state) => {
             return state.buttonsEnabled;
         },
-        closedSegmentsIds: (state) => {
-            return state.courseSegments.map(
-                (courseSegment) => courseSegment.id
-            );
+        closedSegmentIds: (state) => {
+            return state.closedSegmentIds;
         },
         pinnedSegmentsBooleans: (state) => {
             return state.pinnedSegmentsBooleans;

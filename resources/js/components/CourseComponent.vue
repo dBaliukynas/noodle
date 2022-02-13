@@ -233,6 +233,10 @@ export default {
         "courseSegmentsModule/setCourseSegments",
         this.course_segments
       );
+        this.$store.dispatch(
+        "courseSegmentsModule/initClosedSegmentIds",
+        this.course_segments
+      );
       this.$store.dispatch(
         "courseSegmentsModule/initShow",
         this.course_segments.length
