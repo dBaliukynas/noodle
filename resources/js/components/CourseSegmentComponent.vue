@@ -141,6 +141,7 @@
               display: flex;
               justify-content: center;
             "
+            @click="pinSelectedSegments()"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -266,7 +267,7 @@
         v-if="
           selectedSegmentsLength == null ||
           selectedSegmentsLength == 0 ||
-          (allSelected && selectedSegmentsLength == closedSegmentsIds.length)
+          (allSelected && selectedSegmentsLength == closedSegmentIds.length)
         "
         type="checkbox"
         v-model="allSelected"
@@ -276,7 +277,7 @@
 
       <input
         v-else-if="
-          selectedSegmentsLength == closedSegmentsIds.length && !allSelected
+          selectedSegmentsLength == closedSegmentIds.length && !allSelected
         "
         type="checkbox"
         :checked="true"
@@ -316,8 +317,7 @@
           v-bind:style="[
             checkboxesEnabled &&
             selected.find(
-              (selectedCourseSegmentId) =>
-                selectedCourseSegmentId == courseSegment.id
+              (selectedSegment) => selectedSegment == courseSegment.id
             )
               ? { 'background-color': 'whitesmoke' }
               : { 'background-color': 'white' },
@@ -437,7 +437,7 @@
                 @click.once="
                   pinSegment(courseSegment.id),
                     $store.dispatch(
-                      'courseSegmentsModule/setPinnedSegmentsBooleans',
+                      'courseSegmentsModule/updatePinnedSegmentsBooleans',
                       { index, value: !pinnedSegmentsBooleans[index] }
                     )
                 "
@@ -468,7 +468,7 @@
                 style="margin-right: 10px"
                 @click="
                   $store.dispatch(
-                    'courseSegmentsModule/setPinnedSegmentsBooleans',
+                    'courseSegmentsModule/updatePinnedSegmentsBooleans',
                     { index, value: !pinnedSegmentsBooleans[index] }
                   )
                 "
@@ -502,7 +502,7 @@
                 @click="
                   hideSegment(courseSegment.id),
                     $store.dispatch(
-                      'courseSegmentsModule/setHiddenSegmentsBooleans',
+                      'courseSegmentsModule/updateHiddenSegmentsBooleans',
                       { index, value: !hiddenSegmentsBooleans[index] }
                     )
                 "
@@ -538,7 +538,7 @@
                 @click="
                   hideSegment(courseSegment.id),
                     $store.dispatch(
-                      'courseSegmentsModule/setHiddenSegmentsBooleans',
+                      'courseSegmentsModule/updateHiddenSegmentsBooleans',
                       { index, value: !hiddenSegmentsBooleans[index] }
                     )
                 "
@@ -606,7 +606,7 @@
                       'smooth',
                       'start'
                     ),
-                    deleteFromclosedSegmentsIds(courseSegment.id)
+                    deleteClosedSegmentId(courseSegment.id)
                 "
               >
                 <svg
@@ -645,7 +645,7 @@
                       index,
                       value: !show[index],
                     }),
-                      pushToclosedSegmentsIds(courseSegment.id)
+                      addClosedSegmentId(courseSegment.id)
                   "
                 >
                   <svg
@@ -874,28 +874,29 @@ export default {
   computed: {
     ...mapGetters({
       courseSegments: "courseSegmentsModule/courseSegments",
+      closedSegmentIds: "courseSegmentsModule/closedSegmentIds",
       show: "courseSegmentsModule/show",
       checkboxesEnabled: "courseSegmentsModule/checkboxesEnabled",
       buttonsEnabled: "courseSegmentsModule/buttonsEnabled",
-      closedSegmentsIds: "courseSegmentsModule/closedSegmentsIds",
       pinnedSegmentsBooleans: "courseSegmentsModule/pinnedSegmentsBooleans",
       hiddenSegmentsBooleans: "courseSegmentsModule/hiddenSegmentsBooleans",
     }),
   },
   watch: {
     selected(val) {
+      console.log(this.selected);
+      console.log(this.closedSegmentIds);
+       console.log(this.closedSegmentIds.length);
       this.selectedSegmentsLength = val.length;
-
-      if (this.selectedSegmentsLength != this.closedSegmentsIds.length) {
+      if (this.selectedSegmentsLength != this.closedSegmentIds.length) {
         this.allSelected = false;
       }
     },
-    allSelected(val) {},
   },
   methods: {
     selectAll() {
       if (this.allSelected) {
-        this.selected = [...this.closedSegmentsIds];
+        this.selected = [...this.closedSegmentIds];
       } else {
         this.selected = [];
       }
@@ -986,6 +987,18 @@ export default {
       parentElement.prepend(childElement);
       childElement.classList.add("pinned");
     },
+    pinSelectedSegments() {
+      let parentElement = document.getElementById("segmentsWrapper");
+
+      let selectedSegmentElements = this.selected.map((selectedSegmentId) =>
+        document.getElementById(`segmentWrapper${selectedSegmentId}`)
+      );
+
+      selectedSegmentElements.forEach((selectedSegmentElement) => {
+        selectedSegmentElement.classList.add("pinned");
+        parentElement.prepend(selectedSegmentElement);
+      });
+    },
 
     deleteSegment() {
       axios
@@ -994,20 +1007,24 @@ export default {
         )
         .then(() => location.reload());
     },
-    deleteFromclosedSegmentsIds(courseSegmentId) {
+    deleteClosedSegmentId(courseSegmentId) {
       this.allSelected = false;
-      const indexOfClosedSegmentId =
-        this.closedSegmentsIds.indexOf(courseSegmentId);
-      const indexOfSelectedSegmentId = this.selected.indexOf(courseSegmentId);
+      this.selected = this.selected.filter(selectedSegment => selectedSegment != courseSegmentId);
 
-      this.closedSegmentsIds.splice(indexOfClosedSegmentId, 1);
-      if (indexOfSelectedSegmentId != -1) {
-        this.selected.splice(indexOfSelectedSegmentId, 1);
-      }
+      this.$store.dispatch(
+        "courseSegmentsModule/updateClosedSegmentIds",
+        this.closedSegmentIds.filter(
+          (closedSegmentId) => closedSegmentId != courseSegmentId
+        )
+      );
     },
-    pushToclosedSegmentsIds(courseSegmentId) {
+    addClosedSegmentId(courseSegmentId) {
       this.allSelected = false;
-      this.closedSegmentsIds.push(courseSegmentId);
+      this.closedSegmentIds.push(courseSegmentId);
+      this.$store.dispatch(
+        "courseSegmentsModule/updateClosedSegmentIds",
+        this.closedSegmentIds
+      );
     },
   },
 };
